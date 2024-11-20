@@ -18,7 +18,6 @@ import Effectful.Zoo.Log.Data.Logger
 import Effectful.Zoo.Log.Data.Severity
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude hiding (Floating(..))
-import System.IO (Handle)
 import System.IO qualified as IO
 
 data Log (i :: Type) :: Effect
