@@ -9,12 +9,12 @@ import Effectful.Zoo.Hedgehog.Effect
 import HaskellWorks.Prelude
 import Hedgehog qualified as H
 
-classify :: forall es. ()
+classify :: forall r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => H.LabelName
   -> Bool
-  -> Eff es ()
+  -> Eff r ()
 classify name b =
   withFrozenCallStack $
     H.classify name b

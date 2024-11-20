@@ -13,35 +13,35 @@ import Hedgehog qualified as H
 
 infix 4 ===, /==
 
-assert :: forall es. ()
+assert :: forall r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => Bool
-  -> Eff es ()
+  -> Eff r ()
 assert condition =
   withFrozenCallStack $
     H.assert condition
 
-(===) :: forall a es. ()
+(===) :: forall a r. ()
   => HasCallStack
   => Eq a
   => Show a
-  => es <: Hedgehog
+  => r <: Hedgehog
   => a
   -> a
-  -> Eff es ()
+  -> Eff r ()
 (===) a b =
   withFrozenCallStack $
     a H.=== b
 
-(/==) :: forall a es. ()
+(/==) :: forall a r. ()
   => HasCallStack
   => Eq a
   => Show a
-  => es <: Hedgehog
+  => r <: Hedgehog
   => a
   -> a
-  -> Eff es ()
+  -> Eff r ()
 (/==) a b =
   withFrozenCallStack $
     a H./== b

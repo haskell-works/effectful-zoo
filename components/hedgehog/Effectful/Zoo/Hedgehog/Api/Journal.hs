@@ -506,11 +506,11 @@ jotEachIO_ f =
     !as <- evalIO f
     for_ as $ jotWithCallStack GHC.callStack . show
 
-writeLog :: forall es. ()
+writeLog :: forall r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => H.Log
-  -> Eff es ()
+  -> Eff r ()
 writeLog message =
   withFrozenCallStack $
     H.writeLog message

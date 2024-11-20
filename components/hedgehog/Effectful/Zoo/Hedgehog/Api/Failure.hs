@@ -16,50 +16,50 @@ import HaskellWorks.Prelude
 import Hedgehog.Internal.Property qualified as H
 import Hedgehog.Internal.Source qualified as H
 
-failException :: forall a es. ()
+failException :: forall a r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => SomeException
-  -> Eff es a
+  -> Eff r a
 failException e =
   withFrozenCallStack $
     H.failException e
 
-failWith :: forall a es. ()
+failWith :: forall a r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => Maybe H.Diff
   -> String
-  -> Eff es a
+  -> Eff r a
 failWith diff msg =
   withFrozenCallStack $
     H.failWith diff msg
 
-failWithCallStack :: forall a es. ()
-  => es <: Hedgehog
+failWithCallStack :: forall a r. ()
+  => r <: Hedgehog
   => CallStack
   -> Maybe H.Diff
   -> String
-  -> Eff es a
+  -> Eff r a
 failWithCallStack cs diff msg =
   withFrozenCallStack $
     throwAssertion (H.Failure (H.getCaller cs) msg diff)
 
-catchAssertion :: forall a es. ()
+catchAssertion :: forall a r. ()
   => HasCallStack
-  => es <: Hedgehog
-  => Eff es a 
-  -> (H.Failure -> Eff es a) 
-  -> Eff es a
+  => r <: Hedgehog
+  => Eff r a 
+  -> (H.Failure -> Eff r a) 
+  -> Eff r a
 catchAssertion m h =
   withFrozenCallStack $
     send $ CatchAssertion m h
 
-throwAssertion :: forall a es. ()
+throwAssertion :: forall a r. ()
   => HasCallStack
-  => es <: Hedgehog
+  => r <: Hedgehog
   => H.Failure
-  -> Eff es a
+  -> Eff r a
 throwAssertion e =
   withFrozenCallStack $
     send $ ThrowAssertion e

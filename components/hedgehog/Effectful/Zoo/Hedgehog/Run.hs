@@ -38,11 +38,11 @@ runHedgehogIO f =
     & fmap (first (first snd))
     & runEff
 
-interpretHedgehog :: forall a es. ()
-  => es <: Error Failure
-  => es <: Writer Journal
-  => Eff (Hedgehog : es) a
-  -> Eff es a
+interpretHedgehog :: forall a r. ()
+  => r <: Error Failure
+  => r <: Writer Journal
+  => Eff (Hedgehog : r) a
+  -> Eff r a
 interpretHedgehog =
   interpret $ \env -> \case
     CatchAssertion f h -> localUnlift env SeqUnlift $ \unlift -> catchError (unlift f) (const (unlift . h))
