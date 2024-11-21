@@ -5,7 +5,7 @@ module Effectful.Zoo.DataLog.Data.DataLogger
 
 import Effectful
 import Effectful.Zoo.Core
-import HaskellWorks.Prelude hiding (Floating(..))
+import HaskellWorks.Prelude
 
 newtype DataLogger i = DataLogger
   { run :: i -> IO ()

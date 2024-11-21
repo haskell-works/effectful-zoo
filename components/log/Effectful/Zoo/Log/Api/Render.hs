@@ -3,7 +3,7 @@ module Effectful.Zoo.Log.Api.Render
   ) where
 
 import Effectful.Zoo.Log.Data.Severity
-import HaskellWorks.Prelude hiding (log)
+import HaskellWorks.Prelude
 import HaskellWorks.ToText
 
 defaultRenderLogToText :: ToText i => Severity -> i -> Text

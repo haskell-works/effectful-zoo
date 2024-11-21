@@ -15,7 +15,7 @@ import Effectful
 import Effectful.Zoo.Core
 import Effectful.Dispatch.Static
 import Effectful.Zoo.DataLog.Data.DataLogger
-import HaskellWorks.Prelude hiding (Floating(..))
+import HaskellWorks.Prelude
 import System.IO qualified as IO
 
 data DataLog (i :: Type) :: Effect
