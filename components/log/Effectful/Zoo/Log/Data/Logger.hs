@@ -6,7 +6,7 @@ module Effectful.Zoo.Log.Data.Logger
 import Effectful
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.Severity
-import HaskellWorks.Prelude hiding (Floating(..))
+import HaskellWorks.Prelude
 
 newtype Logger i = Logger
   { run :: CallStack -> Severity -> i -> IO ()

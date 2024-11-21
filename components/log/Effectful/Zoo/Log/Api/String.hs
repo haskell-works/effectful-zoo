@@ -13,7 +13,7 @@ import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.Severity
 import Effectful.Zoo.Log.Dynamic
-import HaskellWorks.Prelude hiding (log)
+import HaskellWorks.Prelude
 
 log :: ()
   => HasCallStack
