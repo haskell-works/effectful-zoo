@@ -16,4 +16,3 @@ dataLog :: ()
 dataLog i =
   withFrozenCallStack do
     send $ DataLog i
-{-# inline dataLog #-}
