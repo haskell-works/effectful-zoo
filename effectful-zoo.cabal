@@ -140,6 +140,22 @@ library amazonka
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/amazonka
 
+library console
+  import:               base, project-config,
+                        effectful,
+                        effectful-core,
+                        effectful-plugin,
+                        effectful-zoo-core,
+                        hw-prelude,
+                        text,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.Console.Data.Writer
+                        Effectful.Zoo.Console.Dynamic
+                        Effectful.Zoo.Console.Effect
+                        Effectful.Zoo.Console.Static
+  ghc-options:          -fplugin=Effectful.Plugin
+  hs-source-dirs:       components/console
+
 library datalog
   import:               base, project-config,
                         effectful-core,
