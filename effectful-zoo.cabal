@@ -31,6 +31,7 @@ common effectful-core             { build-depends: effectful-core             >=
 common effectful-plugin           { build-depends: effectful-plugin           >= 1.1.0.4    && < 2      }
 common generic-lens               { build-depends: generic-lens               >= 2.2.2      && < 3      }
 common hedgehog                   { build-depends: hedgehog                   >= 1.5        && < 2      }
+common HUnit                      { build-depends: HUnit                      >= 1.6.2      && < 2      }
 common hw-prelude                 { build-depends: hw-prelude                 >= 0.0.4      && < 0.1    }
 common microlens                  { build-depends: microlens                  >= 0.4.13.1   && < 0.5    }
 common resourcet                  { build-depends: resourcet                  >= 1.3        && < 2      }
@@ -47,6 +48,7 @@ common effectful-zoo-core         { build-depends: effectful-zoo:core           
 common effectful-zoo-datalog      { build-depends: effectful-zoo:datalog                                }
 common effectful-zoo-hedgehog     { build-depends: effectful-zoo:hedgehog                               }
 common effectful-zoo-log          { build-depends: effectful-zoo:log                                    }
+common effectful-zoo-lazy         { build-depends: effectful-zoo:lazy                                   }
 
 common project-config
   default-extensions:   AllowAmbiguousTypes
@@ -103,6 +105,8 @@ library core
                         Effectful.Zoo.Core.Error.Dynamic
                         Effectful.Zoo.Core.Error.Static
                         Effectful.Zoo.Core.Exception
+                        Effectful.Zoo.Core.Function
+                        Effectful.Zoo.Core.Prim
   hs-source-dirs:       components/core
 
 library amazonka
@@ -113,8 +117,9 @@ library amazonka
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
-                        effectful-zoo-log,
                         effectful-zoo-datalog,
+                        effectful-zoo-lazy,
+                        effectful-zoo-log,
                         generic-lens,
                         hw-prelude,
                         microlens,
@@ -126,6 +131,7 @@ library amazonka
   exposed-modules:      Effectful.Zoo.Amazonka.Api
                         Effectful.Zoo.Amazonka.Api.Discover
                         Effectful.Zoo.Amazonka.Api.Log
+                        Effectful.Zoo.Amazonka.Api.Run
                         Effectful.Zoo.Amazonka.Api.Send
                         Effectful.Zoo.Amazonka.Data
                         Effectful.Zoo.Amazonka.Data.AwsError
@@ -139,6 +145,25 @@ library amazonka
                         Effectful.Zoo.Amazonka.Static
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/amazonka
+
+library console
+  import:               base, project-config,
+                        effectful,
+                        effectful-core,
+                        effectful-plugin,
+                        effectful-zoo-core,
+                        hw-prelude,
+                        text,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.Console.Data.Writer
+                        Effectful.Zoo.Console.Dynamic
+                        Effectful.Zoo.Console.Dynamic.Api
+                        Effectful.Zoo.Console.Dynamic.Effect
+                        Effectful.Zoo.Console.Dynamic.Run
+                        Effectful.Zoo.Console.Effect
+                        Effectful.Zoo.Console.Static
+  ghc-options:          -fplugin=Effectful.Plugin
+  hs-source-dirs:       components/console
 
 library datalog
   import:               base, project-config,
@@ -165,6 +190,7 @@ library hedgehog
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
+                        effectful-zoo-datalog,
                         effectful-zoo-log,
                         hedgehog,
                         hw-prelude,
@@ -186,6 +212,27 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.MonadTestProxy
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/hedgehog
+
+library hunit
+  import:               base, project-config,
+                        hedgehog,
+                        HUnit,
+                        hw-prelude,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.HUnit
+  hs-source-dirs:       components/hunit
+
+library lazy
+  import:               project-config,
+                        effectful,
+                        effectful-core,
+                        effectful-plugin,
+                        effectful-zoo-core,
+                        hw-prelude,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.Lazy.Dynamic
+  ghc-options:          -fplugin=Effectful.Plugin
+  hs-source-dirs:       components/lazy
 
 library log
   import:               base, project-config,

@@ -2,12 +2,15 @@ module Effectful.Zoo.Amazonka.Api.Send
   ( sendAws,
     askAwsEnv,
     localAwsEnv,
+    lazySendAws,
   ) where
 
 import Amazonka qualified as AWS
 import Effectful
-import Effectful.Error.Static
 import Effectful.Dispatch.Dynamic
+import Effectful.Error.Static
+import Effectful.Resource
+import Effectful.Zoo.Amazonka.Data.AwsEnv
 import Effectful.Zoo.Amazonka.Data.AwsError
 import Effectful.Zoo.Amazonka.Data.AwsLogEntry
 import Effectful.Zoo.Amazonka.Data.AwsRequest
@@ -16,6 +19,7 @@ import Effectful.Zoo.Amazonka.Dynamic
 import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Api
 import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.Lazy.Dynamic
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 
@@ -35,14 +39,14 @@ sendAwsInternal req =
 askAwsEnv :: ()
   => HasCallStack
   => r <: Amazonka
-  => Eff r AWS.Env
+  => Eff r AwsEnv
 askAwsEnv =
   send AskAwsEnv
 
 localAwsEnv :: ()
   => HasCallStack
   => r <: Amazonka
-  => (AWS.Env -> AWS.Env)
+  => (AwsEnv -> AwsEnv)
   -> Eff r a
   -> Eff r a
 localAwsEnv f m =
@@ -70,3 +74,19 @@ sendAws req = withFrozenCallStack $ do
 
   localAwsEnv (const envAws1) $
     sendAwsInternal req
+
+lazySendAws :: forall a r. ()
+  => HasCallStack
+  => AwsRequest a
+  => r <: DataLog AwsLogEntry
+  => r <: Error AwsError
+  => r <: IOE
+  => r <: Lazy AwsEnv
+  => r <: Resource
+  => Typeable (AwsResponse a)
+  => Typeable a
+  => a
+  -> Eff r (AwsResponse a)
+lazySendAws req = GHC.withFrozenCallStack $ do
+  awsEnv <- lazyAsk
+  runAmazonka awsEnv (sendAws req)

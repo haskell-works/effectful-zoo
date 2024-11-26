@@ -5,37 +5,23 @@ module Effectful.Zoo.Amazonka.Static
     runAmazonka,
     withAmazonka,
     localAmazonka,
-
-    runReaderAwsEnvDiscover,
-    runDataLogAwsLogEntryToLog,
-    runDataLogAwsLogEntryToLogWith,
-    runDataLogAwsLogEntryLocalToLogWith,
-
     askAwsEnv,
     sendAws,
+    lazySendAws,
   ) where
 
 import Amazonka qualified as AWS
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Resource
-import Data.ByteString.Builder qualified as B
-import Data.Text.Lazy qualified as LT
-import Data.Text.Lazy.Encoding qualified as LT
-import Data.Time.Clock qualified as IO
 import Data.Typeable
 import Effectful
 import Effectful.Dispatch.Static
-import Effectful.Environment
 import Effectful.Error.Static
-import Effectful.Reader.Static
-import Effectful.Zoo.Amazonka.Api
 import Effectful.Zoo.Amazonka.Data
 import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Api
-import Effectful.Zoo.DataLog.Data.LogEntry
 import Effectful.Zoo.DataLog.Dynamic
-import Effectful.Zoo.Log.Data.LogMessage
-import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Lazy.Dynamic
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 
@@ -44,16 +30,6 @@ data Amazonka :: Effect
 type instance DispatchOf Amazonka = Static WithSideEffects
 
 newtype instance StaticRep Amazonka = Amazonka AwsEnv
-
-runReaderAwsEnvDiscover :: forall a r. ()
-  => r <: Environment
-  => r <: IOE
-  => Eff (Reader AwsEnv : r) a
-  -> Eff r a
-runReaderAwsEnvDiscover f = do
-  awsEnv <- discoverAwsEnv
-
-  runReader awsEnv f
 
 runAmazonka :: forall a r. ()
   => r <: IOE
@@ -82,46 +58,6 @@ localAmazonka :: ()
   -> Eff r a
 localAmazonka f =
   localStaticRep $ \(Amazonka r) -> Amazonka (f r)
-
-runDataLogAwsLogEntryToLog :: forall a r. ()
-  => r <: DataLog (LogEntry (LogMessage Text))
-  => r <: IOE
-  => Eff (DataLog AwsLogEntry : r) a
-  -> Eff r a
-runDataLogAwsLogEntryToLog =
-  runDataLogAwsLogEntryToLogWith awsLogLevelToSeverity
-
-runDataLogAwsLogEntryToLogWith :: forall a r. ()
-  => r <: DataLog (LogEntry (LogMessage Text))
-  => r <: IOE
-  => (AwsLogLevel -> Severity)
-  -> Eff (DataLog AwsLogEntry : r) a
-  -> Eff r a
-runDataLogAwsLogEntryToLogWith mapSeverity
-  = runDataLogAwsLogEntryLocalToLogWith mapSeverity id
-
-runDataLogAwsLogEntryLocalToLogWith :: forall a r. ()
-  => r <: DataLog (LogEntry (LogMessage Text))
-  => r <: IOE
-  => (AwsLogLevel -> Severity)
-  -> (AwsLogEntry -> AwsLogEntry)
-  -> Eff (DataLog AwsLogEntry : r) a
-  -> Eff r a
-runDataLogAwsLogEntryLocalToLogWith mapSeverity context =
-  runDataLog (ConcUnlift Persistent Unlimited) $ \logEntry -> do
-    now <- liftIO IO.getCurrentTime
-
-    let entry = context logEntry
-    let message =
-          LogMessage (mapSeverity entry.logLevel) $
-            LT.toStrict (LT.decodeUtf8 (B.toLazyByteString entry.builder))
-
-    dataLog $
-      LogEntry
-        { message = message
-        , time = now
-        , source = entry.callStack
-        }
 
 askAwsEnv :: forall r. ()
   => r <: Amazonka
@@ -153,3 +89,18 @@ sendAws req = GHC.withFrozenCallStack $ do
 
   liftIO (runResourceT $ AWS.sendEither envAws1 req)
     & onLeftM throwError
+
+lazySendAws :: forall a r. ()
+  => HasCallStack
+  => AwsRequest a
+  => r <: DataLog AwsLogEntry
+  => r <: Error AwsError
+  => r <: IOE
+  => r <: Lazy AwsEnv
+  => Typeable (AwsResponse a)
+  => Typeable a
+  => a
+  -> Eff r (AwsResponse a)
+lazySendAws req = GHC.withFrozenCallStack $ do
+  awsEnv <- lazyAsk
+  runAmazonka awsEnv (sendAws req)

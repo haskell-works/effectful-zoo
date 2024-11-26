@@ -24,15 +24,13 @@ type instance DispatchOf (DataLog i) = Static NoSideEffects
 
 newtype instance StaticRep (DataLog i) = DataLog (DataLogger i)
 
-runDataLog :: ()
-  => r <: IOE
+runDataLog :: forall i a r. ()
   => HasCallStack
-  => UnliftStrategy
-  -> (HasCallStack => i -> Eff r ())
+  => (HasCallStack => i -> Eff r ())
   -> Eff (DataLog i : r) a
   -> Eff r a
-runDataLog strategy run f = do
-  s <- mkDataLogger strategy run
+runDataLog run f = do
+  s <- mkDataLogger run
   evalStaticRep (DataLog s) f
 
 runDataLogTextToHandle :: ()
@@ -86,12 +84,11 @@ getDataLogger = do
 log :: ()
   => HasCallStack
   => r <: DataLog i
-  => r <: IOE
   => i
   -> Eff r ()
 log i = do
   dataLogger <- getDataLogger
-  liftIO $ dataLogger.run i
+  unsafeEff_ $ dataLogger.run i
 
 local :: ()
   => HasCallStack
