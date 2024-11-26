@@ -97,8 +97,12 @@ common project-config
 library core
   import:               project-config,
                         effectful,
+                        hw-prelude,
   visibility:           public
   exposed-modules:      Effectful.Zoo.Core
+                        Effectful.Zoo.Core.Error.Dynamic
+                        Effectful.Zoo.Core.Error.Static
+                        Effectful.Zoo.Core.Exception
   hs-source-dirs:       components/core
 
 library amazonka
