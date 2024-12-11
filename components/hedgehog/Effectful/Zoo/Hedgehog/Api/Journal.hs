@@ -39,6 +39,8 @@ module Effectful.Zoo.Hedgehog.Api.Journal
 
     jotLogTextWithCallStack,
 
+    jotShowDataLog,
+
     writeLog,
   ) where
 
@@ -55,6 +57,8 @@ import Data.Yaml qualified as Y
 import Effectful
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
+import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.DataLog.Dynamic qualified as DataLog
 import Effectful.Zoo.Hedgehog.Api.Eval
 import Effectful.Zoo.Hedgehog.Api.Failure
 import Effectful.Zoo.Hedgehog.Dynamic
@@ -520,6 +524,17 @@ jotLogTextWithCallStack :: forall r. ()
 jotLogTextWithCallStack cs severity a =
   withFrozenCallStack do
     jotWithCallStack cs $ T.unpack $ "[" <> toText severity <> "] " <> a
+
+jotShowDataLog :: forall i a r. ()
+  => HasCallStack
+  => Show i
+  => r <: Hedgehog
+  => Eff (DataLog i : r) a
+  -> Eff r a
+jotShowDataLog =
+  withFrozenCallStack $
+    DataLog.runDataLog jotShow_
+{-# inline jotShowDataLog #-}
 
 writeLog :: forall r. ()
   => HasCallStack

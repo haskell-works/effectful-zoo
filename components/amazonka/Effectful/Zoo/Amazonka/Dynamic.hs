@@ -4,6 +4,7 @@ module Effectful.Zoo.Amazonka.Dynamic
   ( Amazonka(..),
 
     runAmazonka,
+    runAmazonkaM,
   ) where
 
 import Amazonka qualified as AWS
@@ -20,7 +21,7 @@ import HaskellWorks.Prelude
 
 data Amazonka :: Effect where
   AskAwsEnv
-    :: Amazonka m AwsEnv
+      :: Amazonka m AwsEnv
 
   LocalAwsEnv
     :: (AwsEnv -> AwsEnv)
@@ -41,14 +42,24 @@ type instance DispatchOf Amazonka = Dynamic
 runAmazonka :: forall a r. ()
   => r <: IOE
   => r <: Resource
-  => AWS.Env
+  => AwsEnv
   -> Eff (Amazonka : r) a
   -> Eff r a
 runAmazonka awsEnv =
   reinterpret (S.runAmazonka awsEnv) $ \env -> \case
-    AskAwsEnv -> do
-      pure awsEnv
+    AskAwsEnv -> S.askAwsEnv
     LocalAwsEnv f m -> do
-      localSeqUnlift env $ \unlift -> S.localAmazonka f (unlift m)
+      localSeqUnlift env \unlift -> S.localAmazonka f (unlift m)
     SendAws req -> do
-      AWS.sendEither awsEnv req
+      awsEnv' <- S.askAwsEnv
+      AWS.sendEither awsEnv' req
+
+runAmazonkaM :: forall a r. ()
+  => r <: IOE
+  => r <: Resource
+  => Eff r AwsEnv
+  -> Eff (Amazonka : r) a
+  -> Eff r a
+runAmazonkaM mk f = do
+  awsEnv <- mk
+  runAmazonka awsEnv f

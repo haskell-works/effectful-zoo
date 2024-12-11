@@ -5,7 +5,6 @@ module Effectful.Zoo.DataLog.Dynamic
 
 import Effectful
 import Effectful.Dispatch.Dynamic
-import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Static qualified as S
 import HaskellWorks.Prelude
 
@@ -23,12 +22,10 @@ type instance DispatchOf (DataLog a) = Dynamic
 
 runDataLog :: ()
   => HasCallStack
-  => r <: IOE
-  => UnliftStrategy
-  -> (HasCallStack => i -> Eff r ())
+  => (HasCallStack => i -> Eff r ())
   -> Eff (DataLog i : r) a
   -> Eff r a
-runDataLog s run =
-  reinterpret (S.runDataLog s run) $ \env -> \case
+runDataLog run =
+  reinterpret (S.runDataLog run) $ \env -> \case
     DataLog i -> S.log i
     Local f m -> localSeqUnlift env $ \unlift -> S.local f (unlift m)

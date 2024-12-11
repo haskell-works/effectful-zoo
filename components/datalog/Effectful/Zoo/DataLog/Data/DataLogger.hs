@@ -4,7 +4,7 @@ module Effectful.Zoo.DataLog.Data.DataLogger
   ) where
 
 import Effectful
-import Effectful.Zoo.Core
+import Effectful.Dispatch.Static
 import HaskellWorks.Prelude
 
 newtype DataLogger i = DataLogger
@@ -15,10 +15,8 @@ instance Contravariant DataLogger where
   contramap f (DataLogger g) = DataLogger (g . f)
 
 mkDataLogger :: ()
-  => r <: IOE
-  => UnliftStrategy
-  -> (i -> Eff r ())
+  => (i -> Eff r ())
   -> Eff r (DataLogger i)
-mkDataLogger strategy run =
-  withEffToIO strategy $ \effToIO ->
+mkDataLogger run =
+  unsafeConcUnliftIO Persistent Unlimited $ \effToIO ->
     pure $ DataLogger $ effToIO . run

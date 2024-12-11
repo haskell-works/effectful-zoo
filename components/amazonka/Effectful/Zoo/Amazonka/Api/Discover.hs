@@ -3,6 +3,8 @@
 module Effectful.Zoo.Amazonka.Api.Discover
   ( discoverAwsEnv,
     maybeSetEndpoint,
+    setAwsEnvEndpointOverride,
+    setAwsServiceEndpointOverride,
   ) where
 
 import Amazonka qualified as AWS
@@ -31,6 +33,19 @@ maybeSetEndpoint = \case
       Nothing   -> id
   Nothing           -> id
 
+setAwsEnvEndpointOverride :: ByteString -> Int -> Bool -> AwsEnv -> AwsEnv
+setAwsEnvEndpointOverride host port ssl env = do
+  env
+    & the @"overrides" .~ setAwsServiceEndpointOverride host port ssl
+
+setAwsServiceEndpointOverride :: ByteString -> Int -> Bool -> AwsService -> AwsService
+setAwsServiceEndpointOverride host port ssl svc =
+  svc & the @"endpoint" %~ \mkEndpoint region ->
+    mkEndpoint region
+      & the @"host" .~ host
+      & the @"port" .~ port
+      & the @"secure" .~ ssl
+
 discoverAwsEnv :: ()
   => r <: Environment
   => r <: IOE
@@ -50,4 +65,3 @@ discoverAwsEnv = do
   pure $ discoveredAwsEnv
     & the @"logger" .~ logger'
     & the @"overrides" %~ maybeSetEndpoint mLocalStackEndpoint
-  
