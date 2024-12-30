@@ -45,10 +45,7 @@ common yaml                       { build-depends: yaml                       >=
 
 common effectful-zoo-amazonka     { build-depends: effectful-zoo:amazonka                               }
 common effectful-zoo-core         { build-depends: effectful-zoo:core                                   }
-common effectful-zoo-datalog      { build-depends: effectful-zoo:datalog                                }
 common effectful-zoo-hedgehog     { build-depends: effectful-zoo:hedgehog                               }
-common effectful-zoo-log          { build-depends: effectful-zoo:log                                    }
-common effectful-zoo-lazy         { build-depends: effectful-zoo:lazy                                   }
 
 common project-config
   default-extensions:   AllowAmbiguousTypes
@@ -97,16 +94,46 @@ common project-config
   default-language:     GHC2021
 
 library core
-  import:               project-config,
+  import:               base, project-config,
+                        effectful-core,
+                        effectful-core,
+                        effectful-plugin,
                         effectful,
                         hw-prelude,
+                        text,
+                        time,
   visibility:           public
-  exposed-modules:      Effectful.Zoo.Core
+  exposed-modules:      Effectful.Zoo.Console.Data.Writer
+                        Effectful.Zoo.Console.Dynamic
+                        Effectful.Zoo.Console.Dynamic.Api
+                        Effectful.Zoo.Console.Dynamic.Effect
+                        Effectful.Zoo.Console.Dynamic.Run
+                        Effectful.Zoo.Console.Effect
+                        Effectful.Zoo.Console.Static
+                        Effectful.Zoo.Core
                         Effectful.Zoo.Core.Error.Dynamic
                         Effectful.Zoo.Core.Error.Static
                         Effectful.Zoo.Core.Exception
                         Effectful.Zoo.Core.Function
                         Effectful.Zoo.Core.Prim
+                        Effectful.Zoo.DataLog.Api
+                        Effectful.Zoo.DataLog.Data.DataLogger
+                        Effectful.Zoo.DataLog.Data.LogEntry
+                        Effectful.Zoo.DataLog.Dynamic
+                        Effectful.Zoo.DataLog.Static
+                        Effectful.Zoo.Lazy.Dynamic
+                        Effectful.Zoo.Log.Api
+                        Effectful.Zoo.Log.Api.Generic
+                        Effectful.Zoo.Log.Api.LazyText
+                        Effectful.Zoo.Log.Api.Render
+                        Effectful.Zoo.Log.Api.String
+                        Effectful.Zoo.Log.Api.Text
+                        Effectful.Zoo.Log.Data.Logger
+                        Effectful.Zoo.Log.Data.LogMessage
+                        Effectful.Zoo.Log.Data.Severity
+                        Effectful.Zoo.Log.Dynamic
+                        Effectful.Zoo.Log.Static
+  ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/core
 
 library amazonka
@@ -117,9 +144,6 @@ library amazonka
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
-                        effectful-zoo-datalog,
-                        effectful-zoo-lazy,
-                        effectful-zoo-log,
                         generic-lens,
                         hw-prelude,
                         microlens,
@@ -146,42 +170,6 @@ library amazonka
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/amazonka
 
-library console
-  import:               base, project-config,
-                        effectful,
-                        effectful-core,
-                        effectful-plugin,
-                        effectful-zoo-core,
-                        hw-prelude,
-                        text,
-  visibility:           public
-  exposed-modules:      Effectful.Zoo.Console.Data.Writer
-                        Effectful.Zoo.Console.Dynamic
-                        Effectful.Zoo.Console.Dynamic.Api
-                        Effectful.Zoo.Console.Dynamic.Effect
-                        Effectful.Zoo.Console.Dynamic.Run
-                        Effectful.Zoo.Console.Effect
-                        Effectful.Zoo.Console.Static
-  ghc-options:          -fplugin=Effectful.Plugin
-  hs-source-dirs:       components/console
-
-library datalog
-  import:               base, project-config,
-                        effectful-core,
-                        effectful-plugin,
-                        effectful-zoo-core,
-                        hw-prelude,
-                        text,
-                        time,
-  visibility:           public
-  exposed-modules:      Effectful.Zoo.DataLog.Api
-                        Effectful.Zoo.DataLog.Data.DataLogger
-                        Effectful.Zoo.DataLog.Data.LogEntry
-                        Effectful.Zoo.DataLog.Dynamic
-                        Effectful.Zoo.DataLog.Static
-  ghc-options:          -fplugin=Effectful.Plugin
-  hs-source-dirs:       components/datalog
-
 library hedgehog
   import:               base, project-config,
                         aeson,
@@ -190,8 +178,6 @@ library hedgehog
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
-                        effectful-zoo-datalog,
-                        effectful-zoo-log,
                         hedgehog,
                         hw-prelude,
                         tasty-hedgehog,
@@ -222,46 +208,11 @@ library hunit
   exposed-modules:      Effectful.Zoo.HUnit
   hs-source-dirs:       components/hunit
 
-library lazy
-  import:               project-config,
-                        effectful,
-                        effectful-core,
-                        effectful-plugin,
-                        effectful-zoo-core,
-                        hw-prelude,
-  visibility:           public
-  exposed-modules:      Effectful.Zoo.Lazy.Dynamic
-  ghc-options:          -fplugin=Effectful.Plugin
-  hs-source-dirs:       components/lazy
-
-library log
-  import:               base, project-config,
-                        effectful-core,
-                        effectful-plugin,
-                        effectful-zoo-core,
-                        hw-prelude,
-                        text,
-  visibility:           public
-  exposed-modules:      Effectful.Zoo.Log.Api
-                        Effectful.Zoo.Log.Api.Generic
-                        Effectful.Zoo.Log.Api.LazyText
-                        Effectful.Zoo.Log.Api.Render
-                        Effectful.Zoo.Log.Api.String
-                        Effectful.Zoo.Log.Api.Text
-                        Effectful.Zoo.Log.Data.Logger
-                        Effectful.Zoo.Log.Data.LogMessage
-                        Effectful.Zoo.Log.Data.Severity
-                        Effectful.Zoo.Log.Dynamic
-                        Effectful.Zoo.Log.Static
-  ghc-options:          -fplugin=Effectful.Plugin
-  hs-source-dirs:       components/log
-
 test-suite effectful-zoo-test
   import:               project-config,
                         effectful-core,
                         effectful-zoo-core,
                         effectful-zoo-hedgehog,
-                        effectful-zoo-log,
                         hw-prelude,
                         tasty,
   type:                 exitcode-stdio-1.0
