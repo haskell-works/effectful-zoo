@@ -1,5 +1,6 @@
 module Effectful.Zoo.FileSystem
-  ( JsonDecodeError(..),
+  ( FileSystem,
+    JsonDecodeError(..),
     YamlDecodeError(..),
     readByteStringFile,
     readLazyByteStringFile,

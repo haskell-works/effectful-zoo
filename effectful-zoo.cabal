@@ -178,6 +178,29 @@ library amazonka
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/amazonka
 
+library rds-data
+  import:               base, project-config,
+                        aeson,
+                        amazonka,
+                        amazonka-rds-data,
+                        bytestring,
+                        effectful-core,
+                        effectful-plugin,
+                        effectful-zoo-amazonka,
+                        effectful-zoo-core,
+                        generic-lens,
+                        hw-prelude,
+                        microlens,
+                        rds-data-codecs,
+                        text,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.RdsData.Core
+                        Effectful.Zoo.RdsData.Errors
+                        Effectful.Zoo.RdsData.Errors.RdsDataError
+                        Effectful.Zoo.RdsData.Migration
+  ghc-options:          -fplugin=Effectful.Plugin
+  hs-source-dirs:       components/rds-data
+
 library hedgehog
   import:               base, project-config,
                         aeson,
