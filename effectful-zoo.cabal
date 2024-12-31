@@ -25,6 +25,8 @@ common base                       { build-depends: base                       >=
 common aeson                      { build-depends: aeson                      >= 2.2.3      && < 3      }
 common aeson-pretty               { build-depends: aeson-pretty               >= 0.8.10     && < 1      }
 common amazonka                   { build-depends: amazonka                   >= 2          && < 3      }
+common amazonka-core              { build-depends: amazonka-core              >= 2          && < 3      }
+common amazonka-rds-data          { build-depends: amazonka-rds-data          >= 2          && < 3      }
 common bytestring                 { build-depends: bytestring                 >= 0.11       && < 1      }
 common effectful                  { build-depends: effectful                  >= 2.5        && < 3      }
 common effectful-core             { build-depends: effectful-core             >= 2.5        && < 3      }
@@ -32,8 +34,9 @@ common effectful-plugin           { build-depends: effectful-plugin           >=
 common generic-lens               { build-depends: generic-lens               >= 2.2.2      && < 3      }
 common hedgehog                   { build-depends: hedgehog                   >= 1.5        && < 2      }
 common HUnit                      { build-depends: HUnit                      >= 1.6.2      && < 2      }
-common hw-prelude                 { build-depends: hw-prelude                 >= 0.0.4      && < 0.1    }
+common hw-prelude                 { build-depends: hw-prelude                 >= 0.0.4.2    && < 0.1    }
 common microlens                  { build-depends: microlens                  >= 0.4.13.1   && < 0.5    }
+common rds-data-codecs            { build-depends: rds-data:codecs            >= 0.1.1.1    && < 0.2    }
 common resourcet                  { build-depends: resourcet                  >= 1.3        && < 2      }
 common resourcet-effectful        { build-depends: resourcet-effectful        >= 1.0.1      && < 2      }
 common tasty                      { build-depends: tasty                      >= 1.4.3      && < 1.5    }
@@ -95,6 +98,8 @@ common project-config
 
 library core
   import:               base, project-config,
+                        aeson,
+                        bytestring,
                         effectful-core,
                         effectful-core,
                         effectful-plugin,
@@ -102,6 +107,7 @@ library core
                         hw-prelude,
                         text,
                         time,
+                        yaml,
   visibility:           public
   exposed-modules:      Effectful.Zoo.Console.Data.Writer
                         Effectful.Zoo.Console.Dynamic
@@ -121,6 +127,7 @@ library core
                         Effectful.Zoo.DataLog.Data.LogEntry
                         Effectful.Zoo.DataLog.Dynamic
                         Effectful.Zoo.DataLog.Static
+                        Effectful.Zoo.FileSystem
                         Effectful.Zoo.Lazy.Dynamic
                         Effectful.Zoo.Log.Api
                         Effectful.Zoo.Log.Api.Generic
@@ -133,6 +140,7 @@ library core
                         Effectful.Zoo.Log.Data.Severity
                         Effectful.Zoo.Log.Dynamic
                         Effectful.Zoo.Log.Static
+                        Effectful.Zoo.Unsafe
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/core
 
