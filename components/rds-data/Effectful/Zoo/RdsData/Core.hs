@@ -12,7 +12,6 @@ module Effectful.Zoo.RdsData.Core
     newBatchExecuteStatement,
   ) where
 
-import Amazonka.Env (Env)
 import Amazonka.RDSData.BatchExecuteStatement qualified as AWS
 import Amazonka.RDSData.ExecuteStatement qualified as AWS
 import Amazonka.Types qualified as AWS
@@ -101,7 +100,6 @@ initialiseDb :: ()
   => r <: Error RdsDataError
   => r <: IOE
   => r <: Log Text
-  => r <: Reader Env
   => r <: Reader StatementContext
   => Eff r ()
 initialiseDb = withFrozenCallStack do
