@@ -10,6 +10,8 @@ module Effectful.Zoo.Core.Error.Dynamic
     catchWithCallStack_,
     trapWithCallStack,
     trapWithCallStack_,
+
+    fromEither,
   ) where
 
 import Effectful
@@ -98,3 +100,11 @@ trap_ :: forall e es a. ()
   -> Eff es a
 trap_ handler =
   trap @e (const handler)
+
+fromEither :: forall e a r. ()
+  => Show e
+  => r <: Error e
+  => Either e a
+  -> Eff r a
+fromEither =
+  either throw pure

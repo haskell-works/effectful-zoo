@@ -22,6 +22,8 @@ module Effectful.Zoo.Core.Error.Static
     catchWithCallStackIn_,
     trapWithCallStackIn,
     trapWithCallStackIn_,
+
+    fromEither,
   ) where
 
 import Effectful
@@ -101,7 +103,6 @@ trap_ :: forall e r a. ()
 trap_ handler =
   trap @e (const handler)
 
-
 catchWithCallStackIn :: forall e es a. ()
   => HasCallStack
   => es <: Error e
@@ -173,3 +174,11 @@ trapIn_ :: forall e es a. ()
   -> Eff es a
 trapIn_ handler =
   trapIn @e (const handler)
+
+fromEither :: forall e a r. ()
+  => Show e
+  => r <: Error e
+  => Either e a
+  -> Eff r a
+fromEither =
+  either throw pure

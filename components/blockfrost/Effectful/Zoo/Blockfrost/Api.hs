@@ -339,7 +339,7 @@ import Data.Maybe
 import Data.Text
 import Effectful
 import Effectful.Dispatch.Dynamic
-import Effectful.Error.Static
+import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.Blockfrost.Dynamic (Blockfrost, runBlockfrost)
 import Effectful.Zoo.Blockfrost.Dynamic qualified as BF
 import Effectful.Zoo.Core
@@ -507,15 +507,6 @@ getTxMetadataByLabelJSON'           :: r <: Blockfrost => r <: Error BlockfrostE
 getTxMetadataByLabelJSON            :: r <: Blockfrost => r <: Error BlockfrostError => Text -> Eff r [TxMetaJSON]
 getTxMetadataByLabelCBOR'           :: r <: Blockfrost => r <: Error BlockfrostError => Text -> Paged -> SortOrder -> Eff r [TxMetaCBOR]
 getTxMetadataByLabelCBOR            :: r <: Blockfrost => r <: Error BlockfrostError => Text -> Eff r [TxMetaCBOR]
-
-
-fromEither :: forall e a r. ()
-  => Show e
-  => r <: Error e
-  => Either e a
-  -> Eff r a
-fromEither =
-  either throwError pure
 
 -- Client
 getRoot                                     = fromEither =<< send do BF.GetRoot
