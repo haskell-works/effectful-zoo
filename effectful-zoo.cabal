@@ -27,6 +27,8 @@ common aeson-pretty               { build-depends: aeson-pretty               >=
 common amazonka                   { build-depends: amazonka                   >= 2          && < 3      }
 common amazonka-core              { build-depends: amazonka-core              >= 2          && < 3      }
 common amazonka-rds-data          { build-depends: amazonka-rds-data          >= 2          && < 3      }
+common blockfrost-api             { build-depends: blockfrost-api             >= 0.11       && < 0.12   }
+common blockfrost-client          { build-depends: blockfrost-client          >= 0.8        && < 0.9    }
 common bytestring                 { build-depends: bytestring                 >= 0.11       && < 1      }
 common effectful                  { build-depends: effectful                  >= 2.5        && < 3      }
 common effectful-core             { build-depends: effectful-core             >= 2.5        && < 3      }
@@ -177,6 +179,23 @@ library amazonka
                         Effectful.Zoo.Amazonka.Static
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/amazonka
+
+library blockfrost
+  import:               base, project-config,
+                        blockfrost-api,
+                        blockfrost-client,
+                        effectful-core,
+                        effectful-plugin,
+                        effectful-zoo-core,
+                        hw-prelude,
+                        text,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.Blockfrost
+                        Effectful.Zoo.Blockfrost.Api
+                        Effectful.Zoo.Blockfrost.Types
+                        Effectful.Zoo.Blockfrost.Dynamic
+  ghc-options:          -fplugin=Effectful.Plugin
+  hs-source-dirs:       components/blockfrost
 
 library rds-data
   import:               base, project-config,
