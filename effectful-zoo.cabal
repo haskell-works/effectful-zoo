@@ -111,7 +111,8 @@ library core
                         time,
                         yaml,
   visibility:           public
-  exposed-modules:      Effectful.Zoo.Console.Data.Writer
+  exposed-modules:      Effectful.Zoo.Aeson
+                        Effectful.Zoo.Console.Data.Writer
                         Effectful.Zoo.Console.Dynamic
                         Effectful.Zoo.Console.Dynamic.Api
                         Effectful.Zoo.Console.Dynamic.Effect
