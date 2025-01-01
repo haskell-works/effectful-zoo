@@ -1,7 +1,10 @@
 module Effectful.Zoo.Core.Prim
-  ( type (<:)
+  ( type (<:),
+    type (<<:)
   ) where
 
-import           Effectful ((:>))
+import           Effectful ((:>), (:>>))
 
 type (<:) r e = (:>) e r
+
+type (<<:) r e = (:>>) e r

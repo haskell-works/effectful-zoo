@@ -1,5 +1,6 @@
 module Effectful.Zoo.Core
-  ( type (<:)
+  ( type (<:),
+    type (<<:),
   ) where
 
 import           Effectful.Zoo.Core.Prim
