@@ -24,6 +24,7 @@ module Effectful.Zoo.Core.Error.Static
     trapWithCallStackIn_,
 
     fromEither,
+    mapError,
   ) where
 
 import Effectful
@@ -182,3 +183,13 @@ fromEither :: forall e a r. ()
   -> Eff r a
 fromEither =
   either throw pure
+
+mapError :: forall d e a r. ()
+  => HasCallStack
+  => r <: Error e
+  => Show e
+  => (d -> e)
+  -> Eff (Error d : r) a
+  -> Eff r a
+mapError f g =
+  g & trap (throw . f)
