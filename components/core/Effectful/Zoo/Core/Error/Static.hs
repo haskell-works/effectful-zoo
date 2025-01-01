@@ -25,10 +25,11 @@ module Effectful.Zoo.Core.Error.Static
 
     fromEither,
     mapError,
+    runError,
   ) where
 
 import Effectful
-import Effectful.Error.Static (Error)
+import Effectful.Error.Static (Error, runError)
 import Effectful.Error.Static qualified as E
 import Effectful.Zoo.Core
 import HaskellWorks.Prelude
