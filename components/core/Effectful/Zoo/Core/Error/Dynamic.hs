@@ -26,6 +26,7 @@ module Effectful.Zoo.Core.Error.Dynamic
     fromEither,
     mapError,
     runError,
+    runErrorMap,
   ) where
 
 import Effectful
@@ -194,3 +195,11 @@ mapError :: forall d e a r. ()
   -> Eff r a
 mapError f g =
   g & trap (throw . f)
+
+-- | Run an 'Error' effect and map the error value to a different type.
+runErrorMap :: ()
+  => (e -> d)
+  -> Eff (Error e : r) a
+  -> Eff r (Either d a)
+runErrorMap f =
+  fmap (first (f . snd)) . runError
