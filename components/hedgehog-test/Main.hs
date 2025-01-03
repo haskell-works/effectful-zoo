@@ -1,6 +1,6 @@
 module Main where
 
-import Effectful.Zoo.Hedgehog (unitTest)
+import Effectful.Zoo.Hedgehog.Api.Tasty (unitTest)
 import Effectful.Zoo.Hedgehog.Test.HedgehogTest (test_simple)
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import HaskellWorks.Prelude

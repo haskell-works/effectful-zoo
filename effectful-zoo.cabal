@@ -253,6 +253,7 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.Api.Journal
                         Effectful.Zoo.Hedgehog.Api.Run
                         Effectful.Zoo.Hedgehog.Api.Stack
+                        Effectful.Zoo.Hedgehog.Api.Tasty
                         Effectful.Zoo.Hedgehog.Api.Workspace
                         Effectful.Zoo.Hedgehog.Data
                         Effectful.Zoo.Hedgehog.Data.PackagePath

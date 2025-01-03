@@ -2,9 +2,10 @@ module Effectful.Zoo.Hedgehog.Test.HedgehogTest where
 
 import Effectful
 import Effectful.Zoo.Core
-import Effectful.Zoo.Log.Dynamic
-import Effectful.Zoo.Log.Api.Text
 import Effectful.Zoo.Hedgehog
+import Effectful.Zoo.Hedgehog.Api.Tasty
+import Effectful.Zoo.Log.Api.Text
+import Effectful.Zoo.Log.Dynamic
 import HaskellWorks.Prelude
 
 foo :: ()
