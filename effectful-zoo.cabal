@@ -30,9 +30,11 @@ common amazonka-rds-data          { build-depends: amazonka-rds-data          >=
 common blockfrost-api             { build-depends: blockfrost-api             >= 0.11       && < 0.12   }
 common blockfrost-client          { build-depends: blockfrost-client          >= 0.8        && < 0.9    }
 common bytestring                 { build-depends: bytestring                 >= 0.11       && < 1      }
+common directory                  { build-depends: directory                  >= 1.2        && < 2      }
 common effectful                  { build-depends: effectful                  >= 2.5        && < 3      }
 common effectful-core             { build-depends: effectful-core             >= 2.5        && < 3      }
 common effectful-plugin           { build-depends: effectful-plugin           >= 1.1.0.4    && < 2      }
+common filepath                   { build-depends: filepath                   >= 1.4        && < 2      }
 common generic-lens               { build-depends: generic-lens               >= 2.2.2      && < 3      }
 common hedgehog                   { build-depends: hedgehog                   >= 1.5        && < 2      }
 common HUnit                      { build-depends: HUnit                      >= 1.6.2      && < 2      }
@@ -43,6 +45,7 @@ common resourcet                  { build-depends: resourcet                  >=
 common resourcet-effectful        { build-depends: resourcet-effectful        >= 1.0.1      && < 2      }
 common tasty                      { build-depends: tasty                      >= 1.4.3      && < 1.5    }
 common tasty-hedgehog             { build-depends: tasty-hedgehog             >= 1.1.0.0    && < 1.5    }
+common temporary                  { build-depends: temporary                  >= 1.3        && < 2      }
 common text                       { build-depends: text                       >= 2          && < 3      }
 common time                       { build-depends: time                       >= 1.12       && < 2      }
 common transformers               { build-depends: transformers               >= 0.5.6.2    && < 0.7    }
@@ -102,16 +105,19 @@ library core
   import:               base, project-config,
                         aeson,
                         bytestring,
+                        directory,
                         effectful-core,
                         effectful-core,
                         effectful-plugin,
                         effectful,
                         hw-prelude,
                         text,
+                        temporary,
                         time,
                         yaml,
   visibility:           public
-  exposed-modules:      Effectful.Zoo.Console.Data.Writer
+  exposed-modules:      Effectful.Zoo.Aeson
+                        Effectful.Zoo.Console.Data.Writer
                         Effectful.Zoo.Console.Dynamic
                         Effectful.Zoo.Console.Dynamic.Api
                         Effectful.Zoo.Console.Dynamic.Effect
@@ -225,9 +231,11 @@ library hedgehog
                         aeson,
                         aeson-pretty,
                         bytestring,
+                        effectful,
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
+                        filepath,
                         hedgehog,
                         hw-prelude,
                         tasty-hedgehog,
@@ -244,6 +252,12 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.Api.Failure
                         Effectful.Zoo.Hedgehog.Api.Journal
                         Effectful.Zoo.Hedgehog.Api.Run
+                        Effectful.Zoo.Hedgehog.Api.Stack
+                        Effectful.Zoo.Hedgehog.Api.Workspace
+                        Effectful.Zoo.Hedgehog.Data
+                        Effectful.Zoo.Hedgehog.Data.PackagePath
+                        Effectful.Zoo.Hedgehog.Data.ProjectRoot
+                        Effectful.Zoo.Hedgehog.Data.Workspace
                         Effectful.Zoo.Hedgehog.Dynamic
                         Effectful.Zoo.Hedgehog.MonadTestProxy
   ghc-options:          -fplugin=Effectful.Plugin

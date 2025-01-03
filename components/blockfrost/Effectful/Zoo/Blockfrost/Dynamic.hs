@@ -11,7 +11,7 @@ import Data.Either
 import Data.Maybe
 import Effectful
 import Effectful.Dispatch.Dynamic
-import Effectful.Reader.Dynamic
+import Effectful.Reader.Static
 import Effectful.Zoo.Core
 import HaskellWorks.Prelude
 

@@ -22,10 +22,16 @@ module Effectful.Zoo.Core.Error.Static
     catchWithCallStackIn_,
     trapWithCallStackIn,
     trapWithCallStackIn_,
+
+    fromEither,
+    mapError,
+    runError,
+    runError_,
+    runErrorMap_,
   ) where
 
 import Effectful
-import Effectful.Error.Static (Error)
+import Effectful.Error.Static (Error, runError)
 import Effectful.Error.Static qualified as E
 import Effectful.Zoo.Core
 import HaskellWorks.Prelude
@@ -101,7 +107,6 @@ trap_ :: forall e r a. ()
 trap_ handler =
   trap @e (const handler)
 
-
 catchWithCallStackIn :: forall e es a. ()
   => HasCallStack
   => es <: Error e
@@ -173,3 +178,35 @@ trapIn_ :: forall e es a. ()
   -> Eff es a
 trapIn_ handler =
   trapIn @e (const handler)
+
+fromEither :: forall e a r. ()
+  => Show e
+  => r <: Error e
+  => Either e a
+  -> Eff r a
+fromEither =
+  either throw pure
+
+mapError :: forall d e a r. ()
+  => HasCallStack
+  => r <: Error e
+  => Show e
+  => (d -> e)
+  -> Eff (Error d : r) a
+  -> Eff r a
+mapError f g =
+  g & trap (throw . f)
+
+runError_ :: ()
+  => Eff (Error e : r) a
+  -> Eff r (Either e a)
+runError_ =
+  fmap (first snd) . runError
+
+-- | Run an 'Error' effect and map the error value to a different type.
+runErrorMap_ :: ()
+  => (e -> d)
+  -> Eff (Error e : r) a
+  -> Eff r (Either d a)
+runErrorMap_ f =
+  fmap (first (f . snd)) . runError
