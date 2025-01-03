@@ -2,8 +2,7 @@ module Effectful.Zoo.Hedgehog.Api.Tasty
   ( PropertyTest,
     UnitTest,
 
-    property,
-    unitTest,
+    ToTestTree(..),
   ) where
 
 import HaskellWorks.Prelude
@@ -16,16 +15,13 @@ type PropertyTest = PropertyT IO ()
 
 type UnitTest = TestT IO ()
 
-unitTest :: ()
-  => TestName
-  -> TestT IO ()
-  -> TestTree
-unitTest desc =
-  testProperty desc . H.withTests 1 . H.property . H.test
+class ToTestTree a where
+  toTestTree :: TestName -> a -> TestTree
 
-property :: ()
-  => TestName
-  -> PropertyT IO ()
-  -> TestTree
-property desc =
-  testProperty desc . H.property
+instance ToTestTree (PropertyT IO ()) where
+  toTestTree desc =
+    testProperty desc . H.property
+
+instance ToTestTree (TestT IO ()) where
+  toTestTree desc =
+    testProperty desc . H.withTests 1 . H.property . H.test
