@@ -238,6 +238,7 @@ library hedgehog
                         filepath,
                         hedgehog,
                         hw-prelude,
+                        resourcet,
                         tasty-hedgehog,
                         tasty,
                         text,
@@ -251,6 +252,7 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.Api.Eval
                         Effectful.Zoo.Hedgehog.Api.Failure
                         Effectful.Zoo.Hedgehog.Api.Journal
+                        Effectful.Zoo.Hedgehog.Api.MonadAssertion
                         Effectful.Zoo.Hedgehog.Api.Run
                         Effectful.Zoo.Hedgehog.Api.Stack
                         Effectful.Zoo.Hedgehog.Api.Tasty
