@@ -277,7 +277,6 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.Effect.Hedgehog
                         Effectful.Zoo.Hedgehog.Effect.HedgehogGen
                         Effectful.Zoo.Hedgehog.Effect.Run
-                        Effectful.Zoo.Hedgehog.MonadTestProxy
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/hedgehog
 
