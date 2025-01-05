@@ -36,7 +36,7 @@ data Hedgehog :: Effect where
 
 type instance DispatchOf Hedgehog = Dynamic
 
-instance (r <: Hedgehog) => MonadTest (Eff r) where
+instance {-# OVERLAPS #-} (r <: Hedgehog) => MonadTest (Eff r) where
   liftTest t = send $ LiftTest t
 
 runHedgehogIO :: forall a. ()
