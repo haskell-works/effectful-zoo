@@ -51,6 +51,12 @@ instance {-# OVERLAPS #-}
     testResult <- atomically $ takeTMVar mvA
     getTestResult testResult
 
+instance
+    ( r <: Error H.Failure
+    ) => MonadAssertion (Eff r) where
+  throwAssertion f = throw f
+  catchAssertion g h = g & trapIn h
+
 getTestResult :: ()
   => r <: Error H.Failure
   => TestResult a

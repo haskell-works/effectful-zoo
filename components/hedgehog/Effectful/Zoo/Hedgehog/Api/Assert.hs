@@ -1,8 +1,5 @@
 module Effectful.Zoo.Hedgehog.Api.Assert
-  ( assert,
-    (===),
-    (/==),
-    onNothingFail,
+  ( onNothingFail,
     onNothingFailM,
     onLeftFail,
     onLeftFailM,
@@ -22,93 +19,62 @@ import Data.Text.Lazy qualified as LT
 import Data.Text.Lazy.Encoding qualified as LT
 import Data.Yaml qualified as Y
 import Effectful
+import Effectful.Concurrent
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
 import Effectful.Zoo.Core.Error.Static
-import Effectful.Zoo.Hedgehog.Api.Failure
-import Effectful.Zoo.Hedgehog.Dynamic
+import Effectful.Zoo.Hedgehog.Api.Hedgehog
+import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import HaskellWorks.Prelude
-import Hedgehog qualified as H
+import Hedgehog (MonadTest(..))
+import Hedgehog.Internal.Property qualified as H
 
-infix 4 ===, /==
-
-assert :: forall r. ()
+onNothingFail :: forall a m. ()
   => HasCallStack
-  => r <: Hedgehog
-  => Bool
-  -> Eff r ()
-assert condition =
-  withFrozenCallStack $
-    H.assert condition
-
-(===) :: forall a r. ()
-  => HasCallStack
-  => Eq a
-  => Show a
-  => r <: Hedgehog
-  => a
-  -> a
-  -> Eff r ()
-(===) a b =
-  withFrozenCallStack $
-    a H.=== b
-
-(/==) :: forall a r. ()
-  => HasCallStack
-  => Eq a
-  => Show a
-  => r <: Hedgehog
-  => a
-  -> a
-  -> Eff r ()
-(/==) a b =
-  withFrozenCallStack $
-    a H./== b
-
-onNothingFail :: forall a r. ()
-  => HasCallStack
-  => r <: Hedgehog
+  => MonadTest m
   => Maybe a
-  -> Eff r a
+  -> m a
 onNothingFail mv =
   withFrozenCallStack $
     case mv of
       Just a -> pure a
       Nothing -> failWith Nothing "Expected Just, but got Nothing"
 
-onNothingFailM :: forall a r. ()
+onNothingFailM :: forall a m. ()
   => HasCallStack
-  => r <: Hedgehog
-  => Eff r (Maybe a)
-  -> Eff r a
+  => MonadTest m
+  => m (Maybe a)
+  -> m a
 onNothingFailM f =
   withFrozenCallStack $
     f >>= onNothingFail
 
-onLeftFail :: forall e a r. ()
+onLeftFail :: forall e a m. ()
   => HasCallStack
+  => MonadTest m
   => Show e
-  => r <: Hedgehog
   => Either e a
-  -> Eff r a
+  -> m a
 onLeftFail ea =
   withFrozenCallStack $
     case ea of
       Right a -> pure a
       Left e -> failWith Nothing $ "Expected Just, but got Left: " <> show e
 
-onLeftFailM :: forall e a r. ()
+onLeftFailM :: forall e a m. ()
   => HasCallStack
+  => MonadTest m
   => Show e
-  => r <: Hedgehog
-  => Eff r (Either e a)
-  -> Eff r a
+  => m (Either e a)
+  -> m a
 onLeftFailM f =
   withFrozenCallStack $
     f >>= onLeftFail
 
 trapFail :: forall e a r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => Show e
   => Eff (Error e ': r) a
@@ -122,6 +88,8 @@ trapFail f =
 
 trapFailJson :: forall e a r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => ToJSON e
   => Eff (Error e ': r) a
@@ -137,6 +105,8 @@ trapFailJson f =
 
 trapFailJsonPretty :: forall e a r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => ToJSON e
   => Eff (Error e ': r) a
@@ -152,6 +122,8 @@ trapFailJsonPretty f =
 
 trapFailYaml :: forall e a r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => ToJSON e
   => Eff (Error e ': r) a

@@ -55,13 +55,14 @@ import Data.Text.Lazy.Encoding qualified as LT
 import Data.Traversable
 import Data.Yaml qualified as Y
 import Effectful
+import Effectful.Concurrent
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
+import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.DataLog.Dynamic
 import Effectful.Zoo.DataLog.Dynamic qualified as DataLog
-import Effectful.Zoo.Hedgehog.Api.Eval
-import Effectful.Zoo.Hedgehog.Api.Failure
-import Effectful.Zoo.Hedgehog.Dynamic
+import Effectful.Zoo.Hedgehog.Api.Hedgehog
+import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Log.Data.Severity
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
@@ -72,6 +73,8 @@ import Hedgehog.Internal.Source qualified as H
 
 -- | Annotate the given string at the context supplied by the callstack.
 jotWithCallStack :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => CallStack
   -> String
@@ -81,6 +84,8 @@ jotWithCallStack cs a =
 
 -- | Annotate with the given string.
 jot :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => String
@@ -93,6 +98,8 @@ jot a =
 
 -- | Annotate the given string returning unit.
 jot_ :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Text
@@ -103,6 +110,8 @@ jot_ =
 
 -- | Annotate the given text returning unit.
 jotText_ :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Text
@@ -114,6 +123,8 @@ jotText_ a =
 -- | Annotate the given string in a monadic context.
 jotM :: forall a r. ()
   => ToString a
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Eff r a
@@ -125,6 +136,8 @@ jotM a =
     return b
 
 jotBsUtf8M :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Eff r ByteString
@@ -136,6 +149,8 @@ jotBsUtf8M a =
     return b
 
 jotLbsUtf8M :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Eff r LBS.ByteString
@@ -148,6 +163,8 @@ jotLbsUtf8M a =
 
 -- | Annotate the given string in a monadic context returning unit.
 jotM_ :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Eff r String
@@ -160,6 +177,8 @@ jotM_ a =
 
 -- | Annotate the given string in IO.
 jotIO :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -173,6 +192,8 @@ jotIO f =
 
 -- | Annotate the given string in IO returning unit.
 jotIO_ :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -186,6 +207,8 @@ jotIO_ f =
 
 -- | Annotate the given value.
 jotShow :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -199,6 +222,8 @@ jotShow a =
 
 -- | Annotate the given value returning unit.
 jotShow_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -210,6 +235,8 @@ jotShow_ a =
 
 -- | Annotate the given value in a monadic context.
 jotShowM :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -223,6 +250,8 @@ jotShowM a =
 
 -- | Annotate the given value in a monadic context returning unit.
 jotShowM_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -236,6 +265,8 @@ jotShowM_ a =
 
 -- | Annotate the given value in IO.
 jotShowIO :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -250,6 +281,8 @@ jotShowIO f =
 
 -- | Annotate the given value in IO returning unit.
 jotShowIO_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -265,6 +298,8 @@ jotShowIO_ f =
 -- | Annotate the given value.
 jotShowRead :: forall a r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => Read a
   => Show a
@@ -281,6 +316,8 @@ jotShowRead s =
 
 -- | Annotate the given value as JSON.
 jotJson :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -294,6 +331,8 @@ jotJson a =
 
 -- | Annotate the given value as JSON.
 jotJson_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -307,6 +346,8 @@ jotJson_ a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotJsonM :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -320,6 +361,8 @@ jotJsonM a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotJsonM_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -333,6 +376,8 @@ jotJsonM_ a =
 
 -- | Annotate the given value as JSON.
 jotJsonPretty :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -346,6 +391,8 @@ jotJsonPretty a =
 
 -- | Annotate the given value as JSON.
 jotJsonPretty_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -359,6 +406,8 @@ jotJsonPretty_ a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotJsonPrettyM :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -372,6 +421,8 @@ jotJsonPrettyM a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotJsonPrettyM_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -385,6 +436,8 @@ jotJsonPrettyM_ a =
 
 -- | Annotate the given value as JSON.
 jotYaml :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -398,6 +451,8 @@ jotYaml a =
 
 -- | Annotate the given value as JSON.
 jotYaml_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -411,6 +466,8 @@ jotYaml_ a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotYamlM :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -424,6 +481,8 @@ jotYamlM a =
 
 -- | Annotate the given value as JSON in a monadic context.
 jotYamlM_ :: forall a r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => ToJSON a
@@ -437,6 +496,8 @@ jotYamlM_ a =
 
 -- | Annotate the each value in the given traversable.
 jotEach :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -450,6 +511,8 @@ jotEach as =
 
 -- | Annotate the each value in the given traversable returning unit.
 jotEach_ :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -461,6 +524,8 @@ jotEach_ as =
 
 -- | Annotate the each value in the given traversable in a monadic context.
 jotEachM :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -475,6 +540,8 @@ jotEachM f =
 
 -- | Annotate the each value in the given traversable in a monadic context returning unit.
 jotEachM_ :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => HasCallStack
   => Show a
@@ -488,6 +555,8 @@ jotEachM_ f =
 
 -- | Annotate the each value in the given traversable in IO.
 jotEachIO :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -503,6 +572,8 @@ jotEachIO f =
 
 -- | Annotate the each value in the given traversable in IO returning unit.
 jotEachIO_ :: forall a f r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => r <: IOE
   => HasCallStack
@@ -516,6 +587,8 @@ jotEachIO_ f =
     for_ as $ jotWithCallStack GHC.callStack . show
 
 jotLogTextWithCallStack :: forall r. ()
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => CallStack
   -> Severity
@@ -528,6 +601,8 @@ jotLogTextWithCallStack cs severity a =
 jotShowDataLog :: forall i a r. ()
   => HasCallStack
   => Show i
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => Eff (DataLog i : r) a
   -> Eff r a
@@ -538,6 +613,8 @@ jotShowDataLog =
 
 writeLog :: forall r. ()
   => HasCallStack
+  => r <: Concurrent
+  => r <: Error H.Failure
   => r <: Hedgehog
   => H.Log
   -> Eff r ()
