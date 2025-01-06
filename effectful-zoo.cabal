@@ -271,7 +271,9 @@ library hedgehog
                         Effectful.Zoo.Hedgehog.Data
                         Effectful.Zoo.Hedgehog.Data.PackagePath
                         Effectful.Zoo.Hedgehog.Data.ProjectRoot
+                        Effectful.Zoo.Hedgehog.Data.PropertyTest
                         Effectful.Zoo.Hedgehog.Data.TestResult
+                        Effectful.Zoo.Hedgehog.Data.UnitTest
                         Effectful.Zoo.Hedgehog.Data.Workspace
                         Effectful.Zoo.Hedgehog.Effect.Hedgehog
                         Effectful.Zoo.Hedgehog.Effect.HedgehogGen
