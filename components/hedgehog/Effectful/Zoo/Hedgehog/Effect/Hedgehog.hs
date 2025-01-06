@@ -16,8 +16,8 @@ import Effectful
 import Effectful.Concurrent
 import Effectful.Concurrent.STM
 import Effectful.Dispatch.Static
-import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.Core
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Data.TestResult
 import HaskellWorks.Prelude

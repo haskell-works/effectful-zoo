@@ -339,10 +339,10 @@ import Data.Maybe
 import Data.Text
 import Effectful
 import Effectful.Dispatch.Dynamic
-import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.Blockfrost.Dynamic (Blockfrost, runBlockfrost)
 import Effectful.Zoo.Blockfrost.Dynamic qualified as BF
 import Effectful.Zoo.Core
+import Effectful.Zoo.Error.Static
 import HaskellWorks.Prelude
 
 -- Client

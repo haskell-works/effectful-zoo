@@ -13,7 +13,7 @@ import Effectful.Concurrent
 import Effectful.Environment
 import Effectful.Reader.Static
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.FileSystem
 import Effectful.Zoo.Hedgehog.Api.Assert
 import Effectful.Zoo.Hedgehog.Api.Hedgehog

@@ -1,11 +1,11 @@
-module Effectful.Zoo.Core.Function
+module Effectful.Zoo.Function
   ( once,
   ) where
 
 import Effectful
 import Effectful.Concurrent
 import Effectful.Concurrent.MVar
-import Effectful.Zoo.Core.Prim
+import Effectful.Zoo.Prim
 import HaskellWorks.Prelude
 
 once :: ()

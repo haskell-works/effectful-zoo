@@ -135,17 +135,16 @@ library core
                         Effectful.Zoo.Console.Effect
                         Effectful.Zoo.Console.Static
                         Effectful.Zoo.Core
-                        Effectful.Zoo.Core.Error.Dynamic
-                        Effectful.Zoo.Core.Error.Static
-                        Effectful.Zoo.Core.Exception
-                        Effectful.Zoo.Core.Function
-                        Effectful.Zoo.Core.Prim
                         Effectful.Zoo.DataLog.Api
                         Effectful.Zoo.DataLog.Data.DataLogger
                         Effectful.Zoo.DataLog.Data.LogEntry
                         Effectful.Zoo.DataLog.Dynamic
                         Effectful.Zoo.DataLog.Static
+                        Effectful.Zoo.Error.Dynamic
+                        Effectful.Zoo.Error.Static
+                        Effectful.Zoo.Exception
                         Effectful.Zoo.FileSystem
+                        Effectful.Zoo.Function
                         Effectful.Zoo.Lazy.Dynamic
                         Effectful.Zoo.Log.Api
                         Effectful.Zoo.Log.Api.Generic
@@ -158,6 +157,7 @@ library core
                         Effectful.Zoo.Log.Data.Severity
                         Effectful.Zoo.Log.Dynamic
                         Effectful.Zoo.Log.Static
+                        Effectful.Zoo.Prim
                         Effectful.Zoo.Unsafe
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/core

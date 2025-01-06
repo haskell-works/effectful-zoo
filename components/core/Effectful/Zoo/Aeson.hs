@@ -7,7 +7,7 @@ import Data.Aeson qualified as Aeson
 import Data.ByteString.Lazy qualified as LBS
 import Effectful
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
+import Effectful.Zoo.Error.Static
 import HaskellWorks.Error.Types.JsonDecodeError
 import HaskellWorks.Prelude
 

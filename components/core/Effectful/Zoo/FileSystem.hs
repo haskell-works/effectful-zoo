@@ -25,8 +25,8 @@ import Effectful
 import Effectful.Dispatch.Static
 import Effectful.FileSystem (FileSystem)
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
-import Effectful.Zoo.Core.Exception
+import Effectful.Zoo.Error.Static
+import Effectful.Zoo.Exception
 import Effectful.Zoo.Log.Api.Text
 import Effectful.Zoo.Log.Dynamic
 import Effectful.Zoo.Unsafe

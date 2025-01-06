@@ -59,9 +59,9 @@ import Effectful
 import Effectful.Concurrent
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.DataLog.Dynamic
 import Effectful.Zoo.DataLog.Dynamic qualified as DataLog
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.Hedgehog
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Log.Data.Severity

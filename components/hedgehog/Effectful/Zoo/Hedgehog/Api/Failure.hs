@@ -4,7 +4,7 @@ module Effectful.Zoo.Hedgehog.Api.Failure
 
 import Effectful
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
+import Effectful.Zoo.Error.Static
 import HaskellWorks.Prelude
 import Hedgehog.Internal.Property qualified as H
 import Hedgehog.Internal.Source qualified as H
