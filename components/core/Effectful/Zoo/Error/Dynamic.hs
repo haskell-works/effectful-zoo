@@ -1,4 +1,4 @@
-module Effectful.Zoo.Core.Error.Static
+module Effectful.Zoo.Error.Dynamic
   ( Error,
 
     throw,
@@ -31,8 +31,8 @@ module Effectful.Zoo.Core.Error.Static
   ) where
 
 import Effectful
-import Effectful.Error.Static (Error, runError)
-import Effectful.Error.Static qualified as E
+import Effectful.Error.Dynamic (Error, runError)
+import Effectful.Error.Dynamic qualified as E
 import Effectful.Zoo.Core
 import HaskellWorks.Prelude
 

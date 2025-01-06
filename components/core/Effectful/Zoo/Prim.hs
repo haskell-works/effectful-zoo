@@ -1,4 +1,6 @@
-module Effectful.Zoo.Core.Prim
+{-# OPTIONS_GHC -fno-warn-deprecations #-}
+
+module Effectful.Zoo.Prim
   ( type (<:),
     type (<<:)
   ) where

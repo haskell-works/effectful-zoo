@@ -19,7 +19,7 @@ import Effectful.Concurrent
 import Effectful.Concurrent.STM
 import Effectful.Concurrent.STM qualified as CC
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Hedgehog.Effect.HedgehogGen

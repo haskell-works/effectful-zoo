@@ -9,21 +9,23 @@ module Effectful.Zoo.Hedgehog.Api.Workspace
 
 import Data.Text qualified as T
 import Effectful
+import Effectful.Concurrent
 import Effectful.Environment
 import Effectful.Reader.Static
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.FileSystem
 import Effectful.Zoo.Hedgehog.Api.Assert
+import Effectful.Zoo.Hedgehog.Api.Hedgehog
 import Effectful.Zoo.Hedgehog.Api.Journal
-import Effectful.Zoo.Hedgehog.Api.Failure
 import Effectful.Zoo.Hedgehog.Api.Stack
 import Effectful.Zoo.Hedgehog.Data.PackagePath
 import Effectful.Zoo.Hedgehog.Data.ProjectRoot
 import Effectful.Zoo.Hedgehog.Data.Workspace
-import Effectful.Zoo.Hedgehog.Dynamic
+import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Log.Dynamic
 import HaskellWorks.Prelude
+import Hedgehog.Internal.Property qualified as H
 import System.FilePath ((</>))
 import System.Info
 
@@ -37,7 +39,9 @@ import System.Info
 -- the block fails.
 workspace :: ()
   => HasCallStack
+  => r <: Concurrent
   => r <: Environment
+  => r <: Error H.Failure
   => r <: FileSystem
   => r <: Hedgehog
   => r <: Log Text
@@ -70,7 +74,9 @@ workspace prefixPath f = withFrozenCallStack $ do
 -- The 'prefix' argument should not contain directory delimeters.
 moduleWorkspace ::  ()
   => HasCallStack
+  => r <: Concurrent
   => r <: Environment
+  => r <: Error H.Failure
   => r <: FileSystem
   => r <: Hedgehog
   => r <: Log Text
@@ -84,7 +90,9 @@ moduleWorkspace prefix f = withFrozenCallStack $
 -- the `cabal.project` file.
 -- This should should point to the root directory of the Github project checkout.
 findCabalProjectDir :: ()
+  => r <: Concurrent
   => r <: Environment
+  => r <: Error H.Failure
   => r <: FileSystem
   => r <: Hedgehog
   => r <: Log Text

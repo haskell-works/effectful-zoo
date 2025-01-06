@@ -16,8 +16,8 @@ import Effectful
 import Effectful.Concurrent
 import Effectful.Concurrent.STM
 import Effectful.Dispatch.Static
-import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.Core
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Data.TestResult
 import HaskellWorks.Prelude
@@ -50,6 +50,12 @@ instance {-# OVERLAPS #-}
         atomically $ putTMVar mvAction (tryExceptAssertion (liftTest f) >>= liftIO . IO.atomically . IO.putTMVar mvA)
     testResult <- atomically $ takeTMVar mvA
     getTestResult testResult
+
+instance
+    ( r <: Error H.Failure
+    ) => MonadAssertion (Eff r) where
+  throwAssertion f = throw f
+  catchAssertion g h = g & trapIn h
 
 getTestResult :: ()
   => r <: Error H.Failure

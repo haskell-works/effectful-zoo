@@ -1,4 +1,4 @@
-module Effectful.Zoo.Core.Exception
+module Effectful.Zoo.Exception
   ( Exception,
     catchIO,
     throwIO,

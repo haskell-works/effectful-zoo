@@ -24,8 +24,8 @@ import Effectful.Zoo.Amazonka.Api.Send
 import Effectful.Zoo.Amazonka.Data
 import Effectful.Zoo.Amazonka.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.Core.Error.Static
 import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Log.Api
 import Effectful.Zoo.Log.Dynamic
 import Effectful.Zoo.RdsData.Errors
