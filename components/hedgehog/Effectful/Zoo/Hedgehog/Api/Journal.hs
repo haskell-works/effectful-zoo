@@ -44,6 +44,7 @@ module Effectful.Zoo.Hedgehog.Api.Journal
     writeLog,
   ) where
 
+import Control.Monad.Catch (MonadCatch)
 import Data.Aeson (ToJSON(..))
 import Data.Aeson qualified as J
 import Data.Aeson.Encode.Pretty qualified as J
@@ -68,28 +69,25 @@ import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 import HaskellWorks.String
 import HaskellWorks.ToText
+import Hedgehog (MonadTest(..))
 import Hedgehog.Internal.Property qualified as H
 import Hedgehog.Internal.Source qualified as H
 
 -- | Annotate the given string at the context supplied by the callstack.
-jotWithCallStack :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotWithCallStack :: forall m. ()
+  => MonadTest m
   => CallStack
   -> String
-  -> Eff r ()
+  -> m ()
 jotWithCallStack cs a =
   writeLog $ H.Annotation (H.getCaller cs) a
 
 -- | Annotate with the given string.
-jot :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jot :: forall m. ()
   => HasCallStack
+  => MonadTest m
   => String
-  -> Eff r String
+  -> m String
 jot a =
   withFrozenCallStack do
     !b <- eval a
@@ -97,64 +95,57 @@ jot a =
     return b
 
 -- | Annotate the given string returning unit.
-jot_ :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jot_ :: forall m. ()
   => HasCallStack
+  => MonadTest m
   => Text
-  -> Eff r ()
+  -> m ()
 jot_ =
   withFrozenCallStack do
     jotText_
 
 -- | Annotate the given text returning unit.
-jotText_ :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotText_ :: forall m. ()
   => HasCallStack
+  => MonadTest m
   => Text
-  -> Eff r ()
+  -> m ()
 jotText_ a =
   withFrozenCallStack do
     jotWithCallStack GHC.callStack $ T.unpack a
 
 -- | Annotate the given string in a monadic context.
-jotM :: forall a r. ()
-  => ToString a
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotM :: forall a m. ()
   => HasCallStack
-  => Eff r a
-  -> Eff r a
+  => MonadCatch m
+  => MonadTest m
+  => ToString a
+  => m a
+  -> m a
 jotM a =
   withFrozenCallStack do
     !b <- evalM a
     jotWithCallStack GHC.callStack $ toString b
     return b
 
-jotBsUtf8M :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotBsUtf8M :: forall m. ()
   => HasCallStack
-  => Eff r ByteString
-  -> Eff r ByteString
+  => MonadCatch m
+  => MonadTest m
+  => m ByteString
+  -> m ByteString
 jotBsUtf8M a =
   withFrozenCallStack do
     !b <- evalM a
     jotWithCallStack GHC.callStack $ T.unpack $ T.decodeUtf8 b
     return b
 
-jotLbsUtf8M :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotLbsUtf8M :: forall m. ()
   => HasCallStack
-  => Eff r LBS.ByteString
-  -> Eff r LBS.ByteString
+  => MonadCatch m
+  => MonadTest m
+  => m LBS.ByteString
+  -> m LBS.ByteString
 jotLbsUtf8M a =
   withFrozenCallStack do
     !b <- evalM a
@@ -162,13 +153,12 @@ jotLbsUtf8M a =
     return b
 
 -- | Annotate the given string in a monadic context returning unit.
-jotM_ :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotM_ :: forall m. ()
   => HasCallStack
-  => Eff r String
-  -> Eff r ()
+  => MonadCatch m
+  => MonadTest m
+  => m String
+  -> m ()
 jotM_ a =
   withFrozenCallStack do
     !b <- evalM a
@@ -176,14 +166,12 @@ jotM_ a =
     return ()
 
 -- | Annotate the given string in IO.
-jotIO :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotIO :: forall m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => IO String
-  -> Eff r String
+  -> m String
 jotIO f =
   withFrozenCallStack do
     !a <- evalIO f
@@ -191,14 +179,12 @@ jotIO f =
     return a
 
 -- | Annotate the given string in IO returning unit.
-jotIO_ :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotIO_ :: forall m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => IO String
-  -> Eff r ()
+  -> m ()
 jotIO_ f =
   withFrozenCallStack do
     !a <- evalIO f
@@ -206,14 +192,13 @@ jotIO_ f =
     return ()
 
 -- | Annotate the given value.
-jotShow :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotShow :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => a
-  -> Eff r a
+  -> m a
 jotShow a =
   withFrozenCallStack do
     !b <- eval a
@@ -221,27 +206,24 @@ jotShow a =
     return b
 
 -- | Annotate the given value returning unit.
-jotShow_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotShow_ :: forall a m. ()
   => HasCallStack
+  => MonadTest m
   => Show a
   => a
-  -> Eff r ()
+  -> m ()
 jotShow_ a =
   withFrozenCallStack do
     jotWithCallStack GHC.callStack (show a)
 
 -- | Annotate the given value in a monadic context.
-jotShowM :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotShowM :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadTest m
   => Show a
-  => Eff r a
-  -> Eff r a
+  => m a
+  -> m a
 jotShowM a =
   withFrozenCallStack do
     !b <- evalM a
@@ -249,14 +231,13 @@ jotShowM a =
     return b
 
 -- | Annotate the given value in a monadic context returning unit.
-jotShowM_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotShowM_ :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadTest m
   => Show a
-  => Eff r a
-  -> Eff r ()
+  => m a
+  -> m ()
 jotShowM_ a =
   withFrozenCallStack do
     !b <- evalM a
@@ -264,15 +245,13 @@ jotShowM_ a =
     return ()
 
 -- | Annotate the given value in IO.
-jotShowIO :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotShowIO :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => IO a
-  -> Eff r a
+  -> m a
 jotShowIO f =
   withFrozenCallStack do
     !a <- evalIO f
@@ -280,15 +259,13 @@ jotShowIO f =
     return a
 
 -- | Annotate the given value in IO returning unit.
-jotShowIO_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotShowIO_ :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => IO a
-  -> Eff r ()
+  -> m ()
 jotShowIO_ f =
   withFrozenCallStack do
     !a <- evalIO f
@@ -296,15 +273,14 @@ jotShowIO_ f =
     return ()
 
 -- | Annotate the given value.
-jotShowRead :: forall a r. ()
+jotShowRead :: forall a m. ()
   => HasCallStack
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+  => MonadIO m
+  => MonadTest m
   => Read a
   => Show a
   => String
-  -> Eff r a
+  -> m a
 jotShowRead s =
   withFrozenCallStack do
     !result <- eval (readEither @a s)
@@ -315,14 +291,13 @@ jotShowRead s =
         return a
 
 -- | Annotate the given value as JSON.
-jotJson :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJson :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r a
+  -> m a
 jotJson a =
   withFrozenCallStack do
     !b <- eval a
@@ -330,14 +305,13 @@ jotJson a =
     return b
 
 -- | Annotate the given value as JSON.
-jotJson_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJson_ :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r ()
+  -> m ()
 jotJson_ a =
   withFrozenCallStack do
     !b <- eval a
@@ -345,14 +319,14 @@ jotJson_ a =
     return ()
 
 -- | Annotate the given value as JSON in a monadic context.
-jotJsonM :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonM :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r a
+  => m a
+  -> m a
 jotJsonM a =
   withFrozenCallStack do
     !b <- evalM a
@@ -360,14 +334,14 @@ jotJsonM a =
     return b
 
 -- | Annotate the given value as JSON in a monadic context.
-jotJsonM_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonM_ :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r ()
+  => m a
+  -> m ()
 jotJsonM_ a =
   withFrozenCallStack do
     !b <- evalM a
@@ -375,14 +349,13 @@ jotJsonM_ a =
     return ()
 
 -- | Annotate the given value as JSON.
-jotJsonPretty :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonPretty :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r a
+  -> m a
 jotJsonPretty a =
   withFrozenCallStack do
     !b <- eval a
@@ -390,14 +363,13 @@ jotJsonPretty a =
     return b
 
 -- | Annotate the given value as JSON.
-jotJsonPretty_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonPretty_ :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r ()
+  -> m ()
 jotJsonPretty_ a =
   withFrozenCallStack do
     !b <- eval a
@@ -405,14 +377,14 @@ jotJsonPretty_ a =
     return ()
 
 -- | Annotate the given value as JSON in a monadic context.
-jotJsonPrettyM :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonPrettyM :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r a
+  => m a
+  -> m a
 jotJsonPrettyM a =
   withFrozenCallStack do
     !b <- evalM a
@@ -420,14 +392,14 @@ jotJsonPrettyM a =
     return b
 
 -- | Annotate the given value as JSON in a monadic context.
-jotJsonPrettyM_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotJsonPrettyM_ :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r ()
+  => m a
+  -> m ()
 jotJsonPrettyM_ a =
   withFrozenCallStack do
     !b <- evalM a
@@ -435,14 +407,13 @@ jotJsonPrettyM_ a =
     return ()
 
 -- | Annotate the given value as JSON.
-jotYaml :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotYaml :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r a
+  -> m a
 jotYaml a =
   withFrozenCallStack do
     !b <- eval a
@@ -450,14 +421,13 @@ jotYaml a =
     return b
 
 -- | Annotate the given value as JSON.
-jotYaml_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotYaml_ :: forall a m. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
   => a
-  -> Eff r ()
+  -> m ()
 jotYaml_ a =
   withFrozenCallStack do
     !b <- eval a
@@ -465,14 +435,14 @@ jotYaml_ a =
     return ()
 
 -- | Annotate the given value as JSON in a monadic context.
-jotYamlM :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotYamlM :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r a
+  => m a
+  -> m a
 jotYamlM a =
   withFrozenCallStack do
     !b <- evalM a
@@ -480,14 +450,14 @@ jotYamlM a =
     return b
 
 -- | Annotate the given value as JSON in a monadic context.
-jotYamlM_ :: forall a r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotYamlM_ :: forall a m. ()
   => HasCallStack
+  => MonadCatch m
+  => MonadIO m
+  => MonadTest m
   => ToJSON a
-  => Eff r a
-  -> Eff r ()
+  => m a
+  -> m ()
 jotYamlM_ a =
   withFrozenCallStack do
     !b <- evalM a
@@ -495,43 +465,40 @@ jotYamlM_ a =
     return ()
 
 -- | Annotate the each value in the given traversable.
-jotEach :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotEach :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
   => f a
-  -> Eff r (f a)
+  -> m (f a)
 jotEach as =
   withFrozenCallStack do
     for_ as $ jotWithCallStack GHC.callStack . show
     return as
 
 -- | Annotate the each value in the given traversable returning unit.
-jotEach_ :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotEach_ :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
   => f a
-  -> Eff r ()
+  -> m ()
 jotEach_ as =
   withFrozenCallStack $ for_ as $ jotWithCallStack GHC.callStack . show
 
 -- | Annotate the each value in the given traversable in a monadic context.
-jotEachM :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotEachM :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
-  => Eff r (f a)
-  -> Eff r (f a)
+  => m (f a)
+  -> m (f a)
 jotEachM f =
   withFrozenCallStack do
     !as <- f
@@ -539,31 +506,28 @@ jotEachM f =
     return as
 
 -- | Annotate the each value in the given traversable in a monadic context returning unit.
-jotEachM_ :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotEachM_ :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
-  => Eff r (f a)
-  -> Eff r ()
+  => m (f a)
+  -> m ()
 jotEachM_ f =
   withFrozenCallStack do
     !as <- f
     for_ as $ jotWithCallStack GHC.callStack . show
 
 -- | Annotate the each value in the given traversable in IO.
-jotEachIO :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotEachIO :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
   => IO (f a)
-  -> Eff r (f a)
+  -> m (f a)
 jotEachIO f =
   withFrozenCallStack do
     !as <- evalIO f
@@ -571,29 +535,26 @@ jotEachIO f =
     return as
 
 -- | Annotate the each value in the given traversable in IO returning unit.
-jotEachIO_ :: forall a f r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
-  => r <: IOE
+jotEachIO_ :: forall a m f. ()
   => HasCallStack
+  => MonadIO m
+  => MonadTest m
   => Show a
   => Traversable f
   => IO (f a)
-  -> Eff r ()
+  -> m ()
 jotEachIO_ f =
   withFrozenCallStack do
     !as <- evalIO f
     for_ as $ jotWithCallStack GHC.callStack . show
 
-jotLogTextWithCallStack :: forall r. ()
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+jotLogTextWithCallStack :: forall m. ()
+  => HasCallStack
+  => MonadTest m
   => CallStack
   -> Severity
   -> Text
-  -> Eff r ()
+  -> m ()
 jotLogTextWithCallStack cs severity a =
   withFrozenCallStack do
     jotWithCallStack cs $ T.unpack $ "[" <> toText severity <> "] " <> a
@@ -611,13 +572,11 @@ jotShowDataLog =
     DataLog.runDataLog jotShow_
 {-# inline jotShowDataLog #-}
 
-writeLog :: forall r. ()
+writeLog :: forall m. ()
   => HasCallStack
-  => r <: Concurrent
-  => r <: Error H.Failure
-  => r <: Hedgehog
+  => MonadTest m
   => H.Log
-  -> Eff r ()
+  -> m ()
 writeLog message =
   withFrozenCallStack $
     H.writeLog message

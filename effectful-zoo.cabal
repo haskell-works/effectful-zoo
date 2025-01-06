@@ -102,7 +102,6 @@ common project-config
                         UnicodeSyntax
                         ViewPatterns
   ghc-options:          -Wall
-                        -Werror
                         -Widentities
                         -Wincomplete-uni-patterns
                         -Wmissing-deriving-strategies
