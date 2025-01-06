@@ -16,6 +16,11 @@ build-type:             Simple
 extra-doc-files:        README.md
                         CHANGELOG.md
 
+flag dev
+  description: Enable development mode
+  manual: True
+  default: False
+
 source-repository head
   type: git
   location: https://github.com/haskell-works/effectful-zoo
@@ -104,6 +109,8 @@ common project-config
                         -Wredundant-constraints
                         -Wunused-packages
   default-language:     GHC2021
+  if (flag(dev))
+    ghc-options:        -Werror
 
 library core
   import:               base, project-config,
