@@ -1,5 +1,6 @@
 module Effectful.Zoo.Hedgehog.Api.Failure
-  ( failWithCallStack,
+  ( H.Failure,
+    failWithCallStack,
   ) where
 
 import Effectful
