@@ -12,6 +12,7 @@ import Effectful
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Log.Data.LogMessage
 import Effectful.Zoo.Log.Dynamic
 import HaskellWorks.Prelude
 
@@ -23,7 +24,7 @@ log :: ()
   -> Eff r ()
 log severity message =
   withFrozenCallStack $
-    send (Log severity message)
+    send (Log (LogMessage severity message))
 
 trace :: ()
   => HasCallStack

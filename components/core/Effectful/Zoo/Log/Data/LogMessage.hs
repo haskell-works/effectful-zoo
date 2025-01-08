@@ -8,4 +8,4 @@ data LogMessage i =
   { severity :: !Severity
   , message :: i
   }
-  deriving stock (Eq, Generic, Show)
+  deriving stock (Eq, Functor, Generic, Show)

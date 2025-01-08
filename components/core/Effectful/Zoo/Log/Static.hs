@@ -15,7 +15,7 @@ import Effectful
 import Effectful.Dispatch.Static
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.Logger
-import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Log.Data.LogMessage
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 import System.IO qualified as IO
@@ -30,7 +30,7 @@ runLog :: ()
   => r <: IOE
   => HasCallStack
   => UnliftStrategy
-  -> (CallStack -> Severity -> i -> Eff r ())
+  -> (CallStack -> LogMessage i -> Eff r ())
   -> Eff (Log i : r) a
   -> Eff r a
 runLog strategy run f = do
@@ -40,16 +40,16 @@ runLog strategy run f = do
 runLogToHandle :: ()
   => HasCallStack
   => Handle
-  -> (Severity -> a -> Text)
+  -> (LogMessage a -> Text)
   -> Eff (Log a : r) a
   -> Eff r a
 runLogToHandle h f =
-  evalStaticRep $ Log $ Logger $ \_ severity i ->
-    T.hPutStrLn h $ f severity i
+  evalStaticRep $ Log $ Logger $ \_ m ->
+    T.hPutStrLn h $ f m
 
 runLogToStdout :: ()
   => HasCallStack
-  => (Severity -> a -> Text)
+  => (LogMessage a -> Text)
   -> Eff (Log a : r) a
   -> Eff r a
 runLogToStdout =
@@ -57,7 +57,7 @@ runLogToStdout =
 
 runLogToStderr :: ()
   => HasCallStack
-  => (Severity -> a -> Text)
+  => (LogMessage a -> Text)
   -> Eff (Log a : r) a
   -> Eff r a
 runLogToStderr =
@@ -93,13 +93,12 @@ log :: ()
   => HasCallStack
   => r <: Log i
   => r <: IOE
-  => Severity
-  -> i
+  => LogMessage i
   -> Eff r ()
-log severity i =
+log m =
   withFrozenCallStack do
     dataLogger <- getDataLogger
-    liftIO $ dataLogger.run GHC.callStack severity i
+    liftIO $ dataLogger.run GHC.callStack m
 
 local :: ()
   => HasCallStack

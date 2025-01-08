@@ -5,21 +5,22 @@ module Effectful.Zoo.Log.Data.Logger
 
 import Effectful
 import Effectful.Zoo.Core
-import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Log.Data.LogMessage
 import HaskellWorks.Prelude
 
 newtype Logger i = Logger
-  { run :: CallStack -> Severity -> i -> IO ()
+  { run :: CallStack -> LogMessage i -> IO ()
   } deriving stock Generic
 
 instance Contravariant Logger where
-  contramap f (Logger g) = Logger \cs severity -> g cs severity . f
+  contramap f (Logger g) =
+    Logger \cs m -> g cs (fmap f m)
 
 mkLogger :: ()
   => r <: IOE
   => UnliftStrategy
-  -> (CallStack -> Severity -> i -> Eff r ())
+  -> (CallStack -> LogMessage i -> Eff r ())
   -> Eff r (Logger i)
 mkLogger strategy run =
   withEffToIO strategy $ \effToIO ->
-    pure $ Logger $ \cs severity i -> effToIO $ run cs severity i
+    pure $ Logger $ \cs m -> effToIO $ run cs m
