@@ -142,8 +142,10 @@ library core
                         Effectful.Zoo.DataLog.Data.LogEntry
                         Effectful.Zoo.DataLog.Dynamic
                         Effectful.Zoo.DataLog.Static
+                        Effectful.Zoo.Environment
                         Effectful.Zoo.Error.Dynamic
                         Effectful.Zoo.Error.Static
+                        Effectful.Zoo.Errors.EnvironmentVariableMissing
                         Effectful.Zoo.Exception
                         Effectful.Zoo.FileSystem
                         Effectful.Zoo.Function
