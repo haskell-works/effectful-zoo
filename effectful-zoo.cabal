@@ -145,6 +145,7 @@ library core
                         Effectful.Zoo.Environment
                         Effectful.Zoo.Error.Dynamic
                         Effectful.Zoo.Error.Static
+                        Effectful.Zoo.Errors.EnvironmentVariableInvalid
                         Effectful.Zoo.Errors.EnvironmentVariableMissing
                         Effectful.Zoo.Exception
                         Effectful.Zoo.FileSystem
