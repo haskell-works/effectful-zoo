@@ -43,6 +43,7 @@ common exceptions                 { build-depends: exceptions                 >=
 common filepath                   { build-depends: filepath                   >= 1.4        && < 2      }
 common generic-lens               { build-depends: generic-lens               >= 2.2.2      && < 3      }
 common hedgehog                   { build-depends: hedgehog                   >= 1.5        && < 2      }
+common http-conduit               { build-depends: http-conduit               >= 2.3.9.1    && < 3      }
 common HUnit                      { build-depends: HUnit                      >= 1.6.2      && < 2      }
 common hw-prelude                 { build-depends: hw-prelude                 >= 0.0.4.4    && < 0.1    }
 common lifted-base                { build-depends: lifted-base                >= 0.2.3.12   && < 0.3    }
@@ -54,6 +55,7 @@ common stm                        { build-depends: stm                        >=
 common tasty                      { build-depends: tasty                      >= 1.5        && < 2      }
 common tasty-hedgehog             { build-depends: tasty-hedgehog             >= 1.1.0.0    && < 1.5    }
 common temporary                  { build-depends: temporary                  >= 1.3        && < 2      }
+common testcontainers             { build-depends: testcontainers             >= 0.5        && < 0.6    }
 common text                       { build-depends: text                       >= 2          && < 3      }
 common time                       { build-depends: time                       >= 1.12       && < 2      }
 common transformers               { build-depends: transformers               >= 0.5.6.2    && < 0.7    }
@@ -289,6 +291,19 @@ library hunit
   visibility:           public
   exposed-modules:      Effectful.Zoo.HUnit
   hs-source-dirs:       components/hunit
+
+library testcontainers-localstack
+  import:               base, project-config,
+                        bytestring,
+                        http-conduit,
+                        hw-prelude,
+                        testcontainers,
+                        text,
+                        time,
+  visibility:           public
+  exposed-modules:      Effectful.Zoo.TestContainers.LocalStack
+                        Effectful.Zoo.TestContainers.LocalStack.Types
+  hs-source-dirs:       components/testcontainers-localstack
 
 test-suite effectful-zoo-test
   import:               project-config,
