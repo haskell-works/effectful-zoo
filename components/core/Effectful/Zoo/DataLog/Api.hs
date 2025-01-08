@@ -2,17 +2,22 @@ module Effectful.Zoo.DataLog.Api
   ( dataLog,
     logEntryToJson,
     logMessageToJson,
+    putJsonStdout,
   ) where
 
 import Data.Aeson (Value, object, (.=))
+import Data.Aeson qualified as J
+import Data.ByteString.Lazy qualified as LBS
 import Effectful
 import Effectful.Dispatch.Dynamic
+import Effectful.Dispatch.Static
 import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Data.LogEntry
 import Effectful.Zoo.DataLog.Dynamic
 import Effectful.Zoo.Log.Data.LogMessage
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
+import System.IO qualified as IO
 
 dataLog :: ()
   => HasCallStack
@@ -53,3 +58,10 @@ logMessageToJson (LogMessage severity message) =
       [ "severity" .= show severity
       , "message"  .= message
       ]
+
+putJsonStdout :: ()
+  => Value
+  -> Eff r ()
+putJsonStdout value = do
+  unsafeEff_ $ LBS.putStr $ J.encode value <> "\n"
+  unsafeEff_ $ IO.hFlush IO.stdout
