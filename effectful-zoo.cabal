@@ -160,6 +160,7 @@ library core
                         Effectful.Zoo.Log.Dynamic
                         Effectful.Zoo.Log.Static
                         Effectful.Zoo.Prim
+                        Effectful.Zoo.Reader.Static
                         Effectful.Zoo.Unsafe
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/core
