@@ -13,6 +13,7 @@ module Effectful.Zoo.Environment
     E.getEnvironment,
     lookupEnv,
     lookupEnvMaybe,
+    lookupMapEnv,
     lookupParseMaybeEnv,
     lookupParseEitherEnv,
 
@@ -42,6 +43,15 @@ lookupEnv :: ()
 lookupEnv envName =
   lookupEnvMaybe envName
     & onNothingM (throw $ EnvironmentVariableMissing envName)
+
+lookupMapEnv :: ()
+  => r <: Environment
+  => r <: Error EnvironmentVariableMissing
+  => Text
+  -> (Text -> a)
+  -> Eff r a
+lookupMapEnv envName f =
+  f <$> lookupEnv envName
 
 lookupParseMaybeEnv :: ()
   => r <: Environment
