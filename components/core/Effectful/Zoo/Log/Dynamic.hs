@@ -6,15 +6,14 @@ module Effectful.Zoo.Log.Dynamic
 import Effectful
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Log.Data.LogMessage
 import Effectful.Zoo.Log.Static qualified as S
 import HaskellWorks.Prelude
 
 data Log i :: Effect where
   Log
     :: HasCallStack
-    => Severity
-    -> i
+    => LogMessage i
     -> Log i m ()
 
   Local
@@ -27,10 +26,10 @@ type instance DispatchOf (Log a) = Dynamic
 runLog :: ()
   => r <: IOE
   => UnliftStrategy
-  -> (CallStack -> Severity -> i -> Eff r ())
+  -> (CallStack -> LogMessage i -> Eff r ())
   -> Eff (Log i : r) a
   -> Eff r a
 runLog s run =
   reinterpret (S.runLog s run) $ \env -> \case
-    Log severity i -> S.log severity i
+    Log m -> S.log m
     Local f m -> localSeqUnlift env $ \unlift -> S.local f (unlift m)

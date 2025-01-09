@@ -13,6 +13,8 @@ module Effectful.Zoo.FileSystem
     removePathForcibly,
     doesFileExist,
     doesDirectoryExist,
+
+    runFileSystem,
   ) where
 
 import Data.Aeson (FromJSON)
@@ -23,7 +25,7 @@ import Data.Text qualified as T
 import Data.Yaml qualified as Y
 import Effectful
 import Effectful.Dispatch.Static
-import Effectful.FileSystem (FileSystem)
+import Effectful.FileSystem (FileSystem, runFileSystem)
 import Effectful.Zoo.Core
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Exception

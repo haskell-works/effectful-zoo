@@ -16,6 +16,8 @@ module Effectful.Zoo.Hedgehog.Api.Hedgehog
     H.failException,
     H.failWith,
 
+    H.success,
+
   ) where
 
 import Hedgehog qualified as H

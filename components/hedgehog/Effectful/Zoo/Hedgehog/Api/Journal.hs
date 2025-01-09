@@ -1,5 +1,7 @@
 module Effectful.Zoo.Hedgehog.Api.Journal
-  ( jot,
+  ( Failure,
+
+    jot,
     jot_,
     
     jotWithCallStack,
@@ -70,6 +72,7 @@ import HaskellWorks.Prelude
 import HaskellWorks.String
 import HaskellWorks.ToText
 import Hedgehog (MonadTest(..))
+import Hedgehog.Internal.Property (Failure)
 import Hedgehog.Internal.Property qualified as H
 import Hedgehog.Internal.Source qualified as H
 
@@ -563,7 +566,7 @@ jotShowDataLog :: forall i a r. ()
   => HasCallStack
   => Show i
   => r <: Concurrent
-  => r <: Error H.Failure
+  => r <: Error Failure
   => r <: Hedgehog
   => Eff (DataLog i : r) a
   -> Eff r a
