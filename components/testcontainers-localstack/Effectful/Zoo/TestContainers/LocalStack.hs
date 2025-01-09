@@ -6,19 +6,32 @@ module Effectful.Zoo.TestContainers.LocalStack (
     setupContainers,
     setupContainers',
     waitForLocalStack,
+
+    runReaderLocalAwsEnvDiscover,
+    getLocalStackEndpoint,
+    inspectContainer,
 ) where
 
+import Amazonka qualified as AWS
+import Amazonka.Auth qualified as AWS
 import Control.Concurrent (threadDelay)
 import Control.Concurrent qualified as IO
 import Control.Exception  (try)
 import Control.Exception qualified as E
 import Control.Monad.IO.Class
+import Data.Aeson qualified as J
 import Data.ByteString.Lazy qualified as LBS
 import Data.Function
+import Data.Generics.Product.Any
 import Data.Text qualified as T
 import Data.Time.Clock.POSIX  (getPOSIXTime)
+import Effectful
+import Effectful.Zoo.Core
+import Effectful.Zoo.Reader.Static
 import Effectful.Zoo.TestContainers.LocalStack.Types (LocalStackEndpoint (LocalStackEndpoint))
+import Effectful.Zoo.TestContainers.LocalStack.Types qualified as Z
 import HaskellWorks.Prelude
+import Lens.Micro
 import Network.HTTP.Conduit (HttpException, simpleHttp)
 import System.Environment qualified as IO
 import System.IO qualified as IO
@@ -84,3 +97,43 @@ waitForLocalStack host port timeout = do
                 when (elapsedTime >= fromIntegral timeout) $ do
                     IO.putStrLn "Timeout reached. LocalStack is not ready."
                     E.throw e
+
+runReaderLocalAwsEnvDiscover :: forall a r. ()
+  => r <: IOE
+  => IO TC.Container
+  -> Eff (Reader AWS.Env : r) a
+  -> Eff r a
+runReaderLocalAwsEnvDiscover mk f = do
+  container <- liftIO mk
+  ep <- getLocalStackEndpoint container
+
+  logger' <- liftIO $ AWS.newLogger AWS.Debug IO.stdout
+
+  let creds = AWS.fromKeys (AWS.AccessKey "test") (AWS.SecretKey "test")
+
+  credEnv <- liftIO $ AWS.newEnv (AWS.runCredentialChain [pure . creds])
+
+  awsEnv <- pure $
+    credEnv
+      & the @"logger" .~ logger'
+      & the @"overrides" %~ (. AWS.setEndpoint False "localhost" ep.port)
+
+  runReader awsEnv f
+
+getLocalStackEndpoint :: ()
+  => TC.Container
+  -> Eff r LocalStackEndpoint
+getLocalStackEndpoint container = do
+  let localStackPort = TC.containerPort container 4566
+
+  pure Z.LocalStackEndpoint
+    { Z.host = "0.0.0.0"
+    , Z.port = localStackPort
+    }
+
+inspectContainer :: ()
+  => r <: IOE
+  => TC.Container
+  -> Eff r J.Value
+inspectContainer container =
+  liftIO $ TC.runTestContainer TC.defaultDockerConfig $ TC.inspect container
