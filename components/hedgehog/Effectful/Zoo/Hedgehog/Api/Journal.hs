@@ -6,6 +6,9 @@ module Effectful.Zoo.Hedgehog.Api.Journal
     
     jotWithCallStack,
 
+    jotString,
+    jotString_,
+    jotText,
     jotText_,
     jotM,
     jotBsUtf8M,
@@ -89,13 +92,11 @@ jotWithCallStack cs a =
 jot :: forall m. ()
   => HasCallStack
   => MonadTest m
-  => String
-  -> m String
+  => Text
+  -> m Text
 jot a =
   withFrozenCallStack do
-    !b <- eval a
-    jotWithCallStack GHC.callStack b
-    return b
+    jotText a
 
 -- | Annotate the given string returning unit.
 jot_ :: forall m. ()
@@ -103,9 +104,44 @@ jot_ :: forall m. ()
   => MonadTest m
   => Text
   -> m ()
-jot_ =
+jot_ a =
   withFrozenCallStack do
-    jotText_
+    jotText_ a
+
+-- | Annotate with the given string.
+jotString :: forall m. ()
+  => HasCallStack
+  => MonadTest m
+  => String
+  -> m String
+jotString a =
+  withFrozenCallStack do
+    !b <- eval a
+    jotWithCallStack GHC.callStack b
+    pure b
+
+-- | Annotate with the given string.
+jotString_ :: forall m. ()
+  => HasCallStack
+  => MonadTest m
+  => String
+  -> m ()
+jotString_ a =
+  withFrozenCallStack do
+    !b <- eval a
+    jotWithCallStack GHC.callStack b
+
+-- | Annotate the given text returning unit.
+jotText :: forall m. ()
+  => HasCallStack
+  => MonadTest m
+  => Text
+  -> m Text
+jotText a =
+  withFrozenCallStack do
+    !b <- eval a
+    jotWithCallStack GHC.callStack $ T.unpack a
+    pure b
 
 -- | Annotate the given text returning unit.
 jotText_ :: forall m. ()
@@ -115,7 +151,8 @@ jotText_ :: forall m. ()
   -> m ()
 jotText_ a =
   withFrozenCallStack do
-    jotWithCallStack GHC.callStack $ T.unpack a
+    !b <- eval a
+    jotWithCallStack GHC.callStack $ T.unpack b
 
 -- | Annotate the given string in a monadic context.
 jotM :: forall a m. ()

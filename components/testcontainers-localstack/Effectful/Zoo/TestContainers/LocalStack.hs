@@ -24,7 +24,7 @@ import Data.ByteString.Lazy qualified as LBS
 import Data.Function
 import Data.Generics.Product.Any
 import Data.Text qualified as T
-import Data.Time.Clock.POSIX  (getPOSIXTime)
+import Data.Time.Clock.POSIX (getPOSIXTime)
 import Effectful
 import Effectful.Zoo.Core
 import Effectful.Zoo.Reader.Static
