@@ -15,6 +15,8 @@ module Effectful.Zoo.FileSystem
     doesDirectoryExist,
 
     runFileSystem,
+
+    getCurrentDirectory,
   ) where
 
 import Data.Aeson (FromJSON)
@@ -180,3 +182,13 @@ doesDirectoryExist fp = withFrozenCallStack $ do
 
   unsafeFileSystemEff_ (D.doesDirectoryExist fp)
     & trapIO @IOException throw
+
+getCurrentDirectory :: ()
+  => HasCallStack
+  => r <: Error IOException
+  => r <: FileSystem
+  => Eff r FilePath
+getCurrentDirectory = withFrozenCallStack do
+  unsafeFileSystemEff_ D.getCurrentDirectory
+    & trapIO @IOException throw
+{-# INLINE getCurrentDirectory #-}
