@@ -19,7 +19,7 @@ import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 import System.IO qualified as IO
 
-dataLog :: ()
+dataLog :: forall i r. ()
   => HasCallStack
   => r <: DataLog i
   => i
