@@ -18,11 +18,14 @@ import Effectful
 import Effectful.Concurrent
 import Effectful.Concurrent.STM
 import Effectful.Concurrent.STM qualified as CC
+import Effectful.Environment
+import Effectful.FileSystem
 import Effectful.Zoo.Core
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Hedgehog.Effect.HedgehogGen
+import Effectful.Zoo.Resource
 import HaskellWorks.Control.Monad
 import HaskellWorks.Prelude
 import Hedgehog (Gen)
@@ -34,6 +37,9 @@ property :: ()
       [ HedgehogGen
       , Hedgehog
       , Error H.Failure
+      , Resource
+      , FileSystem
+      , Environment
       , Concurrent
       , IOE
       ] ()
@@ -43,7 +49,15 @@ property f = do
   tvAction <- liftIO IO.newEmptyTMVarIO
   CEL.bracket
     do  liftIO $ IO.forkFinally
-          (f & runHedgehogGenProperty tvAction & runHedgehogProperty tvAction & runError @H.Failure & runConcurrent & runEff)
+          do  f
+                & runHedgehogGenProperty tvAction
+                & runHedgehogProperty tvAction
+                & runError @H.Failure
+                & runResource
+                & runFileSystem
+                & runEnvironment
+                & runConcurrent
+                & runEff
           (liftIO . IO.atomically . IO.putTMVar tvResult)
     do liftIO . IO.killThread
     do \_ -> do
@@ -69,6 +83,9 @@ unit :: ()
   => Eff
       [ Hedgehog
       , Error H.Failure
+      , Resource
+      , FileSystem
+      , Environment
       , Concurrent
       , IOE
       ] ()
@@ -78,7 +95,13 @@ unit f = do
   tvAction <- liftIO IO.newEmptyTMVarIO
   CEL.bracket
     do  liftIO $ IO.forkFinally
-          (f & runHedgehogUnit tvAction & runError @H.Failure & runConcurrent & runEff)
+          do  f & runHedgehogUnit tvAction
+                & runError @H.Failure
+                & runResource
+                & runFileSystem
+                & runEnvironment
+                & runConcurrent
+                & runEff
           (liftIO . IO.atomically . IO.putTMVar tvResult)
     do liftIO . IO.killThread
     do \_ -> do
