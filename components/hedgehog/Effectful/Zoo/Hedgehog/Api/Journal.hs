@@ -42,6 +42,11 @@ module Effectful.Zoo.Hedgehog.Api.Journal
     jotEachIO,
     jotEachIO_,
 
+    jotPkgInputFile,
+    jotPkgGoldenFile,
+    jotRootInputFile,
+    jotTempFile,
+
     jotLogTextWithCallStack,
 
     jotShowDataLog,
@@ -68,8 +73,12 @@ import Effectful.Zoo.DataLog.Dynamic
 import Effectful.Zoo.DataLog.Dynamic qualified as DataLog
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.Hedgehog
+import Effectful.Zoo.Hedgehog.Data.PackagePath
+import Effectful.Zoo.Hedgehog.Data.ProjectRoot
+import Effectful.Zoo.Hedgehog.Data.Workspace
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Log.Data.Severity
+import Effectful.Zoo.Reader.Static
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
 import HaskellWorks.String
@@ -587,6 +596,61 @@ jotEachIO_ f =
   withFrozenCallStack do
     !as <- evalIO f
     for_ as $ jotWithCallStack GHC.callStack . show
+
+-- | Return the input file path after annotating it relative to the package directory
+jotPkgInputFile :: forall r. ()
+  => HasCallStack
+  => r <: Concurrent
+  => r <: Error Failure
+  => r <: Hedgehog
+  => r <: Reader PackagePath
+  => FilePath
+  -> Eff r FilePath
+jotPkgInputFile fp = withFrozenCallStack $ do
+  PackagePath { filePath = pkgPath } <- ask
+  jotString_ $ pkgPath <> "/" <> fp
+  return fp
+
+-- | Return the golden file path after annotating it relative to the package directory
+jotPkgGoldenFile :: forall r. ()
+  => HasCallStack
+  => r <: Concurrent
+  => r <: Error Failure
+  => r <: Hedgehog
+  => r <: Reader PackagePath
+  => FilePath
+  -> Eff r FilePath
+jotPkgGoldenFile fp = withFrozenCallStack $ do
+  PackagePath { filePath = pkgPath } <- ask
+  jotString_ $ pkgPath <> "/" <> fp
+  return fp
+
+jotRootInputFile :: forall r. ()
+  => HasCallStack
+  => r <: Concurrent
+  => r <: Error Failure
+  => r <: Hedgehog
+  => r <: Reader ProjectRoot
+  => FilePath
+  -> Eff r FilePath
+jotRootInputFile fp = withFrozenCallStack $ do
+  ProjectRoot { filePath = pkgPath } <- ask
+  jotString $ pkgPath <> "/" <> fp
+
+-- | Return the test file path after annotating it relative to the project root directory
+jotTempFile :: forall r. ()
+  => HasCallStack
+  => r <: Concurrent
+  => r <: Error Failure
+  => r <: Hedgehog
+  => r <: Reader Workspace
+  => FilePath
+  -> Eff r FilePath
+jotTempFile fp = withFrozenCallStack $ do
+  Workspace { filePath = workspace } <- ask
+  let relPath = workspace <> "/" <> fp
+  jotString_ $ workspace <> "/" <> relPath
+  return relPath
 
 jotLogTextWithCallStack :: forall m. ()
   => HasCallStack
