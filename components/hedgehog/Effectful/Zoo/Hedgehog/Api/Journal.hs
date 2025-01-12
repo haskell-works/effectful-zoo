@@ -5,6 +5,7 @@ module Effectful.Zoo.Hedgehog.Api.Journal
     jot_,
     
     jotWithCallStack,
+    jotTextWithCallStack,
 
     jotString,
     jotString_,
@@ -96,6 +97,15 @@ jotWithCallStack :: forall m. ()
   -> m ()
 jotWithCallStack cs a =
   writeLog $ H.Annotation (H.getCaller cs) a
+
+-- | Annotate the given string at the context supplied by the callstack.
+jotTextWithCallStack :: forall m. ()
+  => MonadTest m
+  => CallStack
+  -> Text
+  -> m ()
+jotTextWithCallStack cs a =
+  writeLog $ H.Annotation (H.getCaller cs) $ T.unpack a
 
 -- | Annotate with the given string.
 jot :: forall m. ()
