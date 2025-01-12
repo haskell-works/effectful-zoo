@@ -23,7 +23,7 @@ data Log i :: Effect where
 
 type instance DispatchOf (Log a) = Dynamic
 
-runLog :: ()
+runLog :: forall i a r. ()
   => r <: IOE
   => UnliftStrategy
   -> (CallStack -> LogMessage i -> Eff r ())

@@ -22,19 +22,25 @@ import Effectful.Environment
 import Effectful.FileSystem
 import Effectful.Zoo.Core
 import Effectful.Zoo.Error.Static
+import Effectful.Zoo.Hedgehog.Api.Failure
+import Effectful.Zoo.Hedgehog.Api.Journal
 import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Hedgehog.Effect.HedgehogGen
+import Effectful.Zoo.Log.Data.LogMessage
+import Effectful.Zoo.Log.Dynamic
 import Effectful.Zoo.Resource
 import HaskellWorks.Control.Monad
 import HaskellWorks.Prelude
+import HaskellWorks.ToText
 import Hedgehog (Gen)
 import Hedgehog qualified as H
 import Hedgehog.Internal.Property qualified as H
 
 property :: ()
   => Eff
-      [ HedgehogGen
+      [ Log Text
+      , HedgehogGen
       , Hedgehog
       , Error H.Failure
       , Resource
@@ -50,6 +56,7 @@ property f = do
   CEL.bracket
     do  liftIO $ IO.forkFinally
           do  f
+                & runLog @Text (ConcUnlift Persistent Unlimited) logTextToHedgehog
                 & runHedgehogGenProperty tvAction
                 & runHedgehogProperty tvAction
                 & runError @H.Failure
@@ -79,9 +86,21 @@ property f = do
             Just (Right (Right (Left (_, e)))) -> throwAssertion e
             Just (Right (Right (Right a))) -> pure $ Just a
 
+logTextToHedgehog :: ()
+  => r <: Concurrent
+  => r <: Hedgehog
+  => r <: Error Failure
+  => CallStack
+  -> LogMessage Text
+  -> Eff r ()
+logTextToHedgehog callStack msg = do
+  let LogMessage severity text = msg
+  jotTextWithCallStack callStack $ toText severity <> " " <> text
+
 unit :: ()
   => Eff
-      [ Hedgehog
+      [ Log Text
+      , Hedgehog
       , Error H.Failure
       , Resource
       , FileSystem
@@ -95,7 +114,8 @@ unit f = do
   tvAction <- liftIO IO.newEmptyTMVarIO
   CEL.bracket
     do  liftIO $ IO.forkFinally
-          do  f & runHedgehogUnit tvAction
+          do  f & runLog @Text (ConcUnlift Persistent Unlimited) logTextToHedgehog
+                & runHedgehogUnit tvAction
                 & runError @H.Failure
                 & runResource
                 & runFileSystem
