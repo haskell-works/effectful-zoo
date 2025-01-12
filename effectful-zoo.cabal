@@ -133,6 +133,7 @@ library core
                         effectful,
                         hw-prelude,
                         process,
+                        resourcet-effectful,
                         text,
                         temporary,
                         time,
@@ -175,6 +176,7 @@ library core
                         Effectful.Zoo.Prim
                         Effectful.Zoo.Process
                         Effectful.Zoo.Reader.Static
+                        Effectful.Zoo.Resource
                         Effectful.Zoo.Unsafe
   ghc-options:          -fplugin=Effectful.Plugin
   hs-source-dirs:       components/core
