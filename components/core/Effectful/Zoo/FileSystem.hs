@@ -17,6 +17,7 @@ module Effectful.Zoo.FileSystem
     runFileSystem,
 
     getCurrentDirectory,
+    canonicalizePath,
   ) where
 
 import Data.Aeson (FromJSON)
@@ -192,3 +193,14 @@ getCurrentDirectory = withFrozenCallStack do
   unsafeFileSystemEff_ D.getCurrentDirectory
     & trapIO @IOException throw
 {-# INLINE getCurrentDirectory #-}
+
+canonicalizePath :: ()
+  => HasCallStack
+  => r <: Error IOException
+  => r <: FileSystem
+  => FilePath
+  -> Eff r FilePath
+canonicalizePath fp = withFrozenCallStack do
+  unsafeFileSystemEff_ (D.canonicalizePath fp)
+    & trapIO @IOException throw
+{-# INLINE canonicalizePath #-}
