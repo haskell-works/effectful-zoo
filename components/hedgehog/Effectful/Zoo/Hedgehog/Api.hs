@@ -13,4 +13,5 @@ import Effectful.Zoo.Hedgehog.Api.Assert
 import Effectful.Zoo.Hedgehog.Api.Failure
 import Effectful.Zoo.Hedgehog.Api.Hedgehog
 import Effectful.Zoo.Hedgehog.Api.Journal
+import Effectful.Zoo.Hedgehog.Api.Tasty.Orphans ()
 import Hedgehog
