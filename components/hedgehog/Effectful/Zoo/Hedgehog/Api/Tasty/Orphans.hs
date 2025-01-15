@@ -15,4 +15,5 @@ instance Tasty (PropertyT IO ()) where
     where testName = fromMaybe "" $ getLast info.name
 
 instance Tasty (TestT IO ()) where
-  tasty info = tasty info . H.test
+  tasty info = pure . testProperty testName . H.withTests 1 . H.property . H.test
+    where testName = fromMaybe "" $ getLast info.name
