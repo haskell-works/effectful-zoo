@@ -17,6 +17,7 @@ module Effectful.Zoo.FileSystem
     runFileSystem,
 
     getCurrentDirectory,
+    listDirectory,
     canonicalizePath,
   ) where
 
@@ -204,3 +205,17 @@ canonicalizePath fp = withFrozenCallStack do
   unsafeFileSystemEff_ (D.canonicalizePath fp)
     & trapIO @IOException throw
 {-# INLINE canonicalizePath #-}
+
+listDirectory :: ()
+  => HasCallStack
+  => r <: Error IOException
+  => r <: FileSystem
+  => r <: Log Text
+  => FilePath
+  -> Eff r [FilePath]
+listDirectory fp = withFrozenCallStack do
+  info $ "Calling: listDirectory " <> tshow fp
+
+  unsafeFileSystemEff_ (D.listDirectory fp)
+    & trapIO @IOException throw
+{-# INLINE listDirectory #-}
