@@ -75,8 +75,8 @@ property f = do
               Nothing -> do
                 mResult <- CC.tryTakeTMVar tvResult
                 case mResult of
-                  Nothing -> pure Nothing
                   Just a -> pure $ Just $ Right a
+                  Nothing -> retry
               Just action -> pure $ Just $ Left action
 
           case mActionOrResult of
@@ -132,8 +132,8 @@ unit f = do
               Nothing -> do
                 mResult <- CC.tryTakeTMVar tvResult
                 case mResult of
-                  Nothing -> pure Nothing
                   Just a -> pure $ Just $ Right a
+                  Nothing -> retry
               Just action -> pure $ Just $ Left action
 
           case mActionOrResult of
