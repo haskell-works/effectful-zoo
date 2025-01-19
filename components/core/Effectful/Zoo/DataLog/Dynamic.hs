@@ -27,5 +27,5 @@ runDataLog :: ()
   -> Eff r a
 runDataLog run =
   reinterpret (S.runDataLog run) $ \env -> \case
-    DataLog i -> S.log i
-    Local f m -> localSeqUnlift env $ \unlift -> S.local f (unlift m)
+    DataLog i -> S.dataLog i
+    Local f m -> localSeqUnlift env $ \unlift -> S.localDataLog f (unlift m)

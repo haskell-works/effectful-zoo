@@ -6,8 +6,8 @@ module Effectful.Zoo.DataLog.Static
     runDataLogTextToStderr,
     getDataLogger,
     withDataLog,
-    log,
-    local,
+    dataLog,
+    localDataLog,
   ) where
 
 import Effectful.Zoo.DataLog.Static.Api

@@ -6,7 +6,7 @@ module Effectful.Zoo.DataLog.Static.Effect
     runDataLogTextToStderr,
     getDataLogger,
     withDataLog,
-    local,
+    localDataLog,
   ) where
 
 import Data.Text.IO qualified as T
@@ -81,11 +81,11 @@ getDataLogger = do
   DataLog i <- getStaticRep
   pure i
 
-local :: ()
+localDataLog :: ()
   => HasCallStack
   => r <: DataLog i
   => (i -> i)
   -> Eff r a
   -> Eff r a
-local f =
+localDataLog f =
   localStaticRep $ \(DataLog s) -> DataLog (contramap f s)

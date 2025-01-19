@@ -1,5 +1,5 @@
 module Effectful.Zoo.DataLog.Static.Api
-  ( log,
+  ( dataLog,
   ) where
 
 import Effectful
@@ -9,11 +9,11 @@ import Effectful.Zoo.DataLog.Data.DataLogger
 import Effectful.Zoo.DataLog.Static.Effect
 import HaskellWorks.Prelude
 
-log :: ()
+dataLog :: forall i r. ()
   => HasCallStack
   => r <: DataLog i
   => i
   -> Eff r ()
-log i = do
+dataLog i = do
   dataLogger <- getDataLogger
   unsafeEff_ $ dataLogger.run i
