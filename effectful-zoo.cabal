@@ -150,6 +150,7 @@ library core
                         Effectful.Zoo.Console.Static
                         Effectful.Zoo.Core
                         Effectful.Zoo.DataLog.Api
+                        Effectful.Zoo.DataLog.Api.Json
                         Effectful.Zoo.DataLog.Data.DataLogger
                         Effectful.Zoo.DataLog.Data.LogEntry
                         Effectful.Zoo.DataLog.Dynamic
