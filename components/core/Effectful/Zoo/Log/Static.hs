@@ -6,7 +6,7 @@ module Effectful.Zoo.Log.Static
     runLogToStderr,
     withLog,
     log,
-    local,
+    localLog,
   ) where
 
 import Data.Kind
@@ -100,11 +100,11 @@ log m =
     dataLogger <- getDataLogger
     liftIO $ dataLogger.run GHC.callStack m
 
-local :: ()
+localLog :: ()
   => HasCallStack
   => r <: Log i
   => (i -> i)
   -> Eff r a
   -> Eff r a
-local f =
+localLog f =
   localStaticRep $ \(Log s) -> Log (contramap f s)
