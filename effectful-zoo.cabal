@@ -178,6 +178,7 @@ library core
                         Effectful.Zoo.Log.Data.LogMessage
                         Effectful.Zoo.Log.Data.Severity
                         Effectful.Zoo.Log.Dynamic
+                        Effectful.Zoo.Log.Dynamic.Effect
                         Effectful.Zoo.Log.Static
                         Effectful.Zoo.Prim
                         Effectful.Zoo.Process
