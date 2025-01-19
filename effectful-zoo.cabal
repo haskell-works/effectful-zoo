@@ -154,6 +154,8 @@ library core
                         Effectful.Zoo.DataLog.Data.DataLogger
                         Effectful.Zoo.DataLog.Data.LogEntry
                         Effectful.Zoo.DataLog.Dynamic
+                        Effectful.Zoo.DataLog.Dynamic.Api
+                        Effectful.Zoo.DataLog.Dynamic.Effect
                         Effectful.Zoo.DataLog.Static
                         Effectful.Zoo.DataLog.Static.Api
                         Effectful.Zoo.DataLog.Static.Effect

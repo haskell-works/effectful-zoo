@@ -27,7 +27,7 @@ import Effectful.Reader.Static
 import Effectful.Zoo.Amazonka.Data
 import Effectful.Zoo.Amazonka.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.DataLog.Static
 import Effectful.Zoo.FileSystem
 import Effectful.Zoo.Log.Api
 import Effectful.Zoo.Log.Dynamic

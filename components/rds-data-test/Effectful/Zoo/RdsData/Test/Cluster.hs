@@ -35,7 +35,7 @@ import Effectful.Zoo.Amazonka.Data.AwsError
 import Effectful.Zoo.Amazonka.Data.AwsLogEntry
 import Effectful.Zoo.Amazonka.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.DataLog.Static
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.Assert
 import Effectful.Zoo.Hedgehog.Api.Failure
@@ -77,28 +77,6 @@ createRdsDbCluster databaseName getContainer = withFrozenCallStack do
     sendAws createDbClusterRequest
       & trapFail @AwsError
       & jotShowDataLog @AwsLogEntry
-
-
-  -- sendAws :: forall a r. ()
-  --   => HasCallStack
-  --   => AwsRequest a
-  --   => r <: Amazonka
-  --   => r <: DataLog AwsLogEntry
-  --   => r <: Error AwsError
-  --   => r <: IOE
-  --   => Typeable (AwsResponse a)
-  --   => Typeable a
-  --   => a
-  --   -> Eff r (AwsResponse a)
-
-  -- jotShowDataLog :: forall i a r. ()
-  --   => HasCallStack
-  --   => Show i
-  --   => r <: Concurrent
-  --   => r <: Error Failure
-  --   => r <: Hedgehog
-  --   => Eff (DataLog i : r) a
-  --   -> Eff r a
 
   let secretName = "my-aurora-cluster"
 

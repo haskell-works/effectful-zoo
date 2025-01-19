@@ -20,7 +20,7 @@ import Effectful.Error.Static
 import Effectful.Zoo.Amazonka.Data
 import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Api
-import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.DataLog.Static
 import Effectful.Zoo.Lazy.Dynamic
 import GHC.Stack qualified as GHC
 import HaskellWorks.Prelude
