@@ -1,4 +1,4 @@
-module Effectful.Zoo.Log.Api.Generic
+module Effectful.Zoo.Log.Dynamic.Api
   ( log,
     trace,
     debug,
@@ -13,7 +13,7 @@ import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.LogMessage
 import Effectful.Zoo.Log.Data.Severity
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Dynamic.Effect
 import HaskellWorks.Prelude
 
 log :: ()
