@@ -28,7 +28,7 @@ import Effectful.Zoo.Hedgehog.Api.MonadAssertion
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
 import Effectful.Zoo.Hedgehog.Effect.HedgehogGen
 import Effectful.Zoo.Log.Data.LogMessage
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import Effectful.Zoo.Resource
 import HaskellWorks.Control.Monad
 import HaskellWorks.Prelude

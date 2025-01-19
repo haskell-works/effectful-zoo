@@ -26,7 +26,7 @@ type instance DispatchOf (Log i) = Static NoSideEffects
 
 newtype instance StaticRep (Log i) = Log (Logger i)
 
-runLog :: ()
+runLog :: forall i a r. ()
   => r <: IOE
   => HasCallStack
   => UnliftStrategy

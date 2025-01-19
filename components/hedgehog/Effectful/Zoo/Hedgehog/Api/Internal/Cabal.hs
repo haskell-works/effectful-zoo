@@ -14,7 +14,7 @@ import Effectful.Zoo.Error.Static
 import Effectful.Zoo.FileSystem
 import Effectful.Zoo.Hedgehog.Api.Internal.Cabal.Types
 import Effectful.Zoo.Hedgehog.Api.Internal.FilePath
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import HaskellWorks.Error.Types
 import HaskellWorks.Prelude
 import System.FilePath (takeDirectory, (</>))

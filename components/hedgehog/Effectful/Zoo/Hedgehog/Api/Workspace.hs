@@ -23,7 +23,7 @@ import Effectful.Zoo.Hedgehog.Data.PackagePath
 import Effectful.Zoo.Hedgehog.Data.ProjectRoot
 import Effectful.Zoo.Hedgehog.Data.Workspace
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import HaskellWorks.Prelude
 import Hedgehog.Internal.Property qualified as H
 import System.FilePath ((</>))
