@@ -32,4 +32,4 @@ runLog :: forall i a r. ()
 runLog s run =
   reinterpret (S.runLog s run) $ \env -> \case
     Log m -> S.log m
-    Local f m -> localSeqUnlift env $ \unlift -> S.local f (unlift m)
+    Local f m -> localSeqUnlift env $ \unlift -> S.localLog f (unlift m)
