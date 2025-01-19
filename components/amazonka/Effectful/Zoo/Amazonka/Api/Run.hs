@@ -22,7 +22,7 @@ import Effectful.Zoo.Amazonka.Data
 import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Api
 import Effectful.Zoo.DataLog.Data.LogEntry
-import Effectful.Zoo.DataLog.Dynamic
+import Effectful.Zoo.DataLog.Static
 import Effectful.Zoo.Log.Data.LogMessage
 import Effectful.Zoo.Log.Data.Severity
 import HaskellWorks.Prelude

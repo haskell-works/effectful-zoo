@@ -70,8 +70,8 @@ import Effectful
 import Effectful.Concurrent
 import Effectful.Dispatch.Dynamic
 import Effectful.Zoo.Core
-import Effectful.Zoo.DataLog.Dynamic
-import Effectful.Zoo.DataLog.Dynamic qualified as DataLog
+import Effectful.Zoo.DataLog.Static
+import Effectful.Zoo.DataLog.Static qualified as DataLog
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Hedgehog.Api.Hedgehog
 import Effectful.Zoo.Hedgehog.Data.PackagePath
