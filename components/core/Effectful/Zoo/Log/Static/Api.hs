@@ -1,4 +1,4 @@
-module Effectful.Zoo.Log.Api.String
+module Effectful.Zoo.Log.Static.Api
   ( log,
     trace,
     debug,
@@ -9,27 +9,27 @@ module Effectful.Zoo.Log.Api.String
   ) where
 
 import Effectful
-import Effectful.Dispatch.Dynamic
+import Effectful.Dispatch.Static
 import Effectful.Zoo.Core
 import Effectful.Zoo.Log.Data.LogMessage
 import Effectful.Zoo.Log.Data.Severity
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static.Effect
 import HaskellWorks.Prelude
 
 log :: ()
   => HasCallStack
-  => r <: Log String
+  => r <: Log i
   => Severity
-  -> String
+  -> i
   -> Eff r ()
 log severity message =
   withFrozenCallStack $
-    send (Log (LogMessage severity message))
+    logMessage $ LogMessage severity message
 
 trace :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 trace =
   withFrozenCallStack $
@@ -37,8 +37,8 @@ trace =
 
 debug :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 debug =
   withFrozenCallStack $
@@ -46,8 +46,8 @@ debug =
 
 info :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 info =
   withFrozenCallStack $
@@ -55,8 +55,8 @@ info =
 
 warn :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 warn =
   withFrozenCallStack $
@@ -64,8 +64,8 @@ warn =
 
 error :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 error =
   withFrozenCallStack $
@@ -73,8 +73,8 @@ error =
 
 crit :: ()
   => HasCallStack
-  => r <: Log String
-  => String
+  => r <: Log i
+  => i
   -> Eff r ()
 crit =
   withFrozenCallStack $

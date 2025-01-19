@@ -10,4 +10,4 @@ module Effectful.Zoo.Log.Api
   ) where
 
 import Effectful.Zoo.Log.Api.Render
-import Effectful.Zoo.Log.Api.Text
+import Effectful.Zoo.Log.Dynamic.Api

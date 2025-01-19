@@ -169,17 +169,16 @@ library core
                         Effectful.Zoo.Function
                         Effectful.Zoo.Lazy.Dynamic
                         Effectful.Zoo.Log.Api
-                        Effectful.Zoo.Log.Api.Generic
-                        Effectful.Zoo.Log.Api.LazyText
                         Effectful.Zoo.Log.Api.Render
-                        Effectful.Zoo.Log.Api.String
-                        Effectful.Zoo.Log.Api.Text
                         Effectful.Zoo.Log.Data.Logger
                         Effectful.Zoo.Log.Data.LogMessage
                         Effectful.Zoo.Log.Data.Severity
                         Effectful.Zoo.Log.Dynamic
+                        Effectful.Zoo.Log.Dynamic.Api
                         Effectful.Zoo.Log.Dynamic.Effect
                         Effectful.Zoo.Log.Static
+                        Effectful.Zoo.Log.Static.Api
+                        Effectful.Zoo.Log.Static.Effect
                         Effectful.Zoo.Prim
                         Effectful.Zoo.Process
                         Effectful.Zoo.Reader.Static

@@ -33,7 +33,6 @@ import Effectful.FileSystem (FileSystem, runFileSystem)
 import Effectful.Zoo.Core
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Exception
-import Effectful.Zoo.Log.Api.Text
 import Effectful.Zoo.Log.Dynamic
 import Effectful.Zoo.Unsafe
 import HaskellWorks.Error.Types.JsonDecodeError
