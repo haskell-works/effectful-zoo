@@ -27,7 +27,7 @@ import Effectful.Zoo.Core
 import Effectful.Zoo.DataLog.Static
 import Effectful.Zoo.Error.Static
 import Effectful.Zoo.Log.Api
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import Effectful.Zoo.RdsData.Errors
 import HaskellWorks.Prelude
 import Lens.Micro

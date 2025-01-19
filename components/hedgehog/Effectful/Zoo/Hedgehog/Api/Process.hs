@@ -30,7 +30,7 @@ import Effectful.Zoo.Hedgehog.Api.Internal.Cabal
 import Effectful.Zoo.Hedgehog.Api.Journal
 import Effectful.Zoo.Hedgehog.Api.Process.Internal
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import Effectful.Zoo.Process
 import GHC.Stack (callStack)
 import HaskellWorks.Error.Types

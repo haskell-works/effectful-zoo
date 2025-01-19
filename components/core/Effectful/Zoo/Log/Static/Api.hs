@@ -16,7 +16,7 @@ import Effectful.Zoo.Log.Data.Severity
 import Effectful.Zoo.Log.Static.Effect
 import HaskellWorks.Prelude
 
-log :: ()
+log :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => Severity
@@ -26,7 +26,7 @@ log severity message =
   withFrozenCallStack $
     logMessage $ LogMessage severity message
 
-trace :: ()
+trace :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i
@@ -35,7 +35,7 @@ trace =
   withFrozenCallStack $
     log Trace
 
-debug :: ()
+debug :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i
@@ -44,7 +44,7 @@ debug =
   withFrozenCallStack $
     log Debug
 
-info :: ()
+info :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i
@@ -53,7 +53,7 @@ info =
   withFrozenCallStack $
     log Info
 
-warn :: ()
+warn :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i
@@ -62,7 +62,7 @@ warn =
   withFrozenCallStack $
     log Warn
 
-error :: ()
+error :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i
@@ -71,7 +71,7 @@ error =
   withFrozenCallStack $
     log Error
 
-crit :: ()
+crit :: forall i r. ()
   => HasCallStack
   => r <: Log i
   => i

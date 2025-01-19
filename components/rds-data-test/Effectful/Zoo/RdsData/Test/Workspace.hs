@@ -17,7 +17,7 @@ import Effectful.Zoo.FileSystem
 import Effectful.Zoo.Hedgehog.Api
 import Effectful.Zoo.Hedgehog.Api.Workspace
 import Effectful.Zoo.Hedgehog.Effect.Hedgehog
-import Effectful.Zoo.Log.Dynamic
+import Effectful.Zoo.Log.Static
 import Effectful.Zoo.Reader.Static
 import HaskellWorks.Prelude
 
