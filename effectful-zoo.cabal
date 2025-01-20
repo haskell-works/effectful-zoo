@@ -141,6 +141,8 @@ library core
                         yaml,
   visibility:           public
   exposed-modules:      Effectful.Zoo.Aeson
+                        Effectful.Zoo.Concurrent
+                        Effectful.Zoo.Concurrent.Async
                         Effectful.Zoo.Console.Data.Writer
                         Effectful.Zoo.Console.Dynamic
                         Effectful.Zoo.Console.Dynamic.Api
