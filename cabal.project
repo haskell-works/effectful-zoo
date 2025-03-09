@@ -7,3 +7,4 @@ allow-newer:
   base,
   bytestring,
   containers,
+  template-haskell,

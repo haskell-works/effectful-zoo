@@ -16,14 +16,12 @@ import Effectful.Zoo.Core
 import HaskellWorks.Prelude
 
 data Blockfrost :: Effect where
-
   -- Client
   GetRoot :: Blockfrost m (Either BlockfrostError URLVersion)
   GetHealth :: Blockfrost m (Either BlockfrostError Healthy)
   GetClock :: Blockfrost m (Either BlockfrostError ServerTime)
   GetMetrics :: Blockfrost m (Either BlockfrostError [Metric])
   GetMetricsEndpoints :: Blockfrost m (Either BlockfrostError [(Text, Metric)])
-
   -- Client.NutLink
   NutlinkListAddress :: Address -> Blockfrost m (Either BlockfrostError NutlinkAddress)
   NutlinkListAddressTickers' :: Address -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [NutlinkAddressTicker])
@@ -32,7 +30,6 @@ data Blockfrost :: Effect where
   NutlinkAddressTickers :: Address -> Text -> Blockfrost m (Either BlockfrostError [NutlinkTicker])
   NutlinkTickers' :: Text -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [(Address, NutlinkTicker)])
   NutlinkTickers :: Text -> Blockfrost m (Either BlockfrostError [(Address, NutlinkTicker)])
-
   -- Client.IPFS
   IpfsGateway :: Text -> Blockfrost m (Either BlockfrostError IPFSData)
   IpfsPin :: Text -> Blockfrost m (Either BlockfrostError IPFSPinChange)
@@ -40,7 +37,6 @@ data Blockfrost :: Effect where
   IpfsListPins :: Blockfrost m (Either BlockfrostError [IPFSPin])
   IpfsGetPin :: Text -> Blockfrost m (Either BlockfrostError IPFSPin)
   IpfsRemovePin :: Text -> Blockfrost m (Either BlockfrostError IPFSPinChange)
-
   -- Client.Cardano.Blocks
   GetLatestBlock :: Blockfrost m (Either BlockfrostError Block)
   GetLatestBlockTxs' :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [TxHash])
@@ -56,22 +52,19 @@ data Blockfrost :: Effect where
   GetBlockTxs :: Either Integer BlockHash -> Blockfrost m (Either BlockfrostError [TxHash])
   GetBlockAffectedAddresses' :: Either Integer BlockHash -> Paged -> Blockfrost m (Either BlockfrostError [(Address, [TxHash])])
   GetBlockAffectedAddresses :: Either Integer BlockHash -> Blockfrost m (Either BlockfrostError [(Address, [TxHash])])
-
   -- Client.Cardano.Network
   GetNetworkInfo :: Blockfrost m (Either BlockfrostError Network)
   GetNetworkEras :: Blockfrost m (Either BlockfrostError [NetworkEraSummary])
-
   -- Client.Cardano.Addresses
   GetAddressInfo :: Address -> Blockfrost m (Either BlockfrostError AddressInfo)
   GetAddressInfoExtended :: Address -> Blockfrost m (Either BlockfrostError AddressInfoExtended)
   GetAddressDetails :: Address -> Blockfrost m (Either BlockfrostError AddressDetails)
   GetAddressUtxos' :: Address -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AddressUtxo])
   GetAddressUtxos :: Address -> Blockfrost m (Either BlockfrostError [AddressUtxo])
-  GetAddressUtxosAsset' :: Address -> AssetId-> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AddressUtxo])
+  GetAddressUtxosAsset' :: Address -> AssetId -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AddressUtxo])
   GetAddressUtxosAsset :: Address -> AssetId -> Blockfrost m (Either BlockfrostError [AddressUtxo])
   GetAddressTransactions' :: Address -> Paged -> SortOrder -> Maybe BlockIndex -> Maybe BlockIndex -> Blockfrost m (Either BlockfrostError [AddressTransaction])
   GetAddressTransactions :: Address -> Blockfrost m (Either BlockfrostError [AddressTransaction])
-
   -- Client.Cardano.Assets
   GetAssets' :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AssetInfo])
   GetAssets :: Blockfrost m (Either BlockfrostError [AssetInfo])
@@ -84,7 +77,6 @@ data Blockfrost :: Effect where
   GetAssetAddresses :: AssetId -> Blockfrost m (Either BlockfrostError [AssetAddress])
   GetAssetsByPolicy' :: PolicyId -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AssetInfo])
   GetAssetsByPolicy :: PolicyId -> Blockfrost m (Either BlockfrostError [AssetInfo])
-
   -- Client.Cardano.Scripts
   ListScripts' :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError ScriptHashList)
   ListScripts :: Blockfrost m (Either BlockfrostError ScriptHashList)
@@ -95,7 +87,6 @@ data Blockfrost :: Effect where
   GetScriptDatumCBOR :: DatumHash -> Blockfrost m (Either BlockfrostError ScriptDatumCBOR)
   GetScriptJSON :: ScriptHash -> Blockfrost m (Either BlockfrostError ScriptJSON)
   GetScriptCBOR :: ScriptHash -> Blockfrost m (Either BlockfrostError ScriptCBOR)
-
   -- Client.Cardano.Epochs
   GetLatestEpoch :: Blockfrost m (Either BlockfrostError EpochInfo)
   GetLatestEpochProtocolParams :: Blockfrost m (Either BlockfrostError ProtocolParams)
@@ -113,7 +104,6 @@ data Blockfrost :: Effect where
   GetEpochBlocksByPool' :: Epoch -> PoolId -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [BlockHash])
   GetEpochBlocksByPool :: Epoch -> PoolId -> Blockfrost m (Either BlockfrostError [BlockHash])
   GetEpochProtocolParams :: Epoch -> Blockfrost m (Either BlockfrostError ProtocolParams)
-
   -- Client.Cardano.Transactions
   GetTx :: TxHash -> Blockfrost m (Either BlockfrostError Transaction)
   GetTxUtxos :: TxHash -> Blockfrost m (Either BlockfrostError TransactionUtxos)
@@ -127,10 +117,10 @@ data Blockfrost :: Effect where
   GetTxMetadataJSON :: TxHash -> Blockfrost m (Either BlockfrostError [TransactionMetaJSON])
   GetTxMetadataCBOR :: TxHash -> Blockfrost m (Either BlockfrostError [TransactionMetaCBOR])
   SubmitTx :: CBORString -> Blockfrost m (Either BlockfrostError TxHash)
-
   -- Client.Cardano.Ledger
   GetLedgerGenesis :: Blockfrost m (Either BlockfrostError Genesis)
-
+  -- Client.Cardano.Mempool
+  GetMempoolTransactions :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [TxHashObject])
   -- Client.Cardano.Accounts
   GetAccount :: Address -> Blockfrost m (Either BlockfrostError AccountInfo)
   GetAccountRewards' :: Address -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AccountReward])
@@ -150,7 +140,6 @@ data Blockfrost :: Effect where
   GetAccountAssociatedAddressesTotal :: Address -> Blockfrost m (Either BlockfrostError AddressAssociatedTotal)
   GetAccountAssociatedAssets' :: Address -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [Amount])
   GetAccountAssociatedAssets :: Address -> Blockfrost m (Either BlockfrostError [Amount])
-
   -- Client.Cardano.Pools
   ListPools' :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [PoolId])
   ListPools :: Blockfrost m (Either BlockfrostError [PoolId])
@@ -171,7 +160,6 @@ data Blockfrost :: Effect where
   GetPoolBlocks :: PoolId -> Blockfrost m (Either BlockfrostError [BlockHash])
   GetPoolUpdates' :: PoolId -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [PoolUpdate])
   GetPoolUpdates :: PoolId -> Blockfrost m (Either BlockfrostError [PoolUpdate])
-
   -- Client.Cardano.Metadata
   GetTxMetadataLabels' :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [TxMeta])
   GetTxMetadataLabels :: Blockfrost m (Either BlockfrostError [TxMeta])
@@ -180,7 +168,7 @@ data Blockfrost :: Effect where
   GetTxMetadataByLabelCBOR' :: Text -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [TxMetaCBOR])
   GetTxMetadataByLabelCBOR :: Text -> Blockfrost m (Either BlockfrostError [TxMetaCBOR])
 
-type instance DispatchOf (Blockfrost) = Dynamic
+type instance DispatchOf Blockfrost = Dynamic
 
 callBlockfrost :: ()
   => r <: Reader Project
@@ -205,7 +193,6 @@ runBlockfrost h =
         GetClock                                      -> callBlockfrost $ BF.getClock
         GetMetrics                                    -> callBlockfrost $ BF.getMetrics
         GetMetricsEndpoints                           -> callBlockfrost $ BF.getMetricsEndpoints
-
         -- Client.NutLink
         NutlinkListAddress                  a         -> callBlockfrost $ BF.nutlinkListAddress                 a
         NutlinkListAddressTickers'          a b c     -> callBlockfrost $ BF.nutlinkListAddressTickers'         a b c
@@ -214,7 +201,6 @@ runBlockfrost h =
         NutlinkAddressTickers               a b       -> callBlockfrost $ BF.nutlinkAddressTickers              a b
         NutlinkTickers'                     a b c     -> callBlockfrost $ BF.nutlinkTickers'                    a b c
         NutlinkTickers                      a         -> callBlockfrost $ BF.nutlinkTickers                     a
-
         -- -- Client.IPFS
         IpfsGateway                         a         -> callBlockfrost $ BF.ipfsGateway                        a
         IpfsPin                             a         -> callBlockfrost $ BF.ipfsPin                            a
@@ -222,12 +208,11 @@ runBlockfrost h =
         IpfsListPins                                  -> callBlockfrost $ BF.ipfsListPins
         IpfsGetPin                          a         -> callBlockfrost $ BF.ipfsGetPin                         a
         IpfsRemovePin                       a         -> callBlockfrost $ BF.ipfsRemovePin                      a
-
         -- Client.Cardano.Blocks
         GetLatestBlock                                -> callBlockfrost $ BF.getLatestBlock
         GetLatestBlockTxs'                  a b       -> callBlockfrost $ BF.getLatestBlockTxs'                 a b
         GetLatestBlockTxs                             -> callBlockfrost $ BF.getLatestBlockTxs
-        GetBlock                            a         -> callBlockfrost $ BF.getBlock a
+        GetBlock                            a         -> callBlockfrost $ BF.getBlock                           a
         GetBlockSlot                        a         -> callBlockfrost $ BF.getBlockSlot                       a
         GetBlockEpochSlot                   a b       -> callBlockfrost $ BF.getBlockEpochSlot                  a b
         GetNextBlocks'                      a b       -> callBlockfrost $ BF.getNextBlocks'                     a b
@@ -238,11 +223,9 @@ runBlockfrost h =
         GetBlockTxs                         a         -> callBlockfrost $ BF.getBlockTxs                        a
         GetBlockAffectedAddresses'          a b       -> callBlockfrost $ BF.getBlockAffectedAddresses'         a b
         GetBlockAffectedAddresses           a         -> callBlockfrost $ BF.getBlockAffectedAddresses          a
-
         -- -- Client.Cardano.Network
         GetNetworkInfo                                -> callBlockfrost $ BF.getNetworkInfo
         GetNetworkEras                                -> callBlockfrost $ BF.getNetworkEras
-
         -- Client.Cardano.Addresses
         GetAddressInfo                      a         -> callBlockfrost $ BF.getAddressInfo                   a
         GetAddressInfoExtended              a         -> callBlockfrost $ BF.getAddressInfoExtended           a
@@ -253,7 +236,6 @@ runBlockfrost h =
         GetAddressUtxosAsset                a b       -> callBlockfrost $ BF.getAddressUtxosAsset             a b
         GetAddressTransactions              a         -> callBlockfrost $ BF.getAddressTransactions           a
         GetAddressTransactions'             a b c d e -> callBlockfrost $ BF.getAddressTransactions'          a b c d e
-
         -- Client.Cardano.Assets
         GetAssets'                          a b       -> callBlockfrost $ BF.getAssets'                       a b
         GetAssets                                     -> callBlockfrost $ BF.getAssets
@@ -266,7 +248,6 @@ runBlockfrost h =
         GetAssetAddresses                   a         -> callBlockfrost $ BF.getAssetAddresses                a
         GetAssetsByPolicy'                  a b c     -> callBlockfrost $ BF.getAssetsByPolicy'               a b c
         GetAssetsByPolicy                   a         -> callBlockfrost $ BF.getAssetsByPolicy                a
-
         -- Client.Cardano.Scripts
         ListScripts'                        a b       -> callBlockfrost $ BF.listScripts'                       a b
         ListScripts                                   -> callBlockfrost $ BF.listScripts
@@ -277,7 +258,6 @@ runBlockfrost h =
         GetScriptDatumCBOR                  a         -> callBlockfrost $ BF.getScriptDatumCBOR                 a
         GetScriptJSON                       a         -> callBlockfrost $ BF.getScriptJSON                      a
         GetScriptCBOR                       a         -> callBlockfrost $ BF.getScriptCBOR                      a
-
         -- Client.Cardano.Epochs
         GetLatestEpoch                                -> callBlockfrost $ BF.getLatestEpoch
         GetLatestEpochProtocolParams                  -> callBlockfrost $ BF.getLatestEpochProtocolParams
@@ -295,7 +275,6 @@ runBlockfrost h =
         GetEpochBlocksByPool'               a b c d   -> callBlockfrost $ BF.getEpochBlocksByPool'              a b c d
         GetEpochBlocksByPool                a b       -> callBlockfrost $ BF.getEpochBlocksByPool               a b
         GetEpochProtocolParams              a         -> callBlockfrost $ BF.getEpochProtocolParams             a
-
         -- Client.Cardano.Transactions
         GetTx                               a         -> callBlockfrost $ BF.getTx                              a
         GetTxUtxos                          a         -> callBlockfrost $ BF.getTxUtxos                         a
@@ -309,10 +288,10 @@ runBlockfrost h =
         GetTxMetadataJSON                   a         -> callBlockfrost $ BF.getTxMetadataJSON                  a
         GetTxMetadataCBOR                   a         -> callBlockfrost $ BF.getTxMetadataCBOR                  a
         SubmitTx                            a         -> callBlockfrost $ BF.submitTx                           a
-
         -- Client.Cardano.Ledger
         GetLedgerGenesis                              -> callBlockfrost $ BF.getLedgerGenesis
-
+        -- Client.Cardano.Mempool
+        GetMempoolTransactions              a b       -> callBlockfrost $ BF.go (\p -> BF.getMempoolTransactions p a b)
         -- Client.Cardano.Accounts
         GetAccount                          a         -> callBlockfrost $ BF.getAccount                         a
         GetAccountRewards'                  a b c     -> callBlockfrost $ BF.getAccountRewards'                 a b c
@@ -332,7 +311,6 @@ runBlockfrost h =
         GetAccountAssociatedAddressesTotal  a         -> callBlockfrost $ BF.getAccountAssociatedAddressesTotal a
         GetAccountAssociatedAssets'         a b c     -> callBlockfrost $ BF.getAccountAssociatedAssets'        a b c
         GetAccountAssociatedAssets          a         -> callBlockfrost $ BF.getAccountAssociatedAssets         a
-
         -- Client.Cardano.Pools
         ListPools'                          a b       -> callBlockfrost $ BF.listPools'                         a b
         ListPools                                     -> callBlockfrost $ BF.listPools
@@ -353,7 +331,6 @@ runBlockfrost h =
         GetPoolBlocks                       a         -> callBlockfrost $ BF.getPoolBlocks                      a
         GetPoolUpdates'                     a b c     -> callBlockfrost $ BF.getPoolUpdates'                    a b c
         GetPoolUpdates                      a         -> callBlockfrost $ BF.getPoolUpdates                     a
-
         -- Client.Cardano.Metadata
         GetTxMetadataLabels'                a b       -> callBlockfrost $ BF.getTxMetadataLabels'               a b
         GetTxMetadataLabels                           -> callBlockfrost $ BF.getTxMetadataLabels
