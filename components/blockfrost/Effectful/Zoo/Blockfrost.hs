@@ -118,6 +118,9 @@ module Effectful.Zoo.Blockfrost
     -- * Client.Cardano.Ledger
     getLedgerGenesis,
 
+    -- * Client.Cardano.Mempool
+    getMempoolTransactions,
+
     -- * Client.Cardano.Accounts
     getAccount,
     getAccountRewards',
