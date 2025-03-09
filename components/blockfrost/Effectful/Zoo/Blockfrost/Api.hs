@@ -86,7 +86,7 @@ module Effectful.Zoo.Blockfrost.Api
     ScriptHashList(..),
     ScriptJSON(..),
     ScriptRedeemer(..),
-    ScriptType (..),
+    ScriptType(..),
     ServerTime(..),
     Slot(..),
     SortOrder(..),
@@ -132,156 +132,156 @@ module Effectful.Zoo.Blockfrost.Api
     unSlot,
     runBlockfrost,
     -- Client
-    getRoot                             ,
-    getHealth                           ,
-    getClock                            ,
-    getMetrics                          ,
-    getMetricsEndpoints                 ,
+    getRoot,
+    getHealth,
+    getClock,
+    getMetrics,
+    getMetricsEndpoints,
     -- Client.NutLink
-    nutlinkListAddress                  ,
-    nutlinkListAddressTickers'          ,
-    nutlinkListAddressTickers           ,
-    nutlinkAddressTickers'              ,
-    nutlinkAddressTickers               ,
-    nutlinkTickers'                     ,
-    nutlinkTickers                      ,
+    nutlinkListAddress,
+    nutlinkListAddressTickers',
+    nutlinkListAddressTickers,
+    nutlinkAddressTickers',
+    nutlinkAddressTickers,
+    nutlinkTickers',
+    nutlinkTickers,
     -- Client.IPFS
-    ipfsGateway                         ,
-    ipfsPin                             ,
-    ipfsListPins'                       ,
-    ipfsListPins                        ,
-    ipfsGetPin                          ,
-    ipfsRemovePin                       ,
+    ipfsGateway,
+    ipfsPin,
+    ipfsListPins',
+    ipfsListPins,
+    ipfsGetPin,
+    ipfsRemovePin,
     -- Client.Cardano.Blocks
-    getLatestBlock                      ,
-    getLatestBlockTxs'                  ,
-    getLatestBlockTxs                   ,
-    getBlock                            ,
-    getBlockSlot                        ,
-    getBlockEpochSlot                   ,
-    getNextBlocks'                      ,
-    getNextBlocks                       ,
-    getPreviousBlocks'                  ,
-    getPreviousBlocks                   ,
-    getBlockTxs'                        ,
-    getBlockTxs                         ,
-    getBlockAffectedAddresses'          ,
-    getBlockAffectedAddresses           ,
+    getLatestBlock,
+    getLatestBlockTxs',
+    getLatestBlockTxs,
+    getBlock,
+    getBlockSlot,
+    getBlockEpochSlot,
+    getNextBlocks',
+    getNextBlocks,
+    getPreviousBlocks',
+    getPreviousBlocks,
+    getBlockTxs',
+    getBlockTxs,
+    getBlockAffectedAddresses',
+    getBlockAffectedAddresses,
     -- Client.Cardano.Network
-    getNetworkInfo                      ,
-    getNetworkEras                      ,
+    getNetworkInfo,
+    getNetworkEras,
     -- Client.Cardano.Addresses
-    getAddressInfo                      ,
-    getAddressInfoExtended              ,
-    getAddressDetails                   ,
-    getAddressUtxos'                    ,
-    getAddressUtxos                     ,
-    getAddressUtxosAsset'               ,
-    getAddressUtxosAsset                ,
-    getAddressTransactions'             ,
-    getAddressTransactions              ,
+    getAddressInfo,
+    getAddressInfoExtended,
+    getAddressDetails,
+    getAddressUtxos',
+    getAddressUtxos,
+    getAddressUtxosAsset',
+    getAddressUtxosAsset,
+    getAddressTransactions',
+    getAddressTransactions,
     -- Client.Cardano.Assets
-    getAssets'                          ,
-    getAssets                           ,
-    getAssetDetails                     ,
-    getAssetHistory'                    ,
-    getAssetHistory                     ,
-    getAssetTransactions'               ,
-    getAssetTransactions                ,
-    getAssetAddresses'                  ,
-    getAssetAddresses                   ,
-    getAssetsByPolicy'                  ,
-    getAssetsByPolicy                   ,
+    getAssets',
+    getAssets,
+    getAssetDetails,
+    getAssetHistory',
+    getAssetHistory,
+    getAssetTransactions',
+    getAssetTransactions,
+    getAssetAddresses',
+    getAssetAddresses,
+    getAssetsByPolicy',
+    getAssetsByPolicy,
     -- Client.Cardano.Scripts
-    listScripts'                        ,
-    listScripts                         ,
-    getScript                           ,
-    getScriptRedeemers'                 ,
-    getScriptRedeemers                  ,
-    getScriptDatum                      ,
-    getScriptDatumCBOR                  ,
-    getScriptJSON                       ,
-    getScriptCBOR                       ,
+    listScripts',
+    listScripts,
+    getScript,
+    getScriptRedeemers',
+    getScriptRedeemers,
+    getScriptDatum,
+    getScriptDatumCBOR,
+    getScriptJSON,
+    getScriptCBOR,
     -- Client.Cardano.Epochs
-    getLatestEpoch                      ,
-    getLatestEpochProtocolParams        ,
-    getEpoch                            ,
-    getNextEpochs'                      ,
-    getNextEpochs                       ,
-    getPreviousEpochs'                  ,
-    getPreviousEpochs                   ,
-    getEpochStake'                      ,
-    getEpochStake                       ,
-    getEpochStakeByPool'                ,
-    getEpochStakeByPool                 ,
-    getEpochBlocks'                     ,
-    getEpochBlocks                      ,
-    getEpochBlocksByPool'               ,
-    getEpochBlocksByPool                ,
-    getEpochProtocolParams              ,
+    getLatestEpoch,
+    getLatestEpochProtocolParams,
+    getEpoch,
+    getNextEpochs',
+    getNextEpochs,
+    getPreviousEpochs',
+    getPreviousEpochs,
+    getEpochStake',
+    getEpochStake,
+    getEpochStakeByPool',
+    getEpochStakeByPool,
+    getEpochBlocks',
+    getEpochBlocks,
+    getEpochBlocksByPool',
+    getEpochBlocksByPool,
+    getEpochProtocolParams,
     -- Client.Cardano.Transactions
-    getTx                               ,
-    getTxUtxos                          ,
-    getTxRedeemers                      ,
-    getTxStakes                         ,
-    getTxDelegations                    ,
-    getTxWithdrawals                    ,
-    getTxMirs                           ,
-    getTxPoolUpdates                    ,
-    getTxPoolRetiring                   ,
-    getTxMetadataJSON                   ,
-    getTxMetadataCBOR                   ,
-    submitTx                            ,
+    getTx,
+    getTxUtxos,
+    getTxRedeemers,
+    getTxStakes,
+    getTxDelegations,
+    getTxWithdrawals,
+    getTxMirs,
+    getTxPoolUpdates,
+    getTxPoolRetiring,
+    getTxMetadataJSON,
+    getTxMetadataCBOR,
+    submitTx,
     -- Client.Cardano.Ledger
-    getLedgerGenesis                    ,
+    getLedgerGenesis,
     -- Client.Cardano.Mempool
-    getMempoolTransactions              ,
+    getMempoolTransactions,
     -- Client.Cardano.Accounts
-    getAccount                          ,
-    getAccountRewards'                  ,
-    getAccountRewards                   ,
-    getAccountHistory'                  ,
-    getAccountHistory                   ,
-    getAccountDelegations'              ,
-    getAccountDelegations               ,
-    getAccountRegistrations'            ,
-    getAccountRegistrations             ,
-    getAccountWithdrawals'              ,
-    getAccountWithdrawals               ,
-    getAccountMirs'                     ,
-    getAccountMirs                      ,
-    getAccountAssociatedAddresses'      ,
-    getAccountAssociatedAddresses       ,
+    getAccount,
+    getAccountRewards',
+    getAccountRewards,
+    getAccountHistory',
+    getAccountHistory,
+    getAccountDelegations',
+    getAccountDelegations,
+    getAccountRegistrations',
+    getAccountRegistrations,
+    getAccountWithdrawals',
+    getAccountWithdrawals,
+    getAccountMirs',
+    getAccountMirs,
+    getAccountAssociatedAddresses',
+    getAccountAssociatedAddresses,
     getAccountAssociatedAddressesTotal  ,
-    getAccountAssociatedAssets'         ,
-    getAccountAssociatedAssets          ,
+    getAccountAssociatedAssets',
+    getAccountAssociatedAssets,
     -- Client.Cardano.Pools
-    listPools'                          ,
-    listPools                           ,
-    listPoolsExtended'                  ,
-    listPoolsExtended                   ,
-    listRetiredPools'                   ,
-    listRetiredPools                    ,
-    listRetiringPools'                  ,
-    listRetiringPools                   ,
-    getPool                             ,
-    getPoolHistory'                     ,
-    getPoolHistory                      ,
-    getPoolMetadata                     ,
-    getPoolRelays                       ,
-    getPoolDelegators'                  ,
-    getPoolDelegators                   ,
-    getPoolBlocks'                      ,
-    getPoolBlocks                       ,
-    getPoolUpdates'                     ,
-    getPoolUpdates                      ,
+    listPools',
+    listPools,
+    listPoolsExtended',
+    listPoolsExtended,
+    listRetiredPools',
+    listRetiredPools,
+    listRetiringPools',
+    listRetiringPools,
+    getPool,
+    getPoolHistory',
+    getPoolHistory,
+    getPoolMetadata,
+    getPoolRelays,
+    getPoolDelegators',
+    getPoolDelegators,
+    getPoolBlocks',
+    getPoolBlocks,
+    getPoolUpdates',
+    getPoolUpdates,
     -- Client.Cardano.Metadata
-    getTxMetadataLabels'                ,
-    getTxMetadataLabels                 ,
-    getTxMetadataByLabelJSON'           ,
-    getTxMetadataByLabelJSON            ,
-    getTxMetadataByLabelCBOR'           ,
-    getTxMetadataByLabelCBOR            ,
+    getTxMetadataLabels',
+    getTxMetadataLabels,
+    getTxMetadataByLabelJSON',
+    getTxMetadataByLabelJSON,
+    getTxMetadataByLabelCBOR',
+    getTxMetadataByLabelCBOR,
   ) where
 
 import Blockfrost.Client (BlockfrostError (..), Paged (..), Project (..), SortOrder (..))
@@ -482,167 +482,167 @@ getTxMetadataByLabelJSON            :: r <: Blockfrost => r <: Error BlockfrostE
 getTxMetadataByLabelCBOR'           :: r <: Blockfrost => r <: Error BlockfrostError => Text -> Paged -> SortOrder -> Eff r [TxMetaCBOR]
 getTxMetadataByLabelCBOR            :: r <: Blockfrost => r <: Error BlockfrostError => Text -> Eff r [TxMetaCBOR]
 -- Client
-getRoot                                     = fromEither =<< send do BF.GetRoot
-getHealth                                   = fromEither =<< send do BF.GetHealth
-getClock                                    = fromEither =<< send do BF.GetClock
-getMetrics                                  = fromEither =<< send do BF.GetMetrics
-getMetricsEndpoints                         = fromEither =<< send do BF.GetMetricsEndpoints
+getRoot                                         = fromEither =<< send do BF.GetRoot
+getHealth                                       = fromEither =<< send do BF.GetHealth
+getClock                                        = fromEither =<< send do BF.GetClock
+getMetrics                                      = fromEither =<< send do BF.GetMetrics
+getMetricsEndpoints                             = fromEither =<< send do BF.GetMetricsEndpoints
 
 -- Client.NutLink
-nutlinkListAddress                 a        = fromEither =<< send do BF.NutlinkListAddress                 a
-nutlinkListAddressTickers'         a b c    = fromEither =<< send do BF.NutlinkListAddressTickers'         a b c
-nutlinkListAddressTickers          a        = fromEither =<< send do BF.NutlinkListAddressTickers          a
-nutlinkAddressTickers'             a b c d  = fromEither =<< send do BF.NutlinkAddressTickers'             a b c d
-nutlinkAddressTickers              a b      = fromEither =<< send do BF.NutlinkAddressTickers              a b
-nutlinkTickers'                    a b c    = fromEither =<< send do BF.NutlinkTickers'                    a b c
-nutlinkTickers                     a        = fromEither =<< send do BF.NutlinkTickers                     a
+nutlinkListAddress                  a           = fromEither =<< send do BF.NutlinkListAddress                    a
+nutlinkListAddressTickers'          a b c       = fromEither =<< send do BF.NutlinkListAddressTickers'            a b c
+nutlinkListAddressTickers           a           = fromEither =<< send do BF.NutlinkListAddressTickers             a
+nutlinkAddressTickers'              a b c d     = fromEither =<< send do BF.NutlinkAddressTickers'                a b c d
+nutlinkAddressTickers               a b         = fromEither =<< send do BF.NutlinkAddressTickers                 a b
+nutlinkTickers'                     a b c       = fromEither =<< send do BF.NutlinkTickers'                       a b c
+nutlinkTickers                      a           = fromEither =<< send do BF.NutlinkTickers                        a
 
 -- -- Client.IPFS
-ipfsGateway                        a        = fromEither =<< send do BF.IpfsGateway                        a
-ipfsPin                            a        = fromEither =<< send do BF.IpfsPin                            a
-ipfsListPins'                      a b      = fromEither =<< send do BF.IpfsListPins'                      a b
-ipfsListPins                                = fromEither =<< send do BF.IpfsListPins
-ipfsGetPin                         a        = fromEither =<< send do BF.IpfsGetPin                         a
-ipfsRemovePin                      a        = fromEither =<< send do BF.IpfsRemovePin                      a
+ipfsGateway                         a           = fromEither =<< send do BF.IpfsGateway                           a
+ipfsPin                             a           = fromEither =<< send do BF.IpfsPin                               a
+ipfsListPins'                       a b         = fromEither =<< send do BF.IpfsListPins'                         a b
+ipfsListPins                                    = fromEither =<< send do BF.IpfsListPins
+ipfsGetPin                          a           = fromEither =<< send do BF.IpfsGetPin                            a
+ipfsRemovePin                       a           = fromEither =<< send do BF.IpfsRemovePin                         a
 
 -- Client.Cardano.Blocks
-getLatestBlock                              = fromEither =<< send do BF.GetLatestBlock
-getLatestBlockTxs'                 a b      = fromEither =<< send do BF.GetLatestBlockTxs'                 a b
-getLatestBlockTxs                           = fromEither =<< send do BF.GetLatestBlockTxs
-getBlock                           a        = fromEither =<< send do BF.GetBlock                           a
-getBlockSlot                       a        = fromEither =<< send do BF.GetBlockSlot                       a
-getBlockEpochSlot                  a b      = fromEither =<< send do BF.GetBlockEpochSlot                  a b
-getNextBlocks'                     a b      = fromEither =<< send do BF.GetNextBlocks'                     a b
-getNextBlocks                      a        = fromEither =<< send do BF.GetNextBlocks                      a
-getPreviousBlocks'                 a b      = fromEither =<< send do BF.GetPreviousBlocks'                 a b
-getPreviousBlocks                  a        = fromEither =<< send do BF.GetPreviousBlocks                  a
-getBlockTxs'                       a b c    = fromEither =<< send do BF.GetBlockTxs'                       a b c
-getBlockTxs                        a        = fromEither =<< send do BF.GetBlockTxs                        a
-getBlockAffectedAddresses'         a b      = fromEither =<< send do BF.GetBlockAffectedAddresses'         a b
-getBlockAffectedAddresses          a        = fromEither =<< send do BF.GetBlockAffectedAddresses          a
+getLatestBlock                                  = fromEither =<< send do BF.GetLatestBlock
+getLatestBlockTxs'                  a b         = fromEither =<< send do BF.GetLatestBlockTxs'                    a b
+getLatestBlockTxs                               = fromEither =<< send do BF.GetLatestBlockTxs
+getBlock                            a           = fromEither =<< send do BF.GetBlock                              a
+getBlockSlot                        a           = fromEither =<< send do BF.GetBlockSlot                          a
+getBlockEpochSlot                   a b         = fromEither =<< send do BF.GetBlockEpochSlot                     a b
+getNextBlocks'                      a b         = fromEither =<< send do BF.GetNextBlocks'                        a b
+getNextBlocks                       a           = fromEither =<< send do BF.GetNextBlocks                         a
+getPreviousBlocks'                  a b         = fromEither =<< send do BF.GetPreviousBlocks'                    a b
+getPreviousBlocks                   a           = fromEither =<< send do BF.GetPreviousBlocks                     a
+getBlockTxs'                        a b c       = fromEither =<< send do BF.GetBlockTxs'                          a b c
+getBlockTxs                         a           = fromEither =<< send do BF.GetBlockTxs                           a
+getBlockAffectedAddresses'          a b         = fromEither =<< send do BF.GetBlockAffectedAddresses'            a b
+getBlockAffectedAddresses           a           = fromEither =<< send do BF.GetBlockAffectedAddresses             a
 
 -- -- Client.Cardano.Network
-getNetworkInfo                              = fromEither =<< send do BF.GetNetworkInfo
-getNetworkEras                              = fromEither =<< send do BF.GetNetworkEras
+getNetworkInfo                                  = fromEither =<< send do BF.GetNetworkInfo
+getNetworkEras                                  = fromEither =<< send do BF.GetNetworkEras
 
 -- Client.Cardano.Addresses
-getAddressInfo                   a          = fromEither =<< send do BF.GetAddressInfo                   a
-getAddressInfoExtended           a          = fromEither =<< send do BF.GetAddressInfoExtended           a
-getAddressDetails                a          = fromEither =<< send do BF.GetAddressDetails                a
-getAddressUtxos'                 a b c      = fromEither =<< send do BF.GetAddressUtxos'                 a b c
-getAddressUtxos                  a          = fromEither =<< send do BF.GetAddressUtxos                  a
-getAddressUtxosAsset'            a b c d    = fromEither =<< send do BF.GetAddressUtxosAsset'            a b c d
-getAddressUtxosAsset             a b        = fromEither =<< send do BF.GetAddressUtxosAsset             a b
-getAddressTransactions           a          = fromEither =<< send do BF.GetAddressTransactions           a
-getAddressTransactions'          a b c d e  = fromEither =<< send do BF.GetAddressTransactions'          a b c d e
+getAddressInfo                      a           = fromEither =<< send do BF.GetAddressInfo                        a
+getAddressInfoExtended              a           = fromEither =<< send do BF.GetAddressInfoExtended                a
+getAddressDetails                   a           = fromEither =<< send do BF.GetAddressDetails                     a
+getAddressUtxos'                    a b c       = fromEither =<< send do BF.GetAddressUtxos'                      a b c
+getAddressUtxos                     a           = fromEither =<< send do BF.GetAddressUtxos                       a
+getAddressUtxosAsset'               a b c d     = fromEither =<< send do BF.GetAddressUtxosAsset'                 a b c d
+getAddressUtxosAsset                a b         = fromEither =<< send do BF.GetAddressUtxosAsset                  a b
+getAddressTransactions              a           = fromEither =<< send do BF.GetAddressTransactions                a
+getAddressTransactions'             a b c d e   = fromEither =<< send do BF.GetAddressTransactions'               a b c d e
 
 -- Client.Cardano.Assets
-getAssets'                         a b        = fromEither =<< send do BF.GetAssets'                       a b
-getAssets                                     = fromEither =<< send do BF.GetAssets
-getAssetDetails                    a          = fromEither =<< send do BF.GetAssetDetails                  a
-getAssetHistory'                   a b c      = fromEither =<< send do BF.GetAssetHistory'                 a b c
-getAssetHistory                    a          = fromEither =<< send do BF.GetAssetHistory                  a
-getAssetTransactions'              a b c      = fromEither =<< send do BF.GetAssetTransactions'            a b c
-getAssetTransactions               a          = fromEither =<< send do BF.GetAssetTransactions             a
-getAssetAddresses'                 a b c      = fromEither =<< send do BF.GetAssetAddresses'               a b c
-getAssetAddresses                  a          = fromEither =<< send do BF.GetAssetAddresses                a
-getAssetsByPolicy'                 a b c      = fromEither =<< send do BF.GetAssetsByPolicy'               a b c
-getAssetsByPolicy                  a          = fromEither =<< send do BF.GetAssetsByPolicy                a
+getAssets'                          a b         = fromEither =<< send do BF.GetAssets'                          a b
+getAssets                                       = fromEither =<< send do BF.GetAssets
+getAssetDetails                     a           = fromEither =<< send do BF.GetAssetDetails                     a
+getAssetHistory'                    a b c       = fromEither =<< send do BF.GetAssetHistory'                    a b c
+getAssetHistory                     a           = fromEither =<< send do BF.GetAssetHistory                     a
+getAssetTransactions'               a b c       = fromEither =<< send do BF.GetAssetTransactions'               a b c
+getAssetTransactions                a           = fromEither =<< send do BF.GetAssetTransactions                a
+getAssetAddresses'                  a b c       = fromEither =<< send do BF.GetAssetAddresses'                  a b c
+getAssetAddresses                   a           = fromEither =<< send do BF.GetAssetAddresses                   a
+getAssetsByPolicy'                  a b c       = fromEither =<< send do BF.GetAssetsByPolicy'                  a b c
+getAssetsByPolicy                   a           = fromEither =<< send do BF.GetAssetsByPolicy                   a
 
 -- Client.Cardano.Scripts
-listScripts'                       a b      = fromEither =<< send do BF.ListScripts'                       a b
-listScripts                                 = fromEither =<< send do BF.ListScripts
-getScript                          a        = fromEither =<< send do BF.GetScript                          a
-getScriptRedeemers'                a b c    = fromEither =<< send do BF.GetScriptRedeemers'                a b c
-getScriptRedeemers                 a        = fromEither =<< send do BF.GetScriptRedeemers                 a
-getScriptDatum                     a        = fromEither =<< send do BF.GetScriptDatum                     a
-getScriptDatumCBOR                 a        = fromEither =<< send do BF.GetScriptDatumCBOR                 a
-getScriptJSON                      a        = fromEither =<< send do BF.GetScriptJSON                      a
-getScriptCBOR                      a        = fromEither =<< send do BF.GetScriptCBOR                      a
+listScripts'                        a b         = fromEither =<< send do BF.ListScripts'                        a b
+listScripts                                     = fromEither =<< send do BF.ListScripts
+getScript                           a           = fromEither =<< send do BF.GetScript                           a
+getScriptRedeemers'                 a b c       = fromEither =<< send do BF.GetScriptRedeemers'                 a b c
+getScriptRedeemers                  a           = fromEither =<< send do BF.GetScriptRedeemers                  a
+getScriptDatum                      a           = fromEither =<< send do BF.GetScriptDatum                      a
+getScriptDatumCBOR                  a           = fromEither =<< send do BF.GetScriptDatumCBOR                  a
+getScriptJSON                       a           = fromEither =<< send do BF.GetScriptJSON                       a
+getScriptCBOR                       a           = fromEither =<< send do BF.GetScriptCBOR                       a
 
 -- Client.Cardano.Epochs
-getLatestEpoch                              = fromEither =<< send do BF.GetLatestEpoch
-getLatestEpochProtocolParams                = fromEither =<< send do BF.GetLatestEpochProtocolParams
-getEpoch                           a        = fromEither =<< send do BF.GetEpoch                           a
-getNextEpochs'                     a b      = fromEither =<< send do BF.GetNextEpochs'                     a b
-getNextEpochs                      a        = fromEither =<< send do BF.GetNextEpochs                      a
-getPreviousEpochs'                 a b      = fromEither =<< send do BF.GetPreviousEpochs'                 a b
-getPreviousEpochs                  a        = fromEither =<< send do BF.GetPreviousEpochs                  a
-getEpochStake'                     a b      = fromEither =<< send do BF.GetEpochStake'                     a b
-getEpochStake                      a        = fromEither =<< send do BF.GetEpochStake                      a
-getEpochStakeByPool'               a b c    = fromEither =<< send do BF.GetEpochStakeByPool'               a b c
-getEpochStakeByPool                a b      = fromEither =<< send do BF.GetEpochStakeByPool                a b
-getEpochBlocks'                    a b c    = fromEither =<< send do BF.GetEpochBlocks'                    a b c
-getEpochBlocks                     a        = fromEither =<< send do BF.GetEpochBlocks                     a
-getEpochBlocksByPool'              a b c d  = fromEither =<< send do BF.GetEpochBlocksByPool'              a b c d
-getEpochBlocksByPool               a b      = fromEither =<< send do BF.GetEpochBlocksByPool               a b
-getEpochProtocolParams             a        = fromEither =<< send do BF.GetEpochProtocolParams             a
+getLatestEpoch                                  = fromEither =<< send do BF.GetLatestEpoch
+getLatestEpochProtocolParams                    = fromEither =<< send do BF.GetLatestEpochProtocolParams
+getEpoch                            a           = fromEither =<< send do BF.GetEpoch                            a
+getNextEpochs'                      a b         = fromEither =<< send do BF.GetNextEpochs'                      a b
+getNextEpochs                       a           = fromEither =<< send do BF.GetNextEpochs                       a
+getPreviousEpochs'                  a b         = fromEither =<< send do BF.GetPreviousEpochs'                  a b
+getPreviousEpochs                   a           = fromEither =<< send do BF.GetPreviousEpochs                   a
+getEpochStake'                      a b         = fromEither =<< send do BF.GetEpochStake'                      a b
+getEpochStake                       a           = fromEither =<< send do BF.GetEpochStake                       a
+getEpochStakeByPool'                a b c       = fromEither =<< send do BF.GetEpochStakeByPool'                a b c
+getEpochStakeByPool                 a b         = fromEither =<< send do BF.GetEpochStakeByPool                 a b
+getEpochBlocks'                     a b c       = fromEither =<< send do BF.GetEpochBlocks'                     a b c
+getEpochBlocks                      a           = fromEither =<< send do BF.GetEpochBlocks                      a
+getEpochBlocksByPool'               a b c d     = fromEither =<< send do BF.GetEpochBlocksByPool'               a b c d
+getEpochBlocksByPool                a b         = fromEither =<< send do BF.GetEpochBlocksByPool                a b
+getEpochProtocolParams              a           = fromEither =<< send do BF.GetEpochProtocolParams              a
 
 -- Client.Cardano.Transactions
-getTx                              a        = fromEither =<< send do BF.GetTx                              a
-getTxUtxos                         a        = fromEither =<< send do BF.GetTxUtxos                         a
-getTxRedeemers                     a        = fromEither =<< send do BF.GetTxRedeemers                     a
-getTxStakes                        a        = fromEither =<< send do BF.GetTxStakes                        a
-getTxDelegations                   a        = fromEither =<< send do BF.GetTxDelegations                   a
-getTxWithdrawals                   a        = fromEither =<< send do BF.GetTxWithdrawals                   a
-getTxMirs                          a        = fromEither =<< send do BF.GetTxMirs                          a
-getTxPoolUpdates                   a        = fromEither =<< send do BF.GetTxPoolUpdates                   a
-getTxPoolRetiring                  a        = fromEither =<< send do BF.GetTxPoolRetiring                  a
-getTxMetadataJSON                  a        = fromEither =<< send do BF.GetTxMetadataJSON                  a
-getTxMetadataCBOR                  a        = fromEither =<< send do BF.GetTxMetadataCBOR                  a
-submitTx                           a        = fromEither =<< send do BF.SubmitTx                           a
+getTx                               a           = fromEither =<< send do BF.GetTx                               a
+getTxUtxos                          a           = fromEither =<< send do BF.GetTxUtxos                          a
+getTxRedeemers                      a           = fromEither =<< send do BF.GetTxRedeemers                      a
+getTxStakes                         a           = fromEither =<< send do BF.GetTxStakes                         a
+getTxDelegations                    a           = fromEither =<< send do BF.GetTxDelegations                    a
+getTxWithdrawals                    a           = fromEither =<< send do BF.GetTxWithdrawals                    a
+getTxMirs                           a           = fromEither =<< send do BF.GetTxMirs                           a
+getTxPoolUpdates                    a           = fromEither =<< send do BF.GetTxPoolUpdates                    a
+getTxPoolRetiring                   a           = fromEither =<< send do BF.GetTxPoolRetiring                   a
+getTxMetadataJSON                   a           = fromEither =<< send do BF.GetTxMetadataJSON                   a
+getTxMetadataCBOR                   a           = fromEither =<< send do BF.GetTxMetadataCBOR                   a
+submitTx                            a           = fromEither =<< send do BF.SubmitTx                            a
 
 -- Client.Cardano.Ledger
-getLedgerGenesis                            = fromEither =<< send do BF.GetLedgerGenesis
+getLedgerGenesis                                = fromEither =<< send do BF.GetLedgerGenesis
 
 -- Client.Cardano.Mempool
-getMempoolTransactions              a b     = fromEither =<< send do BF.GetMempoolTransactions             a b
+getMempoolTransactions              a b         = fromEither =<< send do BF.GetMempoolTransactions              a b
 
 -- Client.Cardano.Accounts
-getAccount                         a        = fromEither =<< send do BF.GetAccount                         a
-getAccountRewards'                 a b c    = fromEither =<< send do BF.GetAccountRewards'                 a b c
-getAccountRewards                  a        = fromEither =<< send do BF.GetAccountRewards                  a
-getAccountHistory'                 a b c    = fromEither =<< send do BF.GetAccountHistory'                 a b c
-getAccountHistory                  a        = fromEither =<< send do BF.GetAccountHistory                  a
-getAccountDelegations'             a b c    = fromEither =<< send do BF.GetAccountDelegations'             a b c
-getAccountDelegations              a        = fromEither =<< send do BF.GetAccountDelegations              a
-getAccountRegistrations'           a b c    = fromEither =<< send do BF.GetAccountRegistrations'           a b c
-getAccountRegistrations            a        = fromEither =<< send do BF.GetAccountRegistrations            a
-getAccountWithdrawals'             a b c    = fromEither =<< send do BF.GetAccountWithdrawals'             a b c
-getAccountWithdrawals              a        = fromEither =<< send do BF.GetAccountWithdrawals              a
-getAccountMirs'                    a b c    = fromEither =<< send do BF.GetAccountMirs'                    a b c
-getAccountMirs                     a        = fromEither =<< send do BF.GetAccountMirs                     a
-getAccountAssociatedAddresses'     a b c    = fromEither =<< send do BF.GetAccountAssociatedAddresses'     a b c
-getAccountAssociatedAddresses      a        = fromEither =<< send do BF.GetAccountAssociatedAddresses      a
-getAccountAssociatedAddressesTotal a        = fromEither =<< send do BF.GetAccountAssociatedAddressesTotal a
-getAccountAssociatedAssets'        a b c    = fromEither =<< send do BF.GetAccountAssociatedAssets'        a b c
-getAccountAssociatedAssets         a        = fromEither =<< send do BF.GetAccountAssociatedAssets         a
+getAccount                          a           = fromEither =<< send do BF.GetAccount                          a
+getAccountRewards'                  a b c       = fromEither =<< send do BF.GetAccountRewards'                  a b c
+getAccountRewards                   a           = fromEither =<< send do BF.GetAccountRewards                   a
+getAccountHistory'                  a b c       = fromEither =<< send do BF.GetAccountHistory'                  a b c
+getAccountHistory                   a           = fromEither =<< send do BF.GetAccountHistory                   a
+getAccountDelegations'              a b c       = fromEither =<< send do BF.GetAccountDelegations'              a b c
+getAccountDelegations               a           = fromEither =<< send do BF.GetAccountDelegations               a
+getAccountRegistrations'            a b c       = fromEither =<< send do BF.GetAccountRegistrations'            a b c
+getAccountRegistrations             a           = fromEither =<< send do BF.GetAccountRegistrations             a
+getAccountWithdrawals'              a b c       = fromEither =<< send do BF.GetAccountWithdrawals'              a b c
+getAccountWithdrawals               a           = fromEither =<< send do BF.GetAccountWithdrawals               a
+getAccountMirs'                     a b c       = fromEither =<< send do BF.GetAccountMirs'                     a b c
+getAccountMirs                      a           = fromEither =<< send do BF.GetAccountMirs                      a
+getAccountAssociatedAddresses'      a b c       = fromEither =<< send do BF.GetAccountAssociatedAddresses'      a b c
+getAccountAssociatedAddresses       a           = fromEither =<< send do BF.GetAccountAssociatedAddresses       a
+getAccountAssociatedAddressesTotal  a           = fromEither =<< send do BF.GetAccountAssociatedAddressesTotal  a
+getAccountAssociatedAssets'         a b c       = fromEither =<< send do BF.GetAccountAssociatedAssets'         a b c
+getAccountAssociatedAssets          a           = fromEither =<< send do BF.GetAccountAssociatedAssets          a
 
 -- Client.Cardano.Pools
-listPools'                         a b      = fromEither =<< send do BF.ListPools'                         a b
-listPools                                   = fromEither =<< send do BF.ListPools
-listPoolsExtended'                 a b      = fromEither =<< send do BF.ListPoolsExtended'                 a b
-listPoolsExtended                           = fromEither =<< send do BF.ListPoolsExtended
-listRetiredPools'                  a b      = fromEither =<< send do BF.ListRetiredPools'                  a b
-listRetiredPools                            = fromEither =<< send do BF.ListRetiredPools
-listRetiringPools'                 a b      = fromEither =<< send do BF.ListRetiringPools'                 a b
-listRetiringPools                           = fromEither =<< send do BF.ListRetiringPools
-getPool                            a        = fromEither =<< send do BF.GetPool                            a
-getPoolHistory'                    a b c    = fromEither =<< send do BF.GetPoolHistory'                    a b c
-getPoolHistory                     a        = fromEither =<< send do BF.GetPoolHistory                     a
-getPoolMetadata                    a        = fromEither =<< send do BF.GetPoolMetadata                    a
-getPoolRelays                      a        = fromEither =<< send do BF.GetPoolRelays a
-getPoolDelegators'                 a b c    = fromEither =<< send do BF.GetPoolDelegators'                 a b c
-getPoolDelegators                  a        = fromEither =<< send do BF.GetPoolDelegators                  a
-getPoolBlocks'                     a b c    = fromEither =<< send do BF.GetPoolBlocks'                     a b c
-getPoolBlocks                      a        = fromEither =<< send do BF.GetPoolBlocks                      a
-getPoolUpdates'                    a b c    = fromEither =<< send do BF.GetPoolUpdates'                    a b c
-getPoolUpdates                     a        = fromEither =<< send do BF.GetPoolUpdates                     a
+listPools'                          a b         = fromEither =<< send do BF.ListPools'                          a b
+listPools                                       = fromEither =<< send do BF.ListPools
+listPoolsExtended'                  a b         = fromEither =<< send do BF.ListPoolsExtended'                  a b
+listPoolsExtended                               = fromEither =<< send do BF.ListPoolsExtended
+listRetiredPools'                   a b         = fromEither =<< send do BF.ListRetiredPools'                   a b
+listRetiredPools                                = fromEither =<< send do BF.ListRetiredPools
+listRetiringPools'                  a b         = fromEither =<< send do BF.ListRetiringPools'                  a b
+listRetiringPools                               = fromEither =<< send do BF.ListRetiringPools
+getPool                             a           = fromEither =<< send do BF.GetPool                             a
+getPoolHistory'                     a b c       = fromEither =<< send do BF.GetPoolHistory'                     a b c
+getPoolHistory                      a           = fromEither =<< send do BF.GetPoolHistory                      a
+getPoolMetadata                     a           = fromEither =<< send do BF.GetPoolMetadata                     a
+getPoolRelays                       a           = fromEither =<< send do BF.GetPoolRelays                       a
+getPoolDelegators'                  a b c       = fromEither =<< send do BF.GetPoolDelegators'                  a b c
+getPoolDelegators                   a           = fromEither =<< send do BF.GetPoolDelegators                   a
+getPoolBlocks'                      a b c       = fromEither =<< send do BF.GetPoolBlocks'                      a b c
+getPoolBlocks                       a           = fromEither =<< send do BF.GetPoolBlocks                       a
+getPoolUpdates'                     a b c       = fromEither =<< send do BF.GetPoolUpdates'                     a b c
+getPoolUpdates                      a           = fromEither =<< send do BF.GetPoolUpdates                      a
 
 -- Client.Cardano.Metadata
-getTxMetadataLabels'               a b      = fromEither =<< send do BF.GetTxMetadataLabels'               a b
-getTxMetadataLabels                         = fromEither =<< send do BF.GetTxMetadataLabels
-getTxMetadataByLabelJSON'          a b c    = fromEither =<< send do BF.GetTxMetadataByLabelJSON'          a b c
-getTxMetadataByLabelJSON           a        = fromEither =<< send do BF.GetTxMetadataByLabelJSON           a
-getTxMetadataByLabelCBOR'          a b c    = fromEither =<< send do BF.GetTxMetadataByLabelCBOR'          a b c
-getTxMetadataByLabelCBOR           a        = fromEither =<< send do BF.GetTxMetadataByLabelCBOR           a
+getTxMetadataLabels'                a b         = fromEither =<< send do BF.GetTxMetadataLabels'                a b
+getTxMetadataLabels                             = fromEither =<< send do BF.GetTxMetadataLabels
+getTxMetadataByLabelJSON'           a b c       = fromEither =<< send do BF.GetTxMetadataByLabelJSON'           a b c
+getTxMetadataByLabelJSON            a           = fromEither =<< send do BF.GetTxMetadataByLabelJSON            a
+getTxMetadataByLabelCBOR'           a b c       = fromEither =<< send do BF.GetTxMetadataByLabelCBOR'           a b c
+getTxMetadataByLabelCBOR            a           = fromEither =<< send do BF.GetTxMetadataByLabelCBOR            a
