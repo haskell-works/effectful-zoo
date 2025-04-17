@@ -368,12 +368,12 @@ library testcontainers-localstack
                         effectful-core,
                         effectful-plugin,
                         effectful-zoo-core,
+                        exceptions,
                         generic-lens,
                         http-conduit,
                         hw-prelude,
                         microlens,
                         testcontainers,
-                        text,
                         time,
   visibility:           public
   exposed-modules:      Effectful.Zoo.TestContainers.LocalStack
