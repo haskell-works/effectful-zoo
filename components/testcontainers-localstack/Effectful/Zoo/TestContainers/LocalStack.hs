@@ -67,10 +67,10 @@ setupContainers' dockerTag = do
                     )
                 -- Wait until the container is ready to accept requests. `run` blocks until
                 -- readiness can be established.
-                & TC.setWaitingFor (TC.waitUntilTimeout 60 (TC.waitForHttp 4566 "http://localhost:4566/health" [200]))
+                & TC.setWaitingFor (TC.waitUntilTimeout 60 (TC.waitForState (\s -> TC.stateStatus s == TC.Created)))
                 --  & (TC.waitUntilTimeout 30 (TC.waitUntilMappedPortReachable 4566))
         )
-            `catch` (\(e :: SomeException) -> error $ "run: " <> show e)
+            `catch` (\(e :: SomeException) -> error $ "runCheckState: " <> show e)
 
     -- Look up the corresponding port on the host machine for the exposed port 4566.
     let localStackPort = TC.containerPort localstackContainer 4566
