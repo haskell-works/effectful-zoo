@@ -65,9 +65,10 @@ setupContainers' dockerTag = do
                         [ [4566]
                         ]
                     )
-                    -- Wait until the container is ready to accept requests. `run` blocks until
-                    -- readiness can be established.
-                    --  & (TC.waitUntilTimeout 30 (TC.waitUntilMappedPortReachable 4566))
+                -- Wait until the container is ready to accept requests. `run` blocks until
+                -- readiness can be established.
+                & TC.setWaitingFor (TC.waitUntilTimeout 60 (TC.waitForHttp 4566 "http://localhost:4566/health" [200]))
+                --  & (TC.waitUntilTimeout 30 (TC.waitUntilMappedPortReachable 4566))
         )
             `catch` (\(e :: SomeException) -> error $ "run: " <> show e)
 
