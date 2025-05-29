@@ -1,5 +1,20 @@
 packages: .
 
+package amazonka-rds
+  ghc-options: -XDuplicateRecordFields
+
+package amazonka-rds-data
+  ghc-options: -XDuplicateRecordFields
+
+package amazonka-secretsmanager
+  ghc-options: -XDuplicateRecordFields
+
+package amazonka-sso
+  ghc-options: -XDuplicateRecordFields
+
+package amazonka-sts
+  ghc-options: -XDuplicateRecordFields
+
 constraints:
   text < 2.1.2
 
