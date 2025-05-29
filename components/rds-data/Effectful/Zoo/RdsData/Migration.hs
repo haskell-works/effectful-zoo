@@ -18,7 +18,7 @@ import Data.ByteString.Lazy qualified as LBS
 import Data.Generics.Product.Any
 import Data.List qualified as L
 import Data.RdsData.Aws
-import Data.RdsData.Migration.Types hiding (id)
+import Data.RdsData.Migration.Types
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as T
 import Effectful

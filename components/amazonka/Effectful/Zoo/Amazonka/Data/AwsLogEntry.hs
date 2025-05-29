@@ -13,4 +13,3 @@ data AwsLogEntry = AwsLogEntry
   }
   deriving stock Generic
   deriving stock Show
-  deriving stock Typeable
