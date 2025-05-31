@@ -63,8 +63,6 @@ execFlexOk :: ()
   => r <: Concurrent
   => r <: Environment
   => r <: Error Failure
-  => r <: Error GenericError
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Hedgehog
   => r <: IOE
@@ -80,8 +78,6 @@ execFlexOk' :: ()
   => r <: Concurrent
   => r <: Environment
   => r <: Error Failure
-  => r <: Error GenericError
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Hedgehog
   => r <: IOE
@@ -111,8 +107,6 @@ execFlex :: ()
   => r <: Concurrent
   => r <: Environment
   => r <: Error Failure
-  => r <: Error GenericError
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Hedgehog
   => r <: IOE
@@ -130,14 +124,13 @@ execFlex execConfig pkgBin envBin arguments =
       RawCommand cmd args -> cmd <> " " <> L.unwords (argQuote <$> args)
 
     readCreateProcessWithExitCode cp ""
+      & trapFail @IOException
 
 execDetailFlex :: ()
   => HasCallStack
   => r <: Concurrent
   => r <: Environment
   => r <: Error Failure
-  => r <: Error GenericError
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Hedgehog
   => r <: IOE
@@ -154,6 +147,7 @@ execDetailFlex execConfig pkgBin envBin arguments =
       ShellCommand cmd    -> cmd
       RawCommand cmd args -> cmd <> " " <> L.unwords args
     readCreateProcessWithExitCode cp ""
+      & trapFail @IOException
 
 -- | Execute a process, returning '()'.
 execOk_ :: ()
@@ -268,10 +262,11 @@ binFlex pkg binaryEnv =
 -- configured and the executable has been built.
 procFlex :: ()
   => HasCallStack
+  => r <: Concurrent
   => r <: Environment
-  => r <: Error GenericError
-  => r <: Error IOException
+  => r <: Error Failure
   => r <: FileSystem
+  => r <: Hedgehog
   => r <: IOE
   => r <: Log Text
   => String
@@ -287,10 +282,11 @@ procFlex =
 
 procFlex' :: ()
   => HasCallStack
+  => r <: Concurrent
   => r <: Environment
-  => r <: Error GenericError
-  => r <: Error IOException
+  => r <: Error Failure
   => r <: FileSystem
+  => r <: Hedgehog
   => r <: IOE
   => r <: Log Text
   => ExecConfig
@@ -305,6 +301,8 @@ procFlex' :: ()
 procFlex' execConfig pkg binaryEnv arguments =
   withFrozenCallStack do
     bin <- binFlex pkg binaryEnv
+      & trapFail @GenericError
+      & trapFail @IOException
     return (proc bin arguments)
       { env = getLast execConfig.execConfigEnv
       , cwd = getLast execConfig.execConfigCwd
