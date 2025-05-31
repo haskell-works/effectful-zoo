@@ -146,17 +146,19 @@ diffVsGoldenFile
   => String   -- ^ Actual content
   -> FilePath -- ^ Reference file
   -> Eff r ()
-diffVsGoldenFile actualContent goldenFile = GHC.withFrozenCallStack $ do
-  forM_ mGoldenFileLogFile $ \logFile ->
-    semBracket $ appendStringFile logFile $ goldenFile <> "\n"
+diffVsGoldenFile actualContent goldenFile =
+  GHC.withFrozenCallStack $ do
+    semBracket $ do
+      forM_ mGoldenFileLogFile $ \logFile ->
+        appendStringFile logFile $ goldenFile <> "\n"
 
-  fileExists <- doesFileExist goldenFile
+      fileExists <- doesFileExist goldenFile
 
-  if
-    | recreateGoldenFiles -> writeGoldenFile goldenFile actualContent
-    | fileExists          -> checkAgainstGoldenFile goldenFile actualLines
-    | createGoldenFiles   -> writeGoldenFile goldenFile actualContent
-    | otherwise           -> reportGoldenFileMissing goldenFile
+      if
+        | recreateGoldenFiles -> writeGoldenFile goldenFile actualContent
+        | fileExists          -> checkAgainstGoldenFile goldenFile actualLines
+        | createGoldenFiles   -> writeGoldenFile goldenFile actualContent
+        | otherwise           -> reportGoldenFileMissing goldenFile
 
   where
     actualLines = List.lines actualContent
