@@ -21,6 +21,21 @@ flag dev
   manual: True
   default: False
 
+flag amazonka
+  description: Enable components that depend on amazonka
+  manual: True
+  default: True
+
+flag blockfrost
+  description: Enable components that depend on blockfrost
+  manual: True
+  default: True
+
+flag testcontainers-localstack
+  description: Enable components that depend on testcontainers-localstack
+  manual: True
+  default: True
+
 source-repository head
   type: git
   location: https://github.com/haskell-works/effectful-zoo
@@ -74,6 +89,18 @@ common effectful-zoo-core                       { build-depends: effectful-zoo:c
 common effectful-zoo-hedgehog                   { build-depends: effectful-zoo:hedgehog                   }
 common effectful-zoo-rds-data                   { build-depends: effectful-zoo:rds-data                   }
 common effectful-zoo-testcontainers-localstack  { build-depends: effectful-zoo:testcontainers-localstack  }
+
+common requires-amazonka
+  if !flag(amazonka)
+    buildable:          False
+
+common requires-blockfrost
+  if !flag(blockfrost)
+    buildable:          False
+
+common requires-testcontainers-localstack
+  if !flag(testcontainers-localstack)
+    buildable:          False
 
 common project-config
   default-extensions:   AllowAmbiguousTypes
@@ -204,6 +231,7 @@ library amazonka
                         resourcet-effectful,
                         text,
                         time,
+  import:               requires-amazonka,
   visibility:           public
   exposed-modules:      Effectful.Zoo.Amazonka.Api
                         Effectful.Zoo.Amazonka.Api.Discover
@@ -232,6 +260,7 @@ library blockfrost
                         effectful-zoo-core,
                         hw-prelude,
                         text,
+  import:               requires-blockfrost,
   visibility:           public
   exposed-modules:      Effectful.Zoo.Blockfrost
                         Effectful.Zoo.Blockfrost.Api
@@ -255,6 +284,7 @@ library rds-data
                         microlens,
                         rds-data-codecs,
                         text,
+  import:               requires-amazonka,
   visibility:           public
   exposed-modules:      Effectful.Zoo.RdsData.Core
                         Effectful.Zoo.RdsData.Errors
@@ -284,6 +314,8 @@ library rds-data-test
                         rds-data-codecs,
                         text,
                         uuid,
+  import:               requires-amazonka,
+                        requires-testcontainers-localstack,
   visibility:           public
   exposed-modules:      Effectful.Zoo.RdsData.Test.Cluster
                         Effectful.Zoo.RdsData.Test.Env
@@ -375,6 +407,8 @@ library testcontainers-localstack
                         testcontainers,
                         text,
                         time,
+  import:               requires-amazonka,
+                        requires-testcontainers-localstack,
   visibility:           public
   exposed-modules:      Effectful.Zoo.TestContainers.LocalStack
                         Effectful.Zoo.TestContainers.LocalStack.Types
