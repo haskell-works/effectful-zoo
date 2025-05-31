@@ -3,6 +3,7 @@
 module Effectful.Zoo.Hedgehog.Golden
   ( diffVsGoldenFile,
     diffFileVsGoldenFile,
+    diffVsGoldenFileExcludeTrace,
   ) where
 
 import           Control.Applicative
@@ -138,7 +139,6 @@ diffVsGoldenFile
   :: HasCallStack
   => r <: Concurrent
   => r <: Error Failure
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Log Text
   => r <: Hedgehog
@@ -147,7 +147,7 @@ diffVsGoldenFile
   -> FilePath -- ^ Reference file
   -> Eff r ()
 diffVsGoldenFile actualContent goldenFile =
-  GHC.withFrozenCallStack $ do
+  GHC.withFrozenCallStack $ trapFail @IOException $ do
     semBracket $ do
       forM_ mGoldenFileLogFile $ \logFile ->
         appendStringFile logFile $ goldenFile <> "\n"
@@ -178,7 +178,6 @@ diffFileVsGoldenFile
   :: HasCallStack
   => r <: Concurrent
   => r <: Error Failure
-  => r <: Error IOException
   => r <: FileSystem
   => r <: Hedgehog
   => r <: IOE
@@ -188,4 +187,29 @@ diffFileVsGoldenFile
   -> Eff r ()
 diffFileVsGoldenFile actualFile referenceFile = GHC.withFrozenCallStack $ do
   contents <- readStringFile actualFile
+    & trapFail @IOException
+
   diffVsGoldenFile contents referenceFile
+
+diffVsGoldenFileExcludeTrace :: ()
+  => HasCallStack
+  => r <: Concurrent
+  => r <: Error Failure
+  => r <: FileSystem
+  => r <: Hedgehog
+  => r <: IOE
+  => r <: Log Text
+  => String
+  -> FilePath
+  -> Eff r ()
+diffVsGoldenFileExcludeTrace inputString refFile =
+  GHC.withFrozenCallStack $ do
+    case List.uncons $ T.splitOn "CallStack" $ T.pack inputString of
+      Just (stackTraceRemoved, _) ->
+        diffVsGoldenFile (T.unpack stackTraceRemoved) refFile
+      Nothing ->
+        H.failWith Nothing $
+          List.unlines
+            [ "Input string was empty"
+            , "Reference file: " <> refFile
+            ]
