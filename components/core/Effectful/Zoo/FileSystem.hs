@@ -2,6 +2,9 @@ module Effectful.Zoo.FileSystem
   ( FileSystem,
     JsonDecodeError(..),
     YamlDecodeError(..),
+
+    appendStringFile,
+    createDirectoryIfMissing,
     readByteStringFile,
     readLazyByteStringFile,
     readStringFile,
@@ -123,6 +126,19 @@ writeStringFile filePath contents = withFrozenCallStack do
   unsafeFileSystemEff_ (IO.writeFile filePath contents)
     & trapIO @IOException throw
 
+appendStringFile :: ()
+  => HasCallStack
+  => r <: Error IOException
+  => r <: FileSystem
+  => r <: Log Text
+  => FilePath
+  -> String
+  -> Eff r ()
+appendStringFile filePath contents = withFrozenCallStack do
+  info $ "Appending string to file: " <> T.pack filePath
+  unsafeFileSystemEff_ (IO.appendFile filePath contents)
+    & trapIO @IOException throw
+
 getCanonicalTemporaryDirectory :: ()
   => HasCallStack
   => r <: Error IOException
@@ -218,3 +234,18 @@ listDirectory fp = withFrozenCallStack do
   unsafeFileSystemEff_ (D.listDirectory fp)
     & trapIO @IOException throw
 {-# INLINE listDirectory #-}
+
+createDirectoryIfMissing :: ()
+  => HasCallStack
+  => r <: Error IOException
+  => r <: FileSystem
+  => r <: Log Text
+  => Bool
+  -> FilePath
+  -> Eff r ()
+createDirectoryIfMissing createParents fp = withFrozenCallStack do
+  info $ "Calling: createDirectoryIfMissing " <> tshow fp
+
+  unsafeFileSystemEff_ (D.createDirectoryIfMissing createParents fp)
+    & trapIO @IOException throw
+{-# INLINE createDirectoryIfMissing #-}
