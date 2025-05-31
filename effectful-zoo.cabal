@@ -384,7 +384,6 @@ library testcontainers-localstack
 test-suite effectful-zoo-test
   import:               base, project-config,
                         effectful-zoo-hedgehog,
-                        exceptions,
                         hedgehog,
                         hw-prelude,
                         tasty,
